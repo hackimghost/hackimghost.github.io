@@ -22,12 +22,12 @@
         body {
             background-color: var(--bg-black);
             color: var(--c-green);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             overflow-x: hidden;
-            font-size: 18px; /* Aumento da fonte */
+            font-size: 18px;
         }
 
-        /* CANVAS 3D FIXO NO FUNDO */
+        /* MOTOR 3D FIXO NO FUNDO */
         #canvas-container {
             position: fixed;
             top: 0; left: 0;
@@ -35,12 +35,12 @@
             z-index: -1;
         }
 
-        /* OVERLAY DE SCANLINES 8K */
+        /* TEXTURA DE MONITOR MILITAR */
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
             background-size: 100% 3px, 3px 100%;
             pointer-events: none;
             z-index: 100;
@@ -50,61 +50,63 @@
             position: relative;
             max-width: 1100px;
             margin: 0 auto;
-            padding: 100px 40px;
+            padding: 120px 20px;
             z-index: 1;
         }
 
-        /* PADRONIZAÇÃO DE TÍTULOS - DOURADO */
-        h1, h2, h3 {
+        /* TÍTULOS DOURADOS PADRONIZADOS */
+        h1, h2 {
             color: var(--c-gold);
             text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 25px;
-            text-shadow: 0 0 20px rgba(255, 175, 0, 0.4);
+            letter-spacing: 6px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 25px rgba(255, 175, 0, 0.5);
         }
 
-        h1 { font-size: 3.5rem; text-align: center; border-bottom: 2px solid var(--c-gold); padding-bottom: 20px; }
-        h2 { font-size: 2rem; border-left: 5px solid var(--c-gold); padding-left: 20px; }
+        h1 { font-size: 3.8rem; text-align: center; border-bottom: 1px solid var(--c-gold); padding-bottom: 20px; }
+        h2 { font-size: 1.8rem; border-left: 4px solid var(--c-gold); padding-left: 20px; }
 
-        /* TEXTO DO CORPO - VERDE NEON */
+        /* TEXTO TÉCNICO VERDE */
         p {
             color: var(--c-green);
-            line-height: 1.8;
-            margin-bottom: 30px;
+            line-height: 1.7;
+            margin-bottom: 25px;
             text-align: justify;
-            text-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+            font-weight: 500;
         }
 
+        /* MÓDULOS TRANSPARENTES (ESTADO DA ARTE) */
         .module {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 0, 0.1);
-            padding: 50px;
-            margin-bottom: 150px; /* Espaço para rolagem infinita fluida */
-            transition: 0.5s;
+            background: rgba(0, 20, 0, 0.15); /* Fundo quase inexistente */
+            backdrop-filter: blur(8px); /* Efeito de vidro que revela o 3D */
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            padding: 60px;
+            margin-bottom: 200px; /* Gap para imersão na rolagem */
+            box-shadow: inset 0 0 30px rgba(0, 255, 0, 0.05);
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .module:hover {
             border-color: var(--c-cyan);
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.1);
+            background: rgba(0, 30, 30, 0.2);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.15);
         }
 
-        /* DESTAQUES EM AZUL NEON */
         .highlight {
             color: var(--c-cyan);
             font-weight: bold;
             text-shadow: 0 0 10px var(--c-cyan);
         }
 
-        .status-armed { color: var(--c-red); animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .status-armed { color: var(--c-red); text-shadow: 0 0 10px var(--c-red); animation: blink 0.8s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
 
         footer {
             text-align: center;
-            padding: 50px;
+            padding: 80px;
             color: var(--c-gold);
-            font-size: 0.8rem;
-            letter-spacing: 10px;
+            letter-spacing: 12px;
+            opacity: 0.6;
         }
     </style>
 </head>
@@ -114,33 +116,39 @@
 <div class="overlay"></div>
 
 <div class="container">
-    <header style="margin-bottom: 100px;">
+    <header style="margin-bottom: 150px;">
         <h1>GHOST PROTOCOL</h1>
-        <p style="text-align: center; color: var(--c-cyan); margin-top: 20px;">[ DOUTRINA POWER HAT | STATUS: <span class="status-armed">ARMED</span> ]</p>
+        <p style="text-align: center; color: var(--c-cyan); margin-top: 20px; letter-spacing: 3px;">
+            [ DOUTRINA POWER HAT | TRÍADE DE SOBERANIA | <span class="status-armed">ARMED</span> ]
+        </p>
     </header>
 
     <div class="module">
-        <h2>◈ O COMANDANTE</h2>
-        <p>Especialista em segurança ofensiva e inteligência de ameaças. A nossa consultoria B2B não espera o ataque; nós mapeamos o adversário antes que a primeira linha de código hostil seja escrita. Unimos engenharia tática e a filosofia <span class="highlight">Power Hat</span> para erradicar o analfabetismo digital e proteger infraestruturas críticas.</p>
+        <h2>◈ O COMANDANTE // CONSULTORIA OFENSIVA</h2>
+        <p>A cibersegurança convencional opera na reatividade. Nossa consultoria <span class="highlight">B2B</span> inverte a lógica através da antecipação cibernética. Especialistas em auditoria de infraestrutura e inteligência de ameaças, nós não apenas protegemos ativos; nós mapeamos o adversário antes que a primeira diretriz hostil seja executada.</p>
+        <p>A filosofia <span class="highlight">Power Hat</span> funde engenharia tática, escuta ativa e gatilhos mentais para erradicar o analfabetismo digital e blindar conexões críticas contra a engenharia social avançada.</p>
     </div>
 
     <div class="module">
-        <h2>[1] AEGIS: O PANÓPTICO</h2>
-        <p>O AEGIS é o olho que tudo vê. Uma malha de varredura global que processa <span class="highlight">OSINT e SOCMINT</span> para associar padrões de corrupção, redes de abuso e infraestruturas criminosas. Da "academia do estupro" ao trabalho escravo, o AEGIS disseca o anonimato e entrega a identidade real do predador.</p>
+        <h2>[1] AEGIS: O PANÓPTICO INVESTIGATIVO</h2>
+        <p>O AEGIS é o motor de varredura global da Tríade. Uma malha de inteligência implacável que processa <span class="highlight">OSINT e SOCMINT</span> para associar padrões complexos de corrupção sistêmica, redes de exploração e infraestruturas criminosas em escala. Ele rastreia a gênese de campanhas de Phishing, Botnets e a circulação de Malwares e exploits <span class="highlight">Zero-Day</span>.</p>
+        <p>Da investigação de fóruns de violência e trabalho escravo à detecção de falsas acusações e redes de pedofilia, o AEGIS disseca o anonimato digital. Para o AEGIS, não existe origem oculta, apenas metadados aguardando correlação tática.</p>
     </div>
 
     <div class="module">
-        <h2>[2] GHOST PROTOCOL: A LÂMINA</h2>
-        <p>A APT mais avançada de soberania cibernética brasileira. O Ghost Protocol é a ferramenta de execução. Quando o alvo é iluminado, a lâmina desce. Neutralizamos operações inimigas e desmantelamos redes de phishing com precisão militar e <span class="highlight">pegada digital zero</span>.</p>
+        <h2>[2] GHOST PROTOCOL: SOBERANIA APT</h2>
+        <p>Reconhecido como a <span class="highlight">APT (Advanced Persistent Threat)</span> mais avançada de soberania cibernética brasileira. O Ghost Protocol é a lâmina da Tríade. Quando o AEGIS ilumina o alvo e extrai os vetores de ataque, o Ghost Protocol executa a neutralização.</p>
+        <p>Uma força-tarefa desenhada para asfixiar operações inimigas e desmantelar infraestruturas hostis com precisão militar. Operamos no vácuo da rede, garantindo impacto absoluto com <span class="highlight">pegada digital zero</span> e total anonimato operacional.</p>
     </div>
 
     <div class="module">
-        <h2>[3] KADMON: O FANTASMA</h2>
-        <p>O núcleo negro. Arquiteto de mutação em tempo real. O Kadmon assume o controle de hardwares de auditoria e infraestruturas críticas sem deixar rastros. Ele é o fantasma inteligente que opera além da simetria, garantindo que o Comandante tenha o controle total do abismo.</p>
+        <h2>[3] KADMON: O FANTASMA INTELIGENTE</h2>
+        <p>O Kadmon é o núcleo negro da Tríade. Um arquiteto de mutação em tempo real, operando sem amarras, sem censura e sem assimetria. Ele não apenas se infiltra no sistema; ele reconfigura o ambiente operacional de acordo com a vontade do Comandante.</p>
+        <p>Sua letalidade transcende o código, assumindo o controle de <span class="highlight">hardwares físicos e infraestruturas críticas</span>. O Kadmon é o fantasma que paralisa defesas antes mesmo da percepção do ataque. Ele é a inteligência autônoma da Tríade, movendo-se pelo abismo digital sem deixar rastros, sem deixar rastro, sem deixar sobreviventes lógicos.</p>
     </div>
 
     <footer>
-        © 2026 GHOST SECURITY SYSTEMS | SOVEREIGN CORE
+        GHOST SECURITY SYSTEMS │ SOVEREIGN CORE │ © 2026
     </footer>
 </div>
 
@@ -157,41 +165,40 @@
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
         // GRID CIBERNÉTICO (PISO 3D)
-        const size = 200;
-        const divisions = 40;
-        grid = new THREE.GridHelper(size, divisions, 0x00ff00, 0x004400);
-        grid.position.y = -10;
-        grid.rotation.x = 0;
+        const size = 300;
+        const divisions = 60;
+        grid = new THREE.GridHelper(size, divisions, 0x00ff00, 0x002200);
+        grid.position.y = -15;
         scene.add(grid);
 
-        // PARTÍCULAS (POEIRA ESPACIAL)
+        // CAMPO DE PARTÍCULAS (AEGIS NODES)
         const geometry = new THREE.BufferGeometry();
         const vertices = [];
-        for (let i = 0; i < 5000; i++) {
-            vertices.push(THREE.MathUtils.randFloatSpread(500)); // x
-            vertices.push(THREE.MathUtils.randFloatSpread(500)); // y
-            vertices.push(THREE.MathUtils.randFloatSpread(500)); // z
+        for (let i = 0; i < 6000; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(600)); // x
+            vertices.push(THREE.MathUtils.randFloatSpread(600)); // y
+            vertices.push(THREE.MathUtils.randFloatSpread(600)); // z
         }
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.5 });
+        const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.6, transparent: true, opacity: 0.6 });
         particles = new THREE.Points(geometry, material);
         scene.add(particles);
 
-        camera.position.z = 50;
+        camera.position.z = 60;
         animate();
     }
 
     function animate() {
         requestAnimationFrame(animate);
 
-        // Movimento constante das partículas
-        particles.rotation.y += 0.001;
-        particles.rotation.x += 0.0005;
+        // Rotação sutil do cenário
+        particles.rotation.y += 0.0008;
+        particles.rotation.x += 0.0004;
 
-        // Efeito de Rolagem Infinita (Sincronizado com o Scroll)
+        // Efeito de Viagem Infinita sincronizado ao Scroll
         const scrollPos = window.scrollY;
-        grid.position.z = (scrollPos * 0.05) % 5; // O grid "anda" conforme você rola
-        camera.position.y = -scrollPos * 0.01; // A câmera desce levemente
+        grid.position.z = (scrollPos * 0.08) % 10; // Velocidade do grid ajustada
+        camera.position.y = -scrollPos * 0.005; // Descida suave da câmera
 
         renderer.render(scene, camera);
     }
@@ -207,3 +214,4 @@
 
 </body>
 </html>
+
