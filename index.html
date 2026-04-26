@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GHOST PROTOCOL | SOBERANIA CIBERNÉTICA</title>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/GlitchPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/shaders/DigitalGlitch.js"></script>
+
     <style>
         :root {
             --c-gold: #ffaf00;   
@@ -24,11 +33,11 @@
             color: var(--c-green);
             font-family: 'Courier New', Courier, monospace;
             overflow-x: hidden;
-            /* Aumento geral da base da fonte */
-            font-size: 22px; 
+            /* Fonte base gigante para autoridade */
+            font-size: 24px; 
         }
 
-        /* MOTOR 3D FIXO NO FUNDO */
+        /* MOTOR 3D & GLITCH NA TELA INTEIRA (FIXO NO FUNDO) */
         #canvas-container {
             position: fixed;
             top: 0; left: 0;
@@ -36,12 +45,12 @@
             z-index: -1;
         }
 
-        /* TEXTURA DE MONITOR MILITAR */
+        /* TEXTURA DE MONITOR MILITAR 8K */
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
             background-size: 100% 3px, 3px 100%;
             pointer-events: none;
             z-index: 100;
@@ -49,63 +58,63 @@
 
         .container {
             position: relative;
-            max-width: 1200px; /* Alarguei para acomodar textos maiores */
+            max-width: 1250px;
             margin: 0 auto;
-            padding: 120px 20px;
+            padding: 150px 20px;
             z-index: 1;
         }
 
-        /* TÍTULOS DOURADOS MAIORES */
+        /* TÍTULOS DOURADOS MAIORES E AGRESSIVOS */
         h1, h2 {
             color: var(--c-gold);
             text-transform: uppercase;
-            letter-spacing: 6px;
-            margin-bottom: 30px;
-            /* Sombra forte para destacar do fundo */
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 1), 0 0 25px rgba(255, 175, 0, 0.6);
+            letter-spacing: 8px;
+            margin-bottom: 40px;
+            /* Sombra profunda para destaque no cenário */
+            text-shadow: 4px 4px 6px rgba(0, 0, 0, 1), 0 0 30px rgba(255, 175, 0, 0.7);
         }
 
-        h1 { font-size: 4.5rem; text-align: center; border-bottom: 2px solid var(--c-gold); padding-bottom: 20px; }
-        h2 { font-size: 2.2rem; border-left: 5px solid var(--c-gold); padding-left: 20px; line-height: 1.2; }
+        h1 { font-size: 5rem; text-align: center; border-bottom: 3px solid var(--c-gold); padding-bottom: 30px; }
+        h2 { font-size: 2.5rem; border-left: 6px solid var(--c-gold); padding-left: 25px; line-height: 1.2; }
 
-        /* TEXTO TÉCNICO VERDE - AMPLIADO E FLUTUANTE */
+        /* TEXTO TÉCNICO VERDE - AMPLIADO E FLUTUANTE NO VÁCUO */
         p {
             color: var(--c-green);
             line-height: 1.8;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             text-align: justify;
             font-weight: bold;
-            font-size: 1.3rem; /* Letras significativamente maiores */
-            /* Sombreamento duplo: Preto absoluto atrás para legibilidade + Neon para brilho */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 255, 0, 0.3);
+            font-size: 1.4rem; /* Letras significativamente maiores */
+            /* Sombreamento duplo para garantir legibilidade total contra o grid */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 255, 0, 0.4);
         }
 
-        /* MÓDULOS SEM FUNDO (REMOVIDO A CAIXA) */
+        /* MÓDULOS TOTALMENTE TRANSPARENTES (FLUTUANDO NO CENÁRIO) */
         .module {
-            background: transparent; /* Fundo totalmente removido */
-            backdrop-filter: none;   /* Blur removido */
-            border: none;            /* Bordas laterais removidas */
-            padding: 40px 10px;
-            margin-bottom: 150px;
+            background: transparent;
+            backdrop-filter: none;
+            border: none;
+            padding: 50px 10px;
+            margin-bottom: 200px;
         }
 
         .highlight {
             color: var(--c-cyan);
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 0 0 12px var(--c-cyan);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1), 0 0 15px var(--c-cyan);
         }
 
-        .status-armed { color: var(--c-red); text-shadow: 2px 2px 4px rgba(0,0,0,1), 0 0 10px var(--c-red); animation: blink 0.8s infinite; }
+        .status-armed { color: var(--c-red); text-shadow: 2px 2px 5px rgba(0,0,0,1), 0 0 12px var(--c-red); animation: blink 0.8s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
         footer {
             text-align: center;
-            padding: 80px;
+            padding: 100px 20px;
             color: var(--c-gold);
-            letter-spacing: 12px;
-            opacity: 0.8;
+            letter-spacing: 15px;
+            opacity: 0.9;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
         }
     </style>
 </head>
@@ -115,9 +124,9 @@
 <div class="overlay"></div>
 
 <div class="container">
-    <header style="margin-bottom: 180px;">
+    <header style="margin-bottom: 200px;">
         <h1>GHOST PROTOCOL</h1>
-        <p style="text-align: center; color: var(--c-cyan); margin-top: 30px; letter-spacing: 4px; font-size: 1.5rem;">
+        <p style="text-align: center; color: var(--c-cyan); margin-top: 40px; letter-spacing: 5px; font-size: 1.6rem;">
             [ DOUTRINA POWER HAT | TRÍADE DE SOBERANIA | <span class="status-armed">ARMED</span> ]
         </p>
     </header>
@@ -152,8 +161,8 @@
 </div>
 
 <script>
-    // --- MOTOR 3D KADMON (THREE.JS) ---
-    let scene, camera, renderer, grid, particles;
+    // --- MOTOR 3D KADMON & GLITCH (THREE.JS POST-PROCESSING) ---
+    let scene, camera, renderer, composer, grid, particles, glitchPass;
 
     function init() {
         scene = new THREE.Scene();
@@ -163,11 +172,24 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // GRID CIBERNÉTICO (PISO 3D)
-        const size = 400;
+        // --- PIPELINE DE PÓS-PROCESSAMENTO (Gatilho do Glitch) ---
+        composer = new THREE.EffectComposer(renderer);
+        
+        // Pass 1: Renderizar a Cena Base (Grid + Partículas)
+        const renderPass = new THREE.RenderPass(scene, camera);
+        composer.addPass(renderPass);
+        
+        // Pass 2: Injetar o Glitch de Vídeo (Afeta a tela inteira)
+        glitchPass = new THREE.GlitchPass();
+        glitchPass.goWild = false; // Define se o glitch é constante ou esporádico
+        composer.addPass(glitchPass);
+
+        // --- CENA 3D ---
+        // GRID CIBERNÉTICO (PISO)
+        const size = 500;
         const divisions = 60;
         grid = new THREE.GridHelper(size, divisions, 0x00ff00, 0x002200);
-        grid.position.y = -15;
+        grid.position.y = -20;
         scene.add(grid);
 
         // CAMPO DE PARTÍCULAS (AEGIS NODES)
@@ -179,33 +201,36 @@
             vertices.push(THREE.MathUtils.randFloatSpread(600)); // z
         }
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.6, transparent: true, opacity: 0.7 });
+        const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.7, transparent: true, opacity: 0.75 });
         particles = new THREE.Points(geometry, material);
         scene.add(particles);
 
-        camera.position.z = 60;
+        camera.position.z = 70;
         animate();
     }
 
+    // --- LOOP DE ANIMAÇÃO COM PÓS-PROCESSAMENTO ---
     function animate() {
         requestAnimationFrame(animate);
 
         // Rotação sutil do cenário
-        particles.rotation.y += 0.0008;
-        particles.rotation.x += 0.0004;
+        particles.rotation.y += 0.0007;
+        particles.rotation.x += 0.0003;
 
         // Efeito de Viagem Infinita sincronizado ao Scroll
         const scrollPos = window.scrollY;
-        grid.position.z = (scrollPos * 0.08) % 10; // Velocidade do grid
-        camera.position.y = -scrollPos * 0.006; // Descida suave da câmera
+        grid.position.z = (scrollPos * 0.1) % 15; // Velocidade do grid ajustada
+        camera.position.y = -scrollPos * 0.005; // Descida suave da câmera
 
-        renderer.render(scene, camera);
+        // Renderizar via Composer (aplica o Glitch)
+        composer.render();
     }
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
     });
 
     init();
