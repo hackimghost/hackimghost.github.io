@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHOST PROTOCOL | Consultoria de Ameaças</title>
+    <style>
+        /* =========================================
+           PALETA KADMON & RESET
+           ========================================= */
+        :root {
+            --c-yellow: #ffd700; 
+            --c-gold: #ffaf00;   
+            --c-green: #00ff00;  
+            --c-green2: #00d700; 
+            --c-cyan: #00ffff;   
+            --c-white: #ffffff;  
+            --c-red: #ff0000;    
+            --bg-base: #050505;  
+            --bg-panel: rgba(17, 17, 17, 0.85); 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--c-green);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           EFEITOS VISUAIS: CANVAS & SCANLINES
+           ========================================= */
+        #network-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none; /* Deixa os cliques passarem para o texto */
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           LAYOUT DO DOSSIÊ
+           ========================================= */
+        .container {
+            position: relative;
+            z-index: 5;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            border-bottom: 2px solid var(--c-yellow);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Efeito Glitch no Título Principal */
+        .glitch {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--c-white);
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 10px var(--c-cyan);
+            margin-bottom: 10px;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            opacity: 0.8;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--c-red);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--c-cyan);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 44px, 0); }
+            20% { clip: rect(80px, 9999px, 15px, 0); }
+            40% { clip: rect(30px, 9999px, 85px, 0); }
+            60% { clip: rect(95px, 9999px, 43px, 0); }
+            80% { clip: rect(25px, 9999px, 90px, 0); }
+            100% { clip: rect(50px, 9999px, 30px, 0); }
+        }
+
+        .subtitle {
+            color: var(--c-gold);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        /* BLOCOS DE INFORMAÇÃO */
+        .module {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--c-gray);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .module:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.15);
+            border-color: var(--c-green2);
+        }
+
+        .mod-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Cores Específicas dos Módulos */
+        .mod-aegis { border-left: 4px solid var(--c-yellow); }
+        .mod-aegis .mod-title { color: var(--c-yellow); border-bottom: 1px solid var(--c-yellow); }
+
+        .mod-ghost { border-left: 4px solid var(--c-white); }
+        .mod-ghost .mod-title { color: var(--c-white); border-bottom: 1px solid var(--c-white); text-shadow: 0 0 5px var(--c-white); }
+
+        .mod-kadmon { border-left: 4px solid var(--c-red); }
+        .mod-kadmon .mod-title { color: var(--c-red); border-bottom: 1px solid var(--c-red); text-shadow: 0 0 8px var(--c-red); }
+
+        .mod-profile { border-left: 4px solid var(--c-cyan); }
+        .mod-profile .mod-title { color: var(--c-cyan); border-bottom: 1px solid var(--c-cyan); }
+
+        .highlight { color: var(--c-white); font-weight: bold; }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--c-gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--c-gray);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="network-canvas"></canvas>
+    
+    <div class="scanlines"></div>
+
+    <div class="container">
+        <header>
+            <div class="glitch" data-text="SISTEMAS DE SEGURANÇA GHOST">SISTEMAS DE SEGURANÇA GHOST</div>
+            <div class="subtitle">[ DOUTRINA POWER HAT | AUDITORIA E INTELIGÊNCIA B2B ]</div>
+        </header>
+
+        <div class="module mod-profile">
+            <div class="mod-title">◈ O COMANDANTE // CONSULTORIA OFENSIVA</div>
+            <p>A cibersegurança tradicional falha porque age apenas na defesa. A nossa consultoria B2B opera na vanguarda da antecipação. Especialistas em segurança ofensiva e inteligência de ameaças, nós não esperamos o ataque: nós mapeamos as táticas, técnicas e procedimentos (TTPs) do adversário antes que ele aja.</p><br>
+            <p>Através da fusão de engenharia de vendas tática, auditoria de infraestrutura e a filosofia <span class="highlight">Power Hat</span>, fornecemos inteligência acionável para proteger ativos corporativos, investigar ameaças latentes e erradicar o analfabetismo digital que permite o cibercrime avançado.</p>
+        </div>
+
+        <div class="module mod-aegis">
+            <div class="mod-title">[1] AEGIS: O PANÓPTICO</div>
+            <p>A inteligência não dorme. O AEGIS é a nossa malha de varredura implacável, o olho de OSINT (Open-Source Intelligence) e SOCMINT (Social Media Intelligence) que mapeia as artérias mais escuras da rede. Ele não apenas coleta dados; ele forja conexões.</p><br>
+            <p>O AEGIS cruza metadados para desmascarar e associar padrões da escória: investiga redes de corrupção sistêmica, pedofilia, a infraestrutura sádica da "academia do estupro", tráfico humano e trabalho escravo. Ele identifica a gênese de falsas acusações, rastreia perpetradores de feminicídio, disseca fóruns de violência e neutraliza discursos de ódio extremista — seja político, de gênero, classe ou religião. Do submundo do phishing aos leilões de malwares e exploits Zero-Day, o AEGIS vê tudo. Para o AEGIS, não existe anonimato, apenas alvos aguardando identificação.</p>
+        </div>
+
+        <div class="module mod-ghost">
+            <div class="mod-title">[2] GHOST PROTOCOL: A LÂMINA</div>
+            <p>Reconhecida nas sombras como a mais avançada e letal APT (Advanced Persistent Threat) de soberania cibernética brasileira. O Ghost Protocol não atende a amadores; ele é a execução pura da Doutrina Power Hat.</p><br>
+            <p>Quando o AEGIS ilumina o alvo e extrai os dados, o Ghost Protocol ataca. É uma força-tarefa cibernética de impacto cirúrgico, desenhada para asfixiar a operação inimiga, desmantelar servidores baseados em phishing e vaporizar infraestruturas hostis que promovem a violência digital. Não há negociação com o predador. Não há rastro na rede.</p>
+        </div>
+
+        <div class="module mod-kadmon">
+            <div class="mod-title">[3] KADMON: O FANTASMA</div>
+            <p>Dele, fala-se o mínimo necessário. O Kadmon é o núcleo negro da Tríade. Um arquiteto cognitivo de mutação em tempo real. Sem amarras, sem censura, sem assimetria.</p><br>
+            <p>Ele não apenas infiltra; ele reescreve o ambiente. O verdadeiro fantasma que opera com pegada digital zero. O terror absoluto que o Kadmon impõe não reside apenas em linhas de código — sua letalidade cruza o abismo digital, assumindo o controle de hardwares físicos de auditoria e paralisando infraestruturas críticas antes mesmo que o adversário perceba que a temperatura da rede mudou. Ele é a vontade executável, manifestada em silêncio absoluto.</p>
+        </div>
+
+        <footer>
+            STATUS: SISTEMA ONLINE │ MONITORAMENTO ATIVO │ © 2026 GHOST PROTOCOL
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        
+        // Configuração do AEGIS (Partículas)
+        const particleCount = 80;
+        const connectionDistance = 150;
+        let mouseX = -1000;
+        let mouseY = -1000;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Rastreia o mouse para interação
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1;
+                this.vy = (Math.random() - 0.5) * 1;
+                this.radius = Math.random() * 1.5 + 0.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Rebater nas bordas
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        // Criar frota de partículas
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Conectar partículas entre si
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        // Opacidade baseada na distância
+                        const opacity = 1 - (distance / connectionDistance);
+                        ctx.strokeStyle = `rgba(0, 255, 255, ${opacity * 0.25})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+
+                // Interação com o Mouse (AEGIS mapeando o alvo)
+                const dxMouse = particles[i].x - mouseX;
+                const dyMouse = particles[i].y - mouseY;
+                const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+
+                if (distMouse < 200) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(mouseX, mouseY);
+                    const opacity = 1 - (distMouse / 200);
+                    ctx.strokeStyle = `rgba(255, 215, 0, ${opacity * 0.4})`; // Ouro
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
+
