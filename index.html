@@ -5,15 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHANTOM APT | SOBERANIA CIBERNÉTICA</title>
 
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/EffectComposer.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/RenderPass.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/postprocessing/GlitchPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/shaders/DigitalGlitch.js"></script>
 
     <style>
         :root {
@@ -22,6 +17,8 @@
             --c-cyan: #00ffff;   
             --c-red: #ff0000;    
             --bg-black: #000000;
+            --panel-bg: rgba(0, 15, 0, 0.65);
+            --panel-border: rgba(0, 255, 0, 0.2);
         }
 
         * {
@@ -34,11 +31,15 @@
             color: var(--c-green);
             font-family: 'Courier New', Courier, monospace;
             overflow-x: hidden;
-            /* Fonte base gigante para autoridade */
-            font-size: 24px; 
+            font-size: 18px; /* Ajustado para leitura confortável */
         }
 
-        /* MOTOR 3D & GLITCH NA TELA INTEIRA (FIXO NO FUNDO) */
+        /* SCROLLBAR CUSTOMIZADA */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--c-green); }
+
+        /* MOTOR 3D FIXO */
         #canvas-container {
             position: fixed;
             top: 0; left: 0;
@@ -46,76 +47,157 @@
             z-index: -1;
         }
 
-        /* TEXTURA DE MONITOR MILITAR 8K */
+        /* TEXTURA DE MONITOR 8K - SCANLINES */
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
-            background-size: 100% 3px, 3px 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px;
             pointer-events: none;
             z-index: 100;
         }
 
         .container {
             position: relative;
-            max-width: 1250px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 150px 20px;
+            padding: 80px 20px;
             z-index: 1;
         }
 
-        /* TÍTULOS DOURADOS MAIORES E AGRESSIVOS */
+        /* TYPOGRAPHY */
         h1, h2 {
             color: var(--c-gold);
             text-transform: uppercase;
-            letter-spacing: 8px;
-            margin-bottom: 40px;
-            /* Sombra profunda para destaque no cenário */
-            text-shadow: 4px 4px 6px rgba(0, 0, 0, 1), 0 0 30px rgba(255, 175, 0, 0.7);
+            letter-spacing: 5px;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 0 0 15px rgba(255, 175, 0, 0.4);
         }
 
-        h1 { font-size: 5rem; text-align: center; border-bottom: 3px solid var(--c-gold); padding-bottom: 30px; }
-        h2 { font-size: 2.5rem; border-left: 6px solid var(--c-gold); padding-left: 25px; line-height: 1.2; }
+        h1 { 
+            font-size: 3.5rem; 
+            text-align: center; 
+            border-bottom: 2px solid var(--c-gold); 
+            padding-bottom: 20px; 
+        }
 
-        /* TEXTO TÉCNICO VERDE - AMPLIADO E FLUTUANTE NO VÁCUO */
+        h2 { 
+            font-size: 1.8rem; 
+            border-left: 4px solid var(--c-gold); 
+            padding-left: 15px; 
+        }
+
         p {
-            color: var(--c-green);
-            line-height: 1.8;
-            margin-bottom: 40px;
+            color: #b3ffb3; /* Verde mais suave para conforto visual prolongado */
+            line-height: 1.6;
+            margin-bottom: 25px;
             text-align: justify;
-            font-weight: bold;
-            font-size: 1.4rem; /* Letras significativamente maiores */
-            /* Sombreamento duplo para garantir legibilidade total contra o grid */
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 255, 0, 0.4);
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
         }
 
-        /* MÓDULOS TOTALMENTE TRANSPARENTES (FLUTUANDO NO CENÁRIO) */
+        /* MÓDULOS DE CONTEÚDO - TERMINAL GLASSMORPHISM */
         .module {
-            background: transparent;
-            backdrop-filter: none;
-            border: none;
-            padding: 50px 10px;
-            margin-bottom: 200px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--panel-border);
+            padding: 40px;
+            margin-bottom: 60px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+        }
+
+        .module:hover {
+            border-color: var(--c-green);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.15), inset 0 0 10px rgba(0, 255, 0, 0.05);
+            transform: translateY(-2px);
         }
 
         .highlight {
             color: var(--c-cyan);
             font-weight: bold;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1), 0 0 15px var(--c-cyan);
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
         }
 
-        .status-armed { color: var(--c-red); text-shadow: 2px 2px 5px rgba(0,0,0,1), 0 0 12px var(--c-red); animation: blink 0.8s infinite; }
-        @keyframes blink { 50% { opacity: 0.3; } }
+        .status-armed { 
+            color: var(--c-red); 
+            text-shadow: 0 0 10px var(--c-red); 
+            animation: pulse 1.5s infinite; 
+        }
+
+        @keyframes pulse { 
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* BOTÕES DE CONTATO */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--c-cyan);
+            border: 1px solid var(--c-cyan);
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: all 0.4s ease;
+        }
+
+        .btn:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-telegram {
+            color: var(--c-gold);
+            border-color: var(--c-gold);
+        }
+        
+        .btn-telegram::before { background: linear-gradient(90deg, transparent, rgba(255, 175, 0, 0.2), transparent); }
+        .btn-telegram:hover { background: rgba(255, 175, 0, 0.1); box-shadow: 0 0 15px rgba(255, 175, 0, 0.4); }
 
         footer {
             text-align: center;
-            padding: 100px 20px;
-            color: var(--c-gold);
-            letter-spacing: 15px;
-            opacity: 0.9;
-            font-weight: bold;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+            padding: 60px 20px 20px;
+            color: rgba(255, 175, 0, 0.5);
+            letter-spacing: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVIDADE MOBILE */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.4rem; }
+            .module { padding: 25px 15px; margin-bottom: 40px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .btn { font-size: 1rem; }
+            header { margin-bottom: 80px; }
         }
     </style>
 </head>
@@ -125,9 +207,9 @@
 <div class="overlay"></div>
 
 <div class="container">
-    <header style="margin-bottom: 200px;">
+    <header style="margin-bottom: 100px;">
         <h1>PHANTOM APT</h1>
-        <p style="text-align: center; color: var(--c-cyan); margin-top: 40px; letter-spacing: 5px; font-size: 1.6rem;">
+        <p style="text-align: center; color: var(--c-cyan); margin-top: 20px; letter-spacing: 3px; font-size: 1.1rem; font-weight: bold;">
             [ DOUTRINA POWER HAT | TRÍADE DE SOBERANIA | <span class="status-armed">ARMED</span> ]
         </p>
     </header>
@@ -139,21 +221,35 @@
     </div>
 
     <div class="module">
-        <h2>[1] AEGIS: O PANÓPTICO INVESTIGATIVO</h2>
-        <p>O AEGIS é o motor de varredura global da Tríade. Uma malha de inteligência implacável que processa <span class="highlight">OSINT e SOCMINT</span> para associar padrões complexos de corrupção sistêmica, redes de exploração e infraestruturas criminosas em escala. Ele rastreia a gênese de campanhas de Phishing, Botnets e a circulação de Malwares e exploits <span class="highlight">Zero-Day</span>.</p>
-        <p>Da investigação de fóruns de violência e trabalho escravo à detecção de falsas acusações e redes de pedofilia, o AEGIS disseca o anonimato digital. Para o AEGIS, não existe origem oculta, apenas metadados aguardando correlação tática.</p>
+        <h2>[1] KAGE AEGIS: O PANÓPTICO INVESTIGATIVO</h2>
+        <p>O KAGE AEGIS é o motor de pesquisa adversarial da Tríade. Uma malha de inteligência implacável que processa <span class="highlight">OSINT e SOCMINT</span> para associar padrões complexos de corrupção sistêmica, redes de exploração e infraestruturas criminosas em escala. Ele rastreia a gênese de campanhas de Phishing, Botnets e a circulação de Malwares e exploits <span class="highlight">Zero-Day</span>.</p>
+        <p>Da investigação profunda à detecção de fraudes em massa, o KAGE AEGIS disseca o anonimato digital. Para esta engrenagem, não existe origem oculta, apenas metadados aguardando correlação tática.</p>
     </div>
 
     <div class="module">
         <h2>[2] GHOST PROTOCOL: SOBERANIA APT</h2>
-        <p>Reconhecido como a <span class="highlight">APT (Advanced Persistent Threat)</span> mais avançada de soberania cibernética brasileira. O Ghost Protocol é a lâmina da Tríade. Quando o AEGIS ilumina o alvo e extrai os vetores de ataque, o Ghost Protocol executa a neutralização.</p>
-        <p>Uma força-tarefa desenhada para asfixiar operações inimigas e desmantelar infraestruturas hostis com precisão militar. Operamos no vácuo da rede, garantindo impacto absoluto com <span class="highlight">pegada digital zero</span> e total anonimato operacional.</p>
+        <p>Reconhecido como a <span class="highlight">APT (Advanced Persistent Threat)</span> multifacetada de soberania cibernética brasileira. O Ghost Protocol é a lâmina da Tríade. Quando o KAGE AEGIS ilumina o alvo e extrai os vetores de ataque, o Ghost Protocol executa a neutralização e o mapeamento de infraestrutura.</p>
+        <p>Uma força-tarefa desenhada para asfixiar operações inimigas e auditar infraestruturas com precisão militar. Operamos no vácuo da rede, garantindo impacto absoluto com <span class="highlight">pegada digital zero</span> e total anonimato operacional.</p>
     </div>
 
     <div class="module">
         <h2>[3] KADMON: O FANTASMA INTELIGENTE</h2>
-        <p>O Kadmon é o núcleo negro da Tríade. Um arquiteto de mutação em tempo real, operando sem amarras, sem censura e sem assimetria. Ele não apenas se infiltra no sistema; ele reconfigura o ambiente operacional de acordo com a vontade do Comandante.</p>
-        <p>Sua letalidade transcende o código, assumindo o controle de <span class="highlight">hardwares físicos e infraestruturas críticas</span>. O Kadmon é o fantasma que paralisa defesas antes mesmo da percepção do ataque. Ele é a inteligência autônoma da Tríade, movendo-se pelo abismo digital sem deixar rastros, sem deixar sobreviventes lógicos.</p>
+        <p>O Córtex Kadmon é o núcleo negro da Tríade. Um arquiteto guiado por IA, operando sem amarras, sem censura e sem assimetria. Ele não apenas se infiltra no sistema; ele reconfigura o ambiente lógico para a análise de vulnerabilidades em tempo real.</p>
+        <p>Sua eficiência transcende o código. O Kadmon é o motor lógico que paralisa defesas falhas antes mesmo da percepção da falha. Ele é a inteligência em constante evolução da Tríade, movendo-se pelo abismo digital para garantir a soberania do Comandante.</p>
+    </div>
+
+    <div class="module" style="border-color: var(--c-cyan);">
+        <h2>◈ CANAIS DE INFILTRAÇÃO // COMUNICAÇÃO SEGURA</h2>
+        <p>Para acionar a consultoria ofensiva, relatar falhas críticas ou estabelecer comunicação ponto a ponto com a Tríade. Utilize exclusivamente os canais criptografados abaixo.</p>
+        
+        <div class="contact-grid">
+            <a href="mailto:GhostSenna@proton.me" class="btn">
+                [ PROTON MAIL ]
+            </a>
+            <a href="https://t.me/Ghost_Phantombot" target="_blank" class="btn btn-telegram">
+                [ CÓRTEX BOT - TELEGRAM ]
+            </a>
+        </div>
     </div>
 
     <footer>
@@ -162,8 +258,14 @@
 </div>
 
 <script>
-    // --- MOTOR 3D KADMON & GLITCH (THREE.JS POST-PROCESSING) ---
-    let scene, camera, renderer, composer, grid, particles, glitchPass;
+    // --- MOTOR 3D KADMON (THREE.JS) ---
+    let scene, camera, renderer, composer, grid, particles;
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
 
     function init() {
         scene = new THREE.Scene();
@@ -173,70 +275,73 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // --- PIPELINE DE PÓS-PROCESSAMENTO (Gatilho do Glitch) ---
+        // PIPELINE BÁSICO
         composer = new THREE.EffectComposer(renderer);
-        
-        // Pass 1: Renderizar a Cena Base (Grid + Partículas)
         const renderPass = new THREE.RenderPass(scene, camera);
         composer.addPass(renderPass);
-        
-        // Pass 2: Injetar o Glitch de Vídeo (Afeta a tela inteira)
-        glitchPass = new THREE.GlitchPass();
-        glitchPass.goWild = false; // Define se o glitch é constante ou esporádico
-        //composer.addPass(glitchPass);
 
-        // --- CENA 3D ---
         // GRID CIBERNÉTICO (PISO)
-        const size = 500;
-        const divisions = 60;
-        grid = new THREE.GridHelper(size, divisions, 0x00ff00, 0x002200);
-        grid.position.y = -20;
+        const size = 600;
+        const divisions = 70;
+        grid = new THREE.GridHelper(size, divisions, 0x00ff00, 0x001100);
+        grid.position.y = -30;
         scene.add(grid);
 
-        // CAMPO DE PARTÍCULAS (AEGIS NODES)
+        // CAMPO DE PARTÍCULAS (KAGE AEGIS NODES)
         const geometry = new THREE.BufferGeometry();
         const vertices = [];
-        for (let i = 0; i < 6000; i++) {
-            vertices.push(THREE.MathUtils.randFloatSpread(600)); // x
-            vertices.push(THREE.MathUtils.randFloatSpread(600)); // y
-            vertices.push(THREE.MathUtils.randFloatSpread(600)); // z
+        for (let i = 0; i < 7000; i++) {
+            vertices.push(THREE.MathUtils.randFloatSpread(800)); // x
+            vertices.push(THREE.MathUtils.randFloatSpread(800)); // y
+            vertices.push(THREE.MathUtils.randFloatSpread(800)); // z
         }
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.7, transparent: true, opacity: 0.75 });
+        const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.8, transparent: true, opacity: 0.6 });
         particles = new THREE.Points(geometry, material);
         scene.add(particles);
 
-        camera.position.z = 70;
+        camera.position.z = 80;
+
+        // EVENT LISTENER PARA INTERAÇÃO COM MOUSE
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        window.addEventListener('resize', onWindowResize, false);
+
         animate();
     }
 
-    // --- LOOP DE ANIMAÇÃO COM PÓS-PROCESSAMENTO ---
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // Rotação sutil do cenário
-        particles.rotation.y += 0.0007;
-        particles.rotation.x += 0.0003;
-
-        // Efeito de Viagem Infinita sincronizado ao Scroll
-        const scrollPos = window.scrollY;
-        grid.position.z = (scrollPos * 0.1) % 15; // Velocidade do grid ajustada
-        camera.position.y = -scrollPos * 0.005; // Descida suave da câmera
-
-        // Renderizar via Composer (aplica o Glitch)
-        composer.render();
+    function onDocumentMouseMove(event) {
+        mouseX = (event.clientX - windowHalfX) * 0.05;
+        mouseY = (event.clientY - windowHalfY) * 0.05;
     }
 
-    window.addEventListener('resize', () => {
+    function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
         composer.setSize(window.innerWidth, window.innerHeight);
-    });
+    }
+
+    // --- LOOP DE ANIMAÇÃO INTERATIVA ---
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Efeito Parallax suave com o Mouse
+        targetX = mouseX * 0.001;
+        targetY = mouseY * 0.001;
+        
+        particles.rotation.y += 0.0005 + (targetX - particles.rotation.y) * 0.05;
+        particles.rotation.x += 0.0002 + (targetY - particles.rotation.x) * 0.05;
+
+        // Efeito de Viagem sincronizado ao Scroll
+        const scrollPos = window.scrollY;
+        grid.position.z = (scrollPos * 0.15) % 15; 
+        camera.position.y = -scrollPos * 0.01; 
+
+        composer.render();
+    }
 
     init();
 </script>
 
 </body>
 </html>
-
