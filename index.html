@@ -16,12 +16,12 @@
             --c-green: #1de9b6;  
             --c-red: #ff003c;
             --bg-dark: #02070d;
+            --glass-bg: rgba(2, 11, 24, 0.7);
             --font-hud: 'Orbitron', sans-serif;
             --font-mono: 'Share Tech Mono', monospace;
             
-            --glow-blue: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.2);
-            --glow-yellow: 0 0 10px rgba(255, 234, 0, 0.5), 0 0 30px rgba(255, 234, 0, 0.2);
-            --glow-red: 0 0 10px rgba(255, 0, 60, 0.5), 0 0 30px rgba(255, 0, 60, 0.2);
+            --glow-blue: 0 0 8px rgba(0, 255, 255, 0.5), 0 0 24px rgba(0, 255, 255, 0.2);
+            --glow-yellow: 0 0 8px rgba(255, 234, 0, 0.5), 0 0 24px rgba(255, 234, 0, 0.2);
         }
 
         *, *::before, *::after { 
@@ -63,7 +63,7 @@
             content: '';
             position: absolute; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, transparent, var(--c-blue), transparent);
-            opacity: 0.3;
+            opacity: 0.2;
             animation: scanline 8s linear infinite;
         }
 
@@ -110,38 +110,33 @@
             50% { opacity: 0.4; }
         }
 
-        /* GLASSMORPHISM AGRESSIVO */
+        /* HOLOGRAPHIC CARDS (Estética Kerneo) */
         .holo-card {
-            background: linear-gradient(135deg, rgba(2, 11, 24, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.15); /* Reflexo do vidro */
-            border-left: 4px solid var(--c-blue);
-            border-radius: 12px;
+            background: var(--glass-bg);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            border-left: 3px solid var(--c-blue);
+            border-radius: 8px;
             padding: 35px;
             margin-bottom: 40px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.05);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s, border-color 0.4s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
         }
 
         .holo-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.2), inset 0 0 30px rgba(0, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.15);
             border-left-color: var(--c-yellow);
         }
 
-        /* Variantes de Borda */
-        .holo-card.red-border { border-left-color: var(--c-red); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 0, 60, 0.05); border-color: rgba(255, 0, 60, 0.2); }
-        .holo-card.red-border:hover { box-shadow: 0 15px 40px rgba(255, 0, 60, 0.2), inset 0 0 30px rgba(255, 0, 60, 0.1); border-left-color: var(--c-red); }
-        
-        .holo-card.green-border { border-left-color: var(--c-green); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(29, 233, 182, 0.05); border-color: rgba(29, 233, 182, 0.2); }
-        .holo-card.green-border:hover { box-shadow: 0 15px 40px rgba(29, 233, 182, 0.2), inset 0 0 30px rgba(29, 233, 182, 0.1); border-left-color: var(--c-green); }
-
-        .holo-card.yellow-border { border-left-color: var(--c-yellow); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 234, 0, 0.05); border-color: rgba(255, 234, 0, 0.2); }
-        .holo-card.yellow-border:hover { box-shadow: 0 15px 40px rgba(255, 234, 0, 0.2), inset 0 0 30px rgba(255, 234, 0, 0.1); border-left-color: var(--c-yellow); }
+        .holo-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
 
         .card-title {
             font-family: var(--font-hud);
@@ -150,43 +145,39 @@
             color: var(--c-blue);
             margin-bottom: 15px;
             display: flex; align-items: center; gap: 12px;
-            text-shadow: var(--glow-blue);
         }
-
-        .title-red { color: var(--c-red); text-shadow: var(--glow-red); }
-        .title-green { color: var(--c-green); text-shadow: 0 0 10px rgba(29, 233, 182, 0.5); }
-        .title-yellow { color: var(--c-yellow); text-shadow: var(--glow-yellow); }
 
         .card-title::before {
             content: '';
             width: 25px; height: 2px;
-            background: currentColor;
-            box-shadow: 0 0 10px currentColor;
+            background: var(--c-yellow);
+            box-shadow: var(--glow-yellow);
         }
+
+        .holo-card:hover .card-title { color: var(--c-yellow); }
 
         p {
             font-family: var(--font-mono);
             line-height: 1.8;
             margin-bottom: 20px;
-            color: rgba(200, 232, 245, 0.9);
+            color: rgba(200, 232, 245, 0.8);
             font-size: 1.1rem;
         }
 
-        .highlight-yellow { color: var(--c-yellow); font-weight: bold; text-shadow: 0 0 8px rgba(255, 234, 0, 0.5); }
-        .highlight-green { color: var(--c-green); font-weight: bold; text-shadow: 0 0 8px rgba(29, 233, 182, 0.5); }
-        .highlight-red { color: var(--c-red); font-weight: bold; text-shadow: 0 0 8px rgba(255, 0, 60, 0.5); }
-        .highlight-cyan { color: var(--c-blue); font-weight: bold; text-shadow: 0 0 8px rgba(0, 255, 255, 0.5); }
+        /* HIGHLIGHTS ADICIONAIS PARA O NOVO TEXTO */
+        .highlight-yellow { color: var(--c-yellow); font-weight: bold; text-shadow: 0 0 8px rgba(255, 234, 0, 0.4); }
+        .highlight-green { color: var(--c-green); font-weight: bold; text-shadow: 0 0 8px rgba(29, 233, 182, 0.4); }
+        .highlight-blue, .highlight-cyan { color: var(--c-blue); font-weight: bold; text-shadow: var(--glow-blue); }
+        .highlight-red { color: var(--c-red); font-weight: bold; text-shadow: 0 0 8px rgba(255, 0, 60, 0.4); }
 
-        /* BOTOES SCANLINE (Efeito Feixe de Luz Interno) */
+        /* BOTOES INTERATIVOS ESTILO KERNEO */
         .cta-section {
             text-align: center;
             margin-top: 60px;
             padding: 40px;
-            background: linear-gradient(135deg, rgba(255, 234, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 100%);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 234, 0, 0.2);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            background: rgba(255, 234, 0, 0.02);
+            border-radius: 8px;
         }
 
         .cta-title {
@@ -195,7 +186,6 @@
             font-size: 1.2rem;
             letter-spacing: 4px;
             margin-bottom: 30px;
-            text-shadow: var(--glow-yellow);
         }
 
         .btn-wrap {
@@ -212,7 +202,7 @@
             gap: 12px;
             background: rgba(0, 10, 20, 0.8);
             border: 1px solid var(--c-blue);
-            border-radius: 6px;
+            border-radius: 4px;
             padding: 16px 36px;
             font-family: var(--font-hud);
             font-size: 14px;
@@ -223,30 +213,26 @@
             transition: all 0.3s;
             text-decoration: none;
             text-transform: uppercase;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
         }
 
-        /* O Feixe de Luz (Scanline Interno) */
-        .btn-access::after {
+        .btn-access::before {
             content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-25deg);
-            animation: scan-btn 3s infinite;
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            animation: btnShine 3s ease-in-out infinite;
         }
 
-        @keyframes scan-btn {
-            0% { left: -100%; }
-            20% { left: 200%; }
-            100% { left: 200%; } /* Pausa na animação */
+        @keyframes btnShine {
+            0%, 100% { transform: translateX(-100%); }
+            50%      { transform: translateX(100%); }
         }
 
         .btn-access:hover {
-            background: rgba(0, 255, 255, 0.15);
+            background: rgba(0, 255, 255, 0.1);
             color: #ffffff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            border-color: #ffffff;
             transform: translateY(-2px);
         }
 
@@ -254,13 +240,13 @@
         .btn-telegram {
             border-color: var(--c-green);
             color: var(--c-green);
-            box-shadow: 0 0 10px rgba(29, 233, 182, 0.1);
         }
         
+        .btn-telegram::before { background: linear-gradient(90deg, transparent, rgba(29, 233, 182, 0.2), transparent); }
+        
         .btn-telegram:hover {
-            background: rgba(29, 233, 182, 0.15);
-            box-shadow: 0 0 20px rgba(29, 233, 182, 0.4);
-            color: #ffffff;
+            background: rgba(29, 233, 182, 0.1);
+            box-shadow: 0 0 15px rgba(29, 233, 182, 0.3);
         }
 
         /* Botão Disabled (WhatsApp) */
@@ -275,7 +261,7 @@
             padding: 12px 36px;
         }
         
-        .btn-disabled::after { display: none; } /* Remove scanline do disabled */
+        .btn-disabled::before { display: none; }
         .btn-disabled:hover { transform: none; box-shadow: none; background: rgba(0, 0, 0, 0.5); border-color: #444; color: #666; }
 
         footer {
@@ -285,7 +271,7 @@
             color: rgba(255, 255, 255, 0.3);
             letter-spacing: 5px;
             font-size: 0.9rem;
-            border-top: 1px dashed rgba(0, 255, 255, 0.2);
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
             padding-top: 30px;
         }
 
@@ -299,7 +285,7 @@
 </head>
 <body>
 
-<canvas id="canvas-container"></canvas>
+<div id="canvas-container"></div>
 <div class="scan-overlay"></div>
 
 <div class="container">
@@ -308,42 +294,42 @@
         <span class="status-armed">[ DOUTRINA POWER HAT | ARMED ]</span>
     </header>
 
-    <div class="holo-card red-border">
-        <div class="card-title title-red">◈ O COMANDANTE // ARQUITETURA DE RESILIÊNCIA</div>
+    <div class="holo-card">
+        <div class="card-title">◈ O COMANDANTE // ARQUITETURA DE RESILIÊNCIA</div>
         <p>Não desenvolvemos software comercial; nós arquitetamos ecossistemas de resiliência para infraestruturas críticas. A cibersegurança de vitrine não sustenta um ataque real. Atuando na intersecção entre segurança ofensiva e inteligência artificial, projetamos motores cognitivos para auditar ambientes complexos através de testes de estresse implacáveis.</p>
         <p>A <span class="highlight-yellow">Doutrina Power Hat</span> ataca a vulnerabilidade primária: o <span class="highlight-red">Fator Humano e o Analfabetismo Digital</span>. A infraestrutura mais avançada do mundo desmorona se o usuário for comprometido. Nossa consultoria blinda conexões dissecando vetores de <span class="highlight-red">Phishing</span> e manipulando engenharia social para converter leigos em uma linha de defesa hostil.</p>
     </div>
 
-    <div class="holo-card cyan-border">
-        <div class="card-title"> [1] RONIN AEGIS: O PANÓPTICO E TRIBUNAL DE DADOS</div>
+    <div class="holo-card">
+        <div class="card-title">[1] RONIN AEGIS: O PANÓPTICO E TRIBUNAL DE DADOS</div>
         <p>O escudo de auditoria e motor adversarial da Tríade. O <span class="highlight-cyan">Ronin AEGIS</span> é uma malha de inteligência implacável fundamentada em <span class="highlight-cyan">OSINT</span> e na inteligência de grafos (<span class="highlight-cyan">Neo4j</span>).</p>
         <p>Ele correlaciona metadados ocultos para expor redes de corrupção, rastrear campanhas maliciosas e dissecar o anonimato digital com precisão matemática. Integrado ao núcleo, ele intercepta falhas estruturais operando cego a ideologias.</p>
     </div>
 
-    <div class="holo-card yellow-border">
-        <div class="card-title title-yellow">[2] GHOST PROTOCOL: SOBERANIA E EMULAÇÃO AUTÔNOMA</div>
+    <div class="holo-card">
+        <div class="card-title">[2] GHOST PROTOCOL: SOBERANIA E EMULAÇÃO AUTÔNOMA</div>
         <p>A força-tarefa de defesa ativa e emulação de adversários. O <span class="highlight-yellow">Ghost Protocol</span> é a lâmina tática que oblitera a lacuna entre conformidade teórica e a realidade brutal da segurança corporativa.</p>
         <p>Desenhado para auditar redes executando TTPs avançadas, engenharia reversa e neutralização de infraestrutura de ataque operando no vácuo da rede para garantir impacto absoluto com pegada digital zero.</p>
     </div>
 
-    <div class="holo-card green-border">
-        <div class="card-title title-green">[3] PHANTOM KADMON: COGNITIVE C2 E MUTATING MALWARE</div>
+    <div class="holo-card">
+        <div class="card-title">[3] PHANTOM KADMON: COGNITIVE C2 E MUTATING MALWARE</div>
         <p>O núcleo ofensivo não é um simples payload, é uma quimera em mutação constante. O <span class="highlight-green">Phantom Kadmon</span> opera através de *Fileless Mutating Malware*, injetando código bruto diretamente na memória de processos legítimos para evadir EDRs.</p>
         <p>Agindo como uma infraestrutura autônoma de Comando e Controle (Cognitive C2), ele reconfigura o ambiente lógico, fornece telemetria profunda e paralisa defesas falhas antes da percepção da intrusão.</p>
     </div>
 
-    <div class="holo-card cyan-border">
+    <div class="holo-card">
         <div class="card-title">[+] NÚCLEO OBSIDIAN: SÍNTESE DE INTELIGÊNCIA</div>
         <p>O cérebro cognitivo da operação. É no <span class="highlight-cyan">Obsidian</span> que os metadados do AEGIS e a telemetria do Phantom Kadmon são fundidos. Através de uma malha neural de anotações e *graph intelligence*, ele armazena arquiteturas de ciberguerra e orquestra a validação tática da infraestrutura.</p>
     </div>
 
     <div class="cta-section">
         <div class="cta-title">// CANAIS DE COMUNICAÇÃO SEGUROS</div>
-        <p style="text-align: center; margin-bottom: 30px; font-size: 0.9rem; color:#aaa;">Estabeleça comunicação criptografada. Selecione o vetor de contato abaixo.</p>
+        <p style="text-align: center; margin-bottom: 30px; font-size: 0.9rem;">Estabeleça comunicação criptografada. Selecione o vetor de contato abaixo.</p>
         
         <div class="btn-wrap">
             <a href="mailto:GhostSenna@proton.me" class="btn-access">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px; height:20px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                     <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
@@ -351,7 +337,7 @@
             </a>
             
             <a href="https://t.me/Ghost_Phantombot" target="_blank" class="btn-access btn-telegram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px; height:20px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
                     <line x1="22" y1="2" x2="11" y2="13"></line>
                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                 </svg>
@@ -371,13 +357,13 @@
     </div>
 
     <footer>
-        <span style="color: var(--c-red); text-shadow: var(--glow-red);">PHANTOM APT SECURITY SYSTEM</span> // © 2026<br><br>
+        PHANTOM APT SECURITY SYSTEM // © 2026<br><br>
         [ SOVEREIGN CORE · POWER HAT DOCTRINE ]
     </footer>
 </div>
 
 <script>
-    // --- MOTOR 3D: MATRIZ NEURAL RESPONSIVA ---
+    // --- MOTOR 3D: REDE NEURAL (Tensão Verde/Azul) ---
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -385,70 +371,56 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    // Sistema de Partículas (Nós)
-    const particleCount = 450; 
+    // Sistema de Partículas (Nós Kage Aegis)
+    const particleCount = 400; // Maior densidade
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = [];
 
     for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 900; // x
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 900; // y
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 900; // z
+        positions[i * 3] = (Math.random() - 0.5) * 800; // x
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 800; // y
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 800; // z
 
         velocities.push({
-            x: (Math.random() - 0.5) * 0.6,
-            y: (Math.random() - 0.5) * 0.6,
-            z: (Math.random() - 0.5) * 0.6
+            x: (Math.random() - 0.5) * 0.5,
+            y: (Math.random() - 0.5) * 0.5,
+            z: (Math.random() - 0.5) * 0.5
         });
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     
-    // Cor dos nós: Verde Neon (#1de9b6)
+    // Cor dos pontos: Verde Neon
     const material = new THREE.PointsMaterial({ 
         color: 0x1de9b6, 
-        size: 2.5, 
+        size: 2, 
         transparent: true, 
-        opacity: 0.9 
+        opacity: 0.8 
     });
     
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    // Conexões de Malha Neural: Azul Neon (#00ffff)
+    // Conexões de Malha Neural
     const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x00ffff, 
+        color: 0x00ffff, // Linhas em Azul Neon
         transparent: true,
-        opacity: 0.18
+        opacity: 0.15
     });
     
     const linesMesh = new THREE.LineSegments(new THREE.BufferGeometry(), lineMaterial);
     scene.add(linesMesh);
 
-    camera.position.z = 300;
+    camera.position.z = 250;
 
-    // Interação Multi-Plataforma (Mouse e Touch)
-    let targetX = 0;
-    let targetY = 0;
-    
-    const windowHalfX = window.innerWidth / 2;
-    const windowHalfY = window.innerHeight / 2;
-
-    function onPointerMove(clientX, clientY) {
-        targetX = (clientX - windowHalfX) * 0.15;
-        targetY = (clientY - windowHalfY) * 0.15;
-    }
-
+    // Interação com o Mouse
+    let mouseX = 0;
+    let mouseY = 0;
     document.addEventListener('mousemove', (event) => {
-        onPointerMove(event.clientX, event.clientY);
+        mouseX = (event.clientX - window.innerWidth / 2) * 0.1;
+        mouseY = (event.clientY - window.innerHeight / 2) * 0.1;
     });
-
-    document.addEventListener('touchmove', (event) => {
-        if(event.touches.length > 0) {
-            onPointerMove(event.touches[0].clientX, event.touches[0].clientY);
-        }
-    }, { passive: true });
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -456,41 +428,41 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Loop de Animação e Renderização Neural
+    // Loop de Animação e Conexões
     function animate() {
         requestAnimationFrame(animate);
 
-        // Suavização do movimento da câmera reagindo ao ponteiro/dedo
-        camera.position.x += (targetX - camera.position.x) * 0.05;
-        camera.position.y += (-targetY - camera.position.y) * 0.05;
+        // Movimento Parallax Suave
+        camera.position.x += (mouseX - camera.position.x) * 0.05;
+        camera.position.y += (-mouseY - camera.position.y) * 0.05;
         camera.lookAt(scene.position);
 
         const posAttribute = particles.geometry.attributes.position;
         const linePositions = [];
 
-        // Atualização da física dos nós
+        // Atualizar posições e verificar colisões para criar malha
         for (let i = 0; i < particleCount; i++) {
             let x = posAttribute.array[i * 3] + velocities[i].x;
             let y = posAttribute.array[i * 3 + 1] + velocities[i].y;
             let z = posAttribute.array[i * 3 + 2] + velocities[i].z;
 
-            // Limites do espaço 3D (Bounce)
-            if (x > 450 || x < -450) velocities[i].x *= -1;
-            if (y > 450 || y < -450) velocities[i].y *= -1;
-            if (z > 450 || z < -450) velocities[i].z *= -1;
+            // Rebater nas bordas
+            if (x > 400 || x < -400) velocities[i].x *= -1;
+            if (y > 400 || y < -400) velocities[i].y *= -1;
+            if (z > 400 || z < -400) velocities[i].z *= -1;
 
             posAttribute.array[i * 3] = x;
             posAttribute.array[i * 3 + 1] = y;
             posAttribute.array[i * 3 + 2] = z;
 
-            // Motor de proximidade: Cria links azuis quando os nós verdes se aproximam
+            // Desenhar linhas para pontos próximos (Distância de conexão)
             for (let j = i + 1; j < particleCount; j++) {
                 let dx = x - posAttribute.array[j * 3];
                 let dy = y - posAttribute.array[j * 3 + 1];
                 let dz = z - posAttribute.array[j * 3 + 2];
                 let distSq = dx * dx + dy * dy + dz * dz;
 
-                if (distSq < 12000) { // Limiar de conexão
+                if (distSq < 15000) { // Raio de conexão
                     linePositions.push(
                         x, y, z,
                         posAttribute.array[j * 3], posAttribute.array[j * 3 + 1], posAttribute.array[j * 3 + 2]
@@ -502,9 +474,7 @@
         posAttribute.needsUpdate = true;
         linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
 
-        // Rotação autônoma do córtex
-        scene.rotation.y += 0.0008;
-        scene.rotation.x += 0.0004;
+        scene.rotation.y += 0.001;
 
         renderer.render(scene, camera);
     }
