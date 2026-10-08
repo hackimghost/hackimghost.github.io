@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade - PHT SECURITY SYSTEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #020000; --blood-red: #8B0000; --blood-red-glow: #ff1a1a; --cyber-yellow: #FFD700; --text-main: #e0e0e0; --panel-bg: rgba(12, 0, 0, 0.85); }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: var(--panel-bg); border: 1px solid var(--blood-red); border-top: 4px solid var(--cyber-yellow); padding: 40px; box-shadow: 0 0 20px rgba(139, 0, 0, 0.3); }
+        h1 { font-family: 'Rajdhani', sans-serif; color: var(--cyber-yellow); font-size: 2.5rem; border-bottom: 1px dashed rgba(255, 215, 0, 0.3); padding-bottom: 10px; margin-bottom: 30px; text-transform: uppercase; }
+        h2 { font-family: 'Share Tech Mono', monospace; color: var(--blood-red-glow); margin-top: 30px; margin-bottom: 15px; font-size: 1.3rem; }
+        p { margin-bottom: 15px; font-size: 1rem; color: #ccc; }
+        .paddle-clause { background: rgba(255, 26, 26, 0.05); border-left: 3px solid var(--blood-red-glow); padding: 20px; margin: 20px 0; font-family: 'Share Tech Mono', monospace; font-size: 0.95rem; }
+        .btn-back { display: inline-block; margin-top: 40px; padding: 10px 20px; background: transparent; border: 1px solid var(--cyber-yellow); color: var(--cyber-yellow); text-decoration: none; font-family: 'Rajdhani', sans-serif; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        .btn-back:hover { background: rgba(255, 215, 0, 0.1); box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Política de Privacidade</h1>
+        <p>Última atualização: Outubro de 2026</p>
+        
+        <h2>1. Proteção de Dados e Tratamento</h2>
+        <p>A PHT Security System opera sob os mais rigorosos padrões de confidencialidade (OpSec). Esta política descreve como os dados são manipulados pelos nossos sistemas autônomos, APT Chat e Phantom, garantindo total isolamento para operações corporativas e investigativas.</p>
+
+        <h2>2. Dados Financeiros e de Assinatura</h2>
+        <div class="paddle-clause">
+            A PHT Security System <strong>não armazena, coleta ou processa</strong> dados de cartão de crédito, informações bancárias ou chaves de faturamento. Todo o ecossistema financeiro é gerenciado exclusivamente pelo nosso parceiro e Merchant of Record, a <strong>Paddle</strong>. Qualquer dado de pagamento inserido durante a contratação do serviço está sujeito à Política de Privacidade da Paddle.
+        </div>
+
+        <h2>3. Dados Operacionais e Telemetria (Grafos Neo4j)</h2>
+        <p>Os dados inseridos no APT Chat ou no Phantom (incluindo endereços IP, hashes de binários maliciosos, credenciais de teste e domínios alvo) são armazenados em bancos de dados orientados a grafos (Neo4j). Estes dados são <strong>isolados por inquilino (Tenant)</strong> e são utilizados exclusivamente para manter a "memória cognitiva" da sua operação.</p>
+        <p>Não vendemos, compartilhamos ou utilizamos seus metadados para treinar LLMs públicos.</p>
+
+        <h2>4. Retenção e Destruição de Dados</h2>
+        <p>Logs temporários gerados por dissecadores em background ou processos de engenharia reversa são automaticamente expurgados assim que os relatórios finais são compilados, seguindo protocolos <em>air gaped</em> para evitar vazamento de inteligência.</p>
+
+        <a href="index.html" class="btn-back">< Voltar para a Base</a>
+    </div>
+</body>
+</html>
