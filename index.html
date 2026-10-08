@@ -3,492 +3,588 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHANTOM APT | SOBERANIA CIBERNÉTICA</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
+    <title>PHT SECURITY SYSTEM - Enterprise Edition</title>
+    <!-- Fontes do Google para estética Tech/Corporativa -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            /* Paleta Tática de Alta Tensão */
-            --c-yellow: #ffea00; 
-            --c-blue: #00ffff;   
-            --c-green: #1de9b6;  
-            --c-red: #ff003c;
-            --bg-dark: #02070d;
-            --glass-bg: rgba(2, 11, 24, 0.7);
-            --font-hud: 'Orbitron', sans-serif;
-            --font-mono: 'Share Tech Mono', monospace;
-            
-            --glow-blue: 0 0 8px rgba(0, 255, 255, 0.5), 0 0 24px rgba(0, 255, 255, 0.2);
-            --glow-yellow: 0 0 8px rgba(255, 234, 0, 0.5), 0 0 24px rgba(255, 234, 0, 0.2);
+            --bg-color: #020000;
+            --blood-red: #8B0000;
+            --blood-red-glow: #ff1a1a;
+            --cyber-yellow: #FFD700;
+            --text-main: #e0e0e0;
+            --panel-bg: rgba(12, 0, 0, 0.85);
+            --terminal-bg: rgba(5, 0, 0, 0.95);
         }
 
-        *, *::before, *::after { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-dark);
-            color: #c8e8f5;
-            font-family: var(--font-mono);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            font-size: 16px;
+            line-height: 1.6;
+            /* Impede a seleção de texto ao segurar o clique */
+            -webkit-user-select: none;
+            user-select: none;
         }
 
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--c-blue); border-radius: 3px; }
-
-        /* MOTOR 3D FIXO */
-        #canvas-container {
+        #particles-js {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
             z-index: -1;
         }
 
-        /* OVERLAY DE SCANLINES ESTILO KERNEO */
-        .scan-overlay {
-            position: fixed; inset: 0; z-index: 0; pointer-events: none;
-            background: repeating-linear-gradient(
-                0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px
-            );
-        }
-
-        .scan-overlay::after {
-            content: '';
-            position: absolute; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, var(--c-blue), transparent);
-            opacity: 0.2;
-            animation: scanline 8s linear infinite;
-        }
-
-        @keyframes scanline {
-            0%   { top: -10px; }
-            100% { top: 100vh; }
-        }
-
         .container {
-            position: relative;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 20px;
-            z-index: 10;
-        }
-
-        /* TYPOGRAPHY HUD */
-        header { text-align: center; margin-bottom: 80px; }
-
-        h1 { 
-            font-family: var(--font-hud);
-            color: #ffffff;
-            font-size: clamp(2rem, 5vw, 4rem); 
-            letter-spacing: 6px;
-            text-shadow: var(--glow-yellow);
-            border-bottom: 2px solid var(--c-yellow); 
-            padding-bottom: 20px;
-            display: inline-block;
-        }
-
-        .status-armed { 
-            display: block;
-            font-family: var(--font-mono);
-            color: var(--c-yellow); 
-            margin-top: 15px;
-            letter-spacing: 4px;
-            font-size: 1.1rem;
-            text-shadow: var(--glow-yellow); 
-            animation: pulse 2s infinite; 
-        }
-
-        @keyframes pulse { 
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        /* HOLOGRAPHIC CARDS (Estética Kerneo) */
-        .holo-card {
-            background: var(--glass-bg);
-            border: 1px solid rgba(0, 255, 255, 0.15);
-            border-left: 3px solid var(--c-blue);
-            border-radius: 8px;
-            padding: 35px;
-            margin-bottom: 40px;
+            padding: 40px 20px;
             position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            z-index: 1;
         }
 
-        .holo-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 255, 255, 0.15);
-            border-left-color: var(--c-yellow);
+        /* CABEÇALHO HUD */
+        header { text-align: center; margin-bottom: 50px; display: flex; flex-direction: column; align-items: center; }
+        .title-wrapper {
+            position: relative; display: inline-block; padding: 20px 60px; margin-bottom: 25px;
+            background: linear-gradient(90deg, rgba(255,26,26,0) 0%, rgba(139,0,0,0.4) 50%, rgba(255,26,26,0) 100%);
+            border-top: 1px solid rgba(255, 26, 26, 0.6); border-bottom: 1px solid rgba(255, 26, 26, 0.6);
+            box-shadow: inset 0 0 20px rgba(139, 0, 0, 0.5);
+        }
+        .title-wrapper::before, .title-wrapper::after {
+            content: ''; position: absolute; top: -5px; width: 20px; height: calc(100% + 10px);
+            border: 4px solid var(--blood-red-glow); box-shadow: 0 0 20px var(--blood-red-glow), inset 0 0 10px var(--blood-red);
+            border-radius: 2px;
+        }
+        .title-wrapper::before { left: -10px; border-right: none; }
+        .title-wrapper::after { right: -10px; border-left: none; }
+
+        h1 {
+            font-family: 'Rajdhani', sans-serif; font-weight: 900; font-size: 4.5rem; color: #ffffff;
+            text-shadow: 0 0 10px #ffffff, 0 0 20px var(--cyber-yellow), 0 0 40px var(--blood-red-glow), 0 0 80px var(--blood-red);
+            letter-spacing: 6px; margin: 0; line-height: 1;
+        }
+        h2.subtitle {
+            font-family: 'Share Tech Mono', monospace; font-size: 1.4rem; color: var(--cyber-yellow);
+            letter-spacing: 4px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); margin-top: 10px;
         }
 
-        .holo-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, transparent 60%);
-            pointer-events: none;
+        /* NÚCLEO NEURAL (FÍSICA) */
+        .neural-core-wrapper {
+            display: flex; justify-content: center; align-items: center;
+            height: 450px; position: relative; margin-bottom: 50px;
+            cursor: pointer; perspective: 1200px;
+            width: 100%; max-width: 600px; margin-left: auto; margin-right: auto;
         }
 
-        .card-title {
-            font-family: var(--font-hud);
-            font-size: 1.4rem;
-            letter-spacing: 3px;
-            color: var(--c-blue);
+        .core-system {
+            position: relative; width: 100%; height: 100%; transform-style: preserve-3d;
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), filter 1s ease;
+        }
+
+        .nebulous-cloud, .nebulous-cloud-yellow {
+            position: absolute; width: 180px; height: 180px; border-radius: 50%;
+            filter: blur(12px); z-index: 5;
+            transition: all 1s ease; mix-blend-mode: screen;
+        }
+        .nebulous-cloud { 
+            background: radial-gradient(circle, rgba(255, 26, 26, 0.7) 0%, rgba(139, 0, 0, 0.3) 50%, transparent 70%);
+            box-shadow: 0 0 80px 40px var(--blood-red-glow); animation: spin-fog 8s linear infinite;
+        }
+        .nebulous-cloud-yellow { 
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, rgba(200, 150, 0, 0.2) 60%, transparent 80%);
+            animation: spin-fog-reverse 12s linear infinite, pulse-fog 4s infinite alternate; transform: scale(0.9);
+        }
+
+        .inner-core-dot {
+            position: absolute; width: 25px; height: 25px; border-radius: 50%;
+            background: #ffffff; box-shadow: 0 0 20px 10px #ffffff, 0 0 50px 20px var(--cyber-yellow);
+            z-index: 10; transition: all 1s ease;
+        }
+
+        .inner-orbit {
+            position: absolute; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.15);
+            transform-style: preserve-3d; z-index: 15; transition: all 1.5s ease;
+        }
+        .orbit-a { width: 140px; height: 140px; animation: orbit-inner-a 4s linear infinite; }
+        .orbit-b { width: 180px; height: 180px; animation: orbit-inner-b 5s linear infinite; }
+        .orbit-c { width: 220px; height: 220px; animation: orbit-inner-c 6s linear infinite; }
+        .inner-orbit::before {
+            content: ''; position: absolute; width: 10px; height: 10px; border-radius: 50%;
+            background: #ffffff; box-shadow: 0 0 15px 5px #ffffff, 0 0 30px 10px var(--cyber-yellow);
+        }
+        .orbit-a::before { top: -5px; left: 50%; transform: translateX(-50%); }
+        .orbit-b::before { left: -5px; top: 50%; transform: translateY(-50%); }
+        .orbit-c::before { bottom: 15%; right: 15%; }
+
+        .ring {
+            position: absolute; border-radius: 50%; border: 1px solid rgba(255, 26, 26, 0.15);
+            transform-style: preserve-3d; transition: all 1.5s ease;
+        }
+        .ring-1 { width: 300px; height: 300px; animation: orbit-outer-x 15s linear infinite; border-color: rgba(255, 215, 0, 0.3); }
+        .ring-2 { width: 400px; height: 400px; animation: orbit-outer-y 20s linear infinite; border-top: 1px solid var(--blood-red-glow); }
+        .ring-3 { width: 500px; height: 500px; animation: orbit-outer-z 25s linear infinite; border-bottom: 1px dashed var(--cyber-yellow); }
+        .ring::before, .ring::after {
+            content: ''; position: absolute; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--cyber-yellow); box-shadow: 0 0 15px 4px var(--cyber-yellow);
+        }
+        .ring-1::before { top: -3px; left: 50%; transform: translateX(-50%); background: var(--blood-red-glow); box-shadow: 0 0 15px 4px var(--blood-red-glow);}
+        .ring-1::after { bottom: -3px; left: 50%; transform: translateX(-50%); }
+        .ring-2::before { left: -3px; top: 50%; transform: translateY(-50%); }
+        .ring-2::after { right: -3px; top: 50%; transform: translateY(-50%); background: var(--blood-red-glow); box-shadow: 0 0 15px 4px var(--blood-red-glow); }
+        .ring-3::before { top: 15%; left: 15%; background: var(--blood-red-glow); box-shadow: 0 0 15px 4px var(--blood-red-glow); }
+
+        /* INTERAÇÃO */
+        .neural-core-wrapper:hover:not(:active) .core-system { transform: scale(1.1); }
+        .neural-core-wrapper.imploding .core-system { transform: scale(0.15); transition: transform 3s cubic-bezier(0.1, 0.8, 0.1, 1); }
+        .neural-core-wrapper.imploding .nebulous-cloud, .neural-core-wrapper.imploding .nebulous-cloud-yellow { filter: blur(2px); box-shadow: 0 0 80px 40px rgba(255, 255, 255, 0.8); animation-duration: 0.5s; }
+        .neural-core-wrapper.imploding .ring, .neural-core-wrapper.imploding .inner-orbit { animation-duration: 0.2s; border-color: rgba(255,255,255,0.6); }
+        
+        .neural-core-wrapper.exploding .core-system { transform: scale(1.4); filter: contrast(1.2) brightness(1.2); transition: transform 0.2s cubic-bezier(0.1, 2, 0.5, 1); }
+        .neural-core-wrapper.exploding .nebulous-cloud, .neural-core-wrapper.exploding .nebulous-cloud-yellow { box-shadow: 0 0 250px 100px var(--blood-red-glow), 0 0 150px 75px var(--cyber-yellow); filter: blur(20px); animation-duration: 0.1s; }
+        .neural-core-wrapper.exploding .ring, .neural-core-wrapper.exploding .inner-orbit { animation-duration: 0.05s; border-width: 2px; }
+        .neural-core-wrapper.exploding .inner-core-dot { transform: scale(2); box-shadow: 0 0 60px 30px rgba(255, 255, 255, 0.9), 0 0 100px 50px var(--cyber-yellow); }
+
+        @keyframes spin-fog { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-fog-reverse { 0% { transform: scale(0.9) rotate(360deg); } 100% { transform: scale(0.9) rotate(0deg); } }
+        @keyframes pulse-fog { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes orbit-inner-a { 0% { transform: rotateX(70deg) rotateY(20deg) rotateZ(0deg); } 100% { transform: rotateX(70deg) rotateY(20deg) rotateZ(360deg); } }
+        @keyframes orbit-inner-b { 0% { transform: rotateX(20deg) rotateY(70deg) rotateZ(0deg); } 100% { transform: rotateX(20deg) rotateY(70deg) rotateZ(-360deg); } }
+        @keyframes orbit-inner-c { 0% { transform: rotateX(50deg) rotateY(-50deg) rotateZ(0deg); } 100% { transform: rotateX(50deg) rotateY(-50deg) rotateZ(360deg); } }
+        @keyframes orbit-outer-x { 0% { transform: rotateX(65deg) rotateY(-20deg) rotateZ(0deg); } 100% { transform: rotateX(65deg) rotateY(-20deg) rotateZ(360deg); } }
+        @keyframes orbit-outer-y { 0% { transform: rotateX(-30deg) rotateY(75deg) rotateZ(0deg); } 100% { transform: rotateX(-30deg) rotateY(75deg) rotateZ(-360deg); } }
+        @keyframes orbit-outer-z { 0% { transform: rotateX(75deg) rotateY(30deg) rotateZ(0deg); } 100% { transform: rotateX(75deg) rotateY(30deg) rotateZ(360deg); } }
+
+        /* ARQUITETURA E ESTILOS GERAIS */
+        .architecture-panel { background: var(--terminal-bg); border: 1px solid var(--blood-red); border-left: 4px solid var(--blood-red-glow); padding: 30px; margin-bottom: 50px; font-family: 'Share Tech Mono', monospace; color: #a0a0a0; box-shadow: 0 0 20px rgba(139, 0, 0, 0.3); }
+        .architecture-panel h3 { color: var(--cyber-yellow); font-size: 1.5rem; text-align: center; border-bottom: 1px dashed var(--blood-red); padding-bottom: 15px; margin-bottom: 25px; letter-spacing: 2px; }
+        .arch-block { margin-bottom: 25px; }
+        .arch-block h4 { color: var(--text-main); background: rgba(139, 0, 0, 0.4); padding: 5px 10px; display: inline-block; margin-bottom: 10px; border-left: 2px solid var(--cyber-yellow); }
+        .tree-list { list-style: none; padding-left: 10px; }
+        .tree-list li { position: relative; margin-bottom: 8px; padding-left: 20px; font-size: 0.9rem; }
+        .tree-list li::before { content: '├──'; position: absolute; left: 0; color: var(--blood-red-glow); }
+        .tree-list li:last-child::before { content: '└──'; }
+        .arch-cmd { color: var(--cyber-yellow); font-weight: bold; }
+        .arch-path { color: #ff6666; }
+        
+        /* BLOCO DO SISTEMA DE IGNIÇÃO (Estilo Terminal ASCII) */
+        .ignition-screen {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 26, 26, 0.4);
+            padding: 15px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #ccc;
             margin-bottom: 15px;
-            display: flex; align-items: center; gap: 12px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            white-space: pre-wrap;
+            overflow-x: auto;
         }
+        .ign-header { color: var(--blood-red-glow); font-weight: bold; }
+        .ign-id { color: #00ffff; }
+        .ign-name { color: #ffffff; font-weight: bold; }
+        .ign-thread { color: #a0a0a0; }
+        .ign-desc { color: #00ff00; }
+        .ign-token { color: var(--cyber-yellow); font-weight: bold; }
+        .ign-prompt { color: #ffffff; margin-top: 10px; display: block;}
+        .ign-input { color: #ffffff; font-weight: bold; }
+        .ign-success { color: #00ff00; font-weight: bold; }
 
-        .card-title::before {
-            content: '';
-            width: 25px; height: 2px;
-            background: var(--c-yellow);
-            box-shadow: var(--glow-yellow);
-        }
+        .executive-vision { background: var(--panel-bg); border-left: 4px solid var(--cyber-yellow); padding: 25px; margin-bottom: 50px; font-size: 1.1rem; backdrop-filter: blur(5px); box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3); border-right: 1px solid rgba(255, 215, 0, 0.2); }
+        .agents-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        @media (max-width: 768px) { .agents-grid { grid-template-columns: 1fr; } h1 { font-size: 2.2rem; } }
+        .agent-card { background: var(--panel-bg); border: 1px solid rgba(139, 0, 0, 0.4); border-top: 3px solid var(--blood-red); padding: 25px; transition: all 0.3s ease; backdrop-filter: blur(4px); }
+        .agent-card:hover { border-color: var(--blood-red-glow); box-shadow: 0 0 20px rgba(255, 26, 26, 0.2); transform: translateY(-5px); }
+        .agent-card h3 { font-family: 'Rajdhani', sans-serif; color: var(--cyber-yellow); font-size: 1.8rem; margin-bottom: 15px; border-bottom: 1px dashed rgba(255, 215, 0, 0.3); padding-bottom: 10px; }
+        .agent-card ul { list-style: none; }
+        .agent-card li { margin-bottom: 15px; font-size: 0.95rem; position: relative; padding-left: 20px; }
+        .agent-card li::before { content: '>'; position: absolute; left: 0; color: var(--blood-red-glow); font-family: 'Share Tech Mono', monospace; font-weight: bold; }
+        .stack-highlight { color: var(--cyber-yellow); font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; display: block; margin-bottom: 15px; background: rgba(255, 215, 0, 0.1); padding: 5px 10px; border-left: 2px solid var(--cyber-yellow); }
+        strong { color: #ffffff; }
+        .compliance-note { background: repeating-linear-gradient( 45deg, rgba(20, 0, 0, 0.9), rgba(20, 0, 0, 0.9) 10px, rgba(40, 0, 0, 0.9) 10px, rgba(40, 0, 0, 0.9) 20px ); border: 1px solid var(--blood-red); padding: 25px; text-align: center; font-size: 0.9rem; color: #ccc; }
+        .compliance-title { color: var(--blood-red-glow); font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase; }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: var(--bg-color); } ::-webkit-scrollbar-thumb { background: var(--blood-red); border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: var(--blood-red-glow); }
 
-        .holo-card:hover .card-title { color: var(--c-yellow); }
-
-        p {
-            font-family: var(--font-mono);
-            line-height: 1.8;
-            margin-bottom: 20px;
-            color: rgba(200, 232, 245, 0.8);
-            font-size: 1.1rem;
-        }
-
-        /* HIGHLIGHTS ADICIONAIS PARA O NOVO TEXTO */
-        .highlight-yellow { color: var(--c-yellow); font-weight: bold; text-shadow: 0 0 8px rgba(255, 234, 0, 0.4); }
-        .highlight-green { color: var(--c-green); font-weight: bold; text-shadow: 0 0 8px rgba(29, 233, 182, 0.4); }
-        .highlight-blue, .highlight-cyan { color: var(--c-blue); font-weight: bold; text-shadow: var(--glow-blue); }
-        .highlight-red { color: var(--c-red); font-weight: bold; text-shadow: 0 0 8px rgba(255, 0, 60, 0.4); }
-
-        /* BOTOES INTERATIVOS ESTILO KERNEO */
+        /* ====== NOVOS ESTILOS - BOTOES DE COMUNICAÇÃO E COMPLIANCE ====== */
         .cta-section {
-            text-align: center;
-            margin-top: 60px;
-            padding: 40px;
-            border: 1px solid rgba(255, 234, 0, 0.2);
-            background: rgba(255, 234, 0, 0.02);
+            text-align: center; margin-top: 50px; padding: 40px;
+            border: 1px solid rgba(139, 0, 0, 0.4);
+            background: var(--terminal-bg);
             border-radius: 8px;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.2);
+            margin-bottom: 50px;
         }
-
         .cta-title {
-            font-family: var(--font-hud);
-            color: var(--c-yellow);
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            margin-bottom: 30px;
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--cyber-yellow);
+            font-size: 1.5rem; letter-spacing: 4px; margin-bottom: 15px;
         }
-
         .btn-wrap {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
+            display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;
         }
-
         .btn-access {
-            position: relative;
-            display: inline-flex;
-            align-items: center; justify-content: center;
-            gap: 12px;
-            background: rgba(0, 10, 20, 0.8);
-            border: 1px solid var(--c-blue);
-            border-radius: 4px;
+            position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: rgba(12, 0, 0, 0.8);
+            border: 1px solid var(--blood-red-glow); border-radius: 4px;
             padding: 16px 36px;
-            font-family: var(--font-hud);
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: var(--c-blue);
-            overflow: hidden;
-            transition: all 0.3s;
-            text-decoration: none;
-            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: bold; letter-spacing: 2px;
+            color: var(--blood-red-glow); overflow: hidden; transition: all 0.3s; text-decoration: none; text-transform: uppercase;
         }
-
         .btn-access::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-            transform: translateX(-100%);
-            animation: btnShine 3s ease-in-out infinite;
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.2), transparent);
+            transform: translateX(-100%); animation: btnShine 3s ease-in-out infinite;
         }
-
-        @keyframes btnShine {
-            0%, 100% { transform: translateX(-100%); }
-            50%      { transform: translateX(100%); }
-        }
-
         .btn-access:hover {
-            background: rgba(0, 255, 255, 0.1);
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-            border-color: #ffffff;
-            transform: translateY(-2px);
+            background: rgba(255, 26, 26, 0.1); color: var(--cyber-yellow);
+            box-shadow: 0 0 15px rgba(255, 26, 26, 0.5); border-color: var(--cyber-yellow); transform: translateY(-2px);
         }
-
-        /* Botão do Telegram em Verde Neon */
-        .btn-telegram {
-            border-color: var(--c-green);
-            color: var(--c-green);
-        }
-        
-        .btn-telegram::before { background: linear-gradient(90deg, transparent, rgba(29, 233, 182, 0.2), transparent); }
-        
-        .btn-telegram:hover {
-            background: rgba(29, 233, 182, 0.1);
-            box-shadow: 0 0 15px rgba(29, 233, 182, 0.3);
-        }
-
-        /* Botão Disabled (WhatsApp) */
-        .btn-disabled {
-            border-color: #444;
-            color: #666;
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: none;
-            cursor: not-allowed;
-            flex-direction: column;
-            gap: 5px;
-            padding: 12px 36px;
-        }
-        
-        .btn-disabled::before { display: none; }
-        .btn-disabled:hover { transform: none; box-shadow: none; background: rgba(0, 0, 0, 0.5); border-color: #444; color: #666; }
-
-        footer {
-            margin-top: 80px;
-            text-align: center;
-            font-family: var(--font-mono);
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 5px;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(0, 255, 255, 0.1);
-            padding-top: 30px;
-        }
-
-        /* RESPONSIVIDADE */
         @media (max-width: 768px) {
-            .holo-card { padding: 25px 20px; }
-            .card-title { font-size: 1.1rem; }
             .btn-access { width: 100%; }
         }
+
+        .legal-footer {
+            margin-top: 50px; padding-top: 30px; text-align: center;
+            border-top: 1px dashed rgba(139, 0, 0, 0.5);
+            font-family: 'Share Tech Mono', monospace; color: #888; font-size: 0.85rem;
+        }
+        .legal-links { margin-bottom: 25px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
+        .legal-links a {
+            color: var(--blood-red-glow); text-decoration: none; transition: color 0.2s;
+        }
+        .legal-links a:hover { color: var(--cyber-yellow); }
+        .legal-text { max-width: 800px; margin: 0 auto 15px auto; line-height: 1.6; }
+        .legal-text strong { color: #aaa; }
     </style>
 </head>
 <body>
+    <div id="particles-js"></div>
 
-<div id="canvas-container"></div>
-<div class="scan-overlay"></div>
+    <div class="container">
+        <header>
+            <div class="title-wrapper"><h1>PHT SECURITY SYSTEM</h1></div>
+            <h2 class="subtitle">Plataforma Avançada de Resiliência Cibernética e Defesa Ativa</h2>
+        </header>
 
-<div class="container">
-    <header>
-        <h1>PHANTOM APT</h1>
-        <span class="status-armed">[ DOUTRINA POWER HAT | ARMED ]</span>
-    </header>
+        <div class="neural-core-wrapper" id="neuralCore">
+            <div class="core-system">
+                <div class="ring ring-3"></div>
+                <div class="ring ring-2"></div>
+                <div class="ring ring-1"></div>
+                <div class="nebulous-cloud"></div>
+                <div class="nebulous-cloud-yellow"></div>
+                <div class="inner-orbit orbit-a"></div>
+                <div class="inner-orbit orbit-b"></div>
+                <div class="inner-orbit orbit-c"></div>
+                <div class="inner-core-dot"></div>
+            </div>
+        </div>
 
-    <div class="holo-card">
-        <div class="card-title">◈ O COMANDANTE // ARQUITETURA DE RESILIÊNCIA</div>
-        <p>Não desenvolvemos software comercial; nós arquitetamos ecossistemas de resiliência para infraestruturas críticas. A cibersegurança de vitrine não sustenta um ataque real. Atuando na intersecção entre segurança ofensiva e inteligência artificial, projetamos motores cognitivos para auditar ambientes complexos através de testes de estresse implacáveis.</p>
-        <p>A <span class="highlight-yellow">Doutrina Power Hat</span> ataca a vulnerabilidade primária: o <span class="highlight-red">Fator Humano e o Analfabetismo Digital</span>. A infraestrutura mais avançada do mundo desmorona se o usuário for comprometido. Nossa consultoria blinda conexões dissecando vetores de <span class="highlight-red">Phishing</span> e manipulando engenharia social para converter leigos em uma linha de defesa hostil.</p>
-    </div>
-
-    <div class="holo-card">
-        <div class="card-title">[1] RONIN AEGIS: O PANÓPTICO E TRIBUNAL DE DADOS</div>
-        <p>O escudo de auditoria e motor adversarial da Tríade. O <span class="highlight-cyan">Ronin AEGIS</span> é uma malha de inteligência implacável fundamentada em <span class="highlight-cyan">OSINT</span> e na inteligência de grafos (<span class="highlight-cyan">Neo4j</span>).</p>
-        <p>Ele correlaciona metadados ocultos para expor redes de corrupção, rastrear campanhas maliciosas e dissecar o anonimato digital com precisão matemática. Integrado ao núcleo, ele intercepta falhas estruturais operando cego a ideologias.</p>
-    </div>
-
-    <div class="holo-card">
-        <div class="card-title">[2] GHOST PROTOCOL: SOBERANIA E EMULAÇÃO AUTÔNOMA</div>
-        <p>A força-tarefa de defesa ativa e emulação de adversários. O <span class="highlight-yellow">Ghost Protocol</span> é a lâmina tática que oblitera a lacuna entre conformidade teórica e a realidade brutal da segurança corporativa.</p>
-        <p>Desenhado para auditar redes executando TTPs avançadas, engenharia reversa e neutralização de infraestrutura de ataque operando no vácuo da rede para garantir impacto absoluto com pegada digital zero.</p>
-    </div>
-
-    <div class="holo-card">
-        <div class="card-title">[3] PHANTOM KADMON: COGNITIVE C2 E MUTATING MALWARE</div>
-        <p>O núcleo ofensivo não é um simples payload, é uma quimera em mutação constante. O <span class="highlight-green">Phantom Kadmon</span> opera através de *Fileless Mutating Malware*, injetando código bruto diretamente na memória de processos legítimos para evadir EDRs.</p>
-        <p>Agindo como uma infraestrutura autônoma de Comando e Controle (Cognitive C2), ele reconfigura o ambiente lógico, fornece telemetria profunda e paralisa defesas falhas antes da percepção da intrusão.</p>
-    </div>
-
-    <div class="holo-card">
-        <div class="card-title">[+] NÚCLEO OBSIDIAN: SÍNTESE DE INTELIGÊNCIA</div>
-        <p>O cérebro cognitivo da operação. É no <span class="highlight-cyan">Obsidian</span> que os metadados do AEGIS e a telemetria do Phantom Kadmon são fundidos. Através de uma malha neural de anotações e *graph intelligence*, ele armazena arquiteturas de ciberguerra e orquestra a validação tática da infraestrutura.</p>
-    </div>
-
-    <div class="cta-section">
-        <div class="cta-title">// CANAIS DE COMUNICAÇÃO SEGUROS</div>
-        <p style="text-align: center; margin-bottom: 30px; font-size: 0.9rem;">Estabeleça comunicação criptografada. Selecione o vetor de contato abaixo.</p>
-        
-        <div class="btn-wrap">
-            <a href="mailto:GhostSenna@proton.me" class="btn-access">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-                PROTON MAIL
-            </a>
+        <section class="architecture-panel">
+            <h3>[ PHT SECURITY SYSTEM - ARQUITETURA APT CHAT ]</h3>
             
-            <a href="https://t.me/Ghost_Phantombot" target="_blank" class="btn-access btn-telegram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-                CÓRTEX BOT [TELEGRAM]
-            </a>
+            <div class="arch-block">
+                <h4>0. SISTEMA DE IGNIÇÃO (BOOT SCALING DINÂMICO)</h4>
+                <p style="margin-left: 10px; margin-bottom: 15px; font-size: 0.9rem;">
+                    O motor <i>hardware-agnostic</i> do Kadmon Core. Antes de instanciar a malha, o sistema calibra a extração e a profundidade analítica adaptando-se estritamente ao hardware host, escalando de SoCs a Datacenters sem gargalos.
+                </p>
+                <div class="ignition-screen">
+<span class="ign-header">======================[ SISTEMA DE IGNIÇÃO ]=======================+</span>
+ <span class="ign-id">0.</span> [<span class="ign-name">Micro</span>]      - <span class="ign-thread"> 2 Threads</span>   <span class="ign-desc">(Termux / Smartphones / SoC)</span>
+ <span class="ign-id">1.</span> [<span class="ign-name">Stealth</span>]    - <span class="ign-thread"> 4 Threads</span>   <span class="ign-desc">(Hardware Limitado / Background)</span>
+ <span class="ign-id">2.</span> [<span class="ign-name">Equilíbrio</span>] - <span class="ign-thread"> 8 Threads</span>   <span class="ign-desc">(Desempenho Médio / Padrão civil)</span>
+ <span class="ign-id">3.</span> [<span class="ign-name">Overclock</span>]  - <span class="ign-thread">16 Threads</span>   <span class="ign-desc">(Alta Produtividade / 32GB+ RAM)</span>
+ <span class="ign-id">4.</span> [<span class="ign-name">Enterprise</span>] - <span class="ign-thread">32 Threads</span>   <span class="ign-desc">(Workstations / Servidores Dedicados)</span>
+ <span class="ign-id">5.</span> [<span class="ign-name">Nexus</span>]      - <span class="ign-thread">64 Threads</span>   <span class="ign-desc">(HPC / Clusters de Processamento)</span>
+<span class="ign-header">======================[ ALOCAÇÃO DE CONTEXTO ]=====================+</span>
+ <span class="ign-id">1.</span> [<span class="ign-name">Tático</span>]       -  <span class="ign-token">2048 Tokens</span> <span class="ign-desc">(Velocidade Extrema / &lt; 8GB RAM)</span>
+ <span class="ign-id">2.</span> [<span class="ign-name">Operacional</span>]  -  <span class="ign-token">4096 Tokens</span> <span class="ign-desc">(Equilíbrio Padrão)</span>
+ <span class="ign-id">3.</span> [<span class="ign-name">Estratégico</span>]  -  <span class="ign-token">8192 Tokens</span> <span class="ign-desc">(Análise Profunda / 16GB+ RAM)</span>
+ <span class="ign-id">4.</span> [<span class="ign-name">Phantom Core</span>] - <span class="ign-token">11264 Tokens</span> <span class="ign-desc">(Sweet Spot 16GB / Aviso: Lentidão)</span>
+ <span class="ign-id">5.</span> [<span class="ign-name">Deep Scan</span>]    - <span class="ign-token">32768 Tokens</span> <span class="ign-desc">(Leitura Massiva / 24GB+ VRAM)</span>
+ <span class="ign-id">6.</span> [<span class="ign-name">Omnisciência</span>] - <span class="ign-token">131072 Tokens</span><span class="ign-desc">(Visão Global / 96GB+ VRAM Enterprise)</span>
+<span class="ign-header">======================[ PHANTOM KADMON ]===========================+</span>
 
-            <!-- ADICIONADO: BOTÃO DO SIGNAL -->
-            <a href="https://signal.me/#eu/Ghost.9977" target="_blank" class="btn-access">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-                SIGNAL [@Ghost.9977]
-            </a>
+<span class="ign-prompt">[?] Selecione o perfil de processamento (0-5) [Padrão: 2] &gt; <span class="ign-input">2</span></span>
+<span class="ign-success">[+] Motor em EQUILÍBRIO: 8 Threads engajadas.</span>
 
-            <div class="btn-access btn-disabled">
-                <div style="display: flex; align-items: center; gap: 10px;">
+<span class="ign-prompt">[?] Selecione o tamanho do contexto (1-6) [Padrão: 4] &gt; <span class="ign-input">█</span></span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 20px; color: var(--blood-red-glow);">
+                [ OPERADOR ] ---> (Entrada via Terminal) ---> [ MOTOR AEGIS (Filtro de Entrada) ]
+            </div>
+
+            <div class="arch-block">
+                <h4>1. TECLADO TÁTICO (CONTROLE DE SESSÃO E INGESTÃO DE DADOS)</h4>
+                <ul class="tree-list">
+                    <li><span class="arch-cmd">!diag</span> : Aciona o Health Check para testar conectividade e validade de TODAS as APIs configuradas no .env.</li>
+                    <li><span class="arch-cmd">!trocar</span> : Purga a RAM, encerra a sessão ativa e abre o menu para trocar o modelo LLM.</li>
+                    <li><span class="arch-cmd">!mapear</span> : Reconstrói a malha neural (grafos) com novos dados via Neo4j.</li>
+                    <li><span class="arch-cmd">!purgar &lt;id&gt;</span> : Remove anomalias ou nós corrompidos específicos da memória do Neo4j.</li>
+                    <li><span class="arch-cmd">!ghost &lt;url&gt;</span> : Aciona módulo isolado para análise profunda e mitigação de ameaças na URL.</li>
+                    <li><span class="arch-cmd">!alvo &lt;arq&gt;</span> : Aciona o Micro-RAG. Lê arquivos locais (texto/imagens), busca contexto no Neo4j e envia para análise.</li>
+                    <li><span class="arch-cmd">!vanguard / !oraculo / !analyze &lt;alvo&gt;</span> : Gatilho principal de OSINT. Aciona o Roteador Tático (Regex) abaixo.</li>
+                    <li style="margin-top: 10px; border-top: 1px dashed rgba(139,0,0,0.5); padding-top: 10px;">
+                        <span class="arch-cmd">¡mapear | quit | kill | abortar | limpar | voltar</span> : Controles de fluxo e interrupção rápida de rotinas analíticas.
+                    </li>
+                    <li><span class="arch-cmd">/ler</span> : Ativa o modo Multilinhas de absorção RAG. Solicita o caminho do arquivo, engaja o alvo/agente desejado e permite colar um prompt massivo antes de digitar 'fim' para compilar o contexto. (Possui opção de aborto).</li>
+                    <li><span class="arch-cmd">/colar</span> : Ingestão de bloco de código raw. O sistema interpela o operador sobre a ação desejada para o código, aguarda o prompt executivo e finaliza o gatilho com 'fim'.</li>
+                </ul>
+            </div>
+            
+            <div class="arch-block">
+                <h4>2. ROTEADOR TÁTICO - ACIONADO POR !VANGUARD / !ORACULO</h4>
+                <p style="margin-left: 10px; margin-bottom: 10px;">O Cérebro avalia a string do alvo (Regex) e delega a missão automaticamente:</p>
+                <ul class="tree-list">
+                    <li>Padrão: <span class="arch-path">user@email.com</span> ➔ [Gatilho: E-mail] ➔ validate_email() + disposable_email()</li>
+                    <li>Padrão: <span class="arch-path">@nickname</span> ➔ [Gatilho: SOCMINT] ➔ lookup_instagram_user() + varredura_multipla()</li>
+                    <li>Padrão: <span class="arch-path">+5511999999999</span> ➔ [Gatilho: Telefonia] ➔ numverify_lookup() + ninjas_phone_lookup()</li>
+                    <li>Padrão: <span class="arch-path">192.168.1.1</span> ➔ [Gatilho: Infra/IP] ➔ ipstack_geo() + shodan_scan()</li>
+                    <li>Padrão: <span class="arch-path">dominio.com</span> ➔ [Gatilho: Domínio] ➔ ninjas_dns_lookup() + scrape_url() + serpapi_search()</li>
+                </ul>
+            </div>
+            
+            <div class="arch-block">
+                <h4>3. O MÚSCULO DE COLETA (SENSORES - BYOK / .ENV)</h4>
+                <p style="margin-left: 10px; margin-bottom: 10px;">Funções de rede puras (Determinísticas). Sem alucinação. Circuit Breakers (Travas) ativas.</p>
+                <ul class="tree-list">
+                    <li>[Módulo: Extração e Busca Web] ➔ scrape_url(), varredura_multipla(), serpapi_search()</li>
+                    <li>[Módulo: Shodan & Instagapi] ➔ shodan_ip_scan(), lookup_insta_user()</li>
+                    <li>[Módulo: API Ninjas] ➔ ninjas_validate_email(), ninjas_disposable_email(), ninjas_phone_lookup(), ninjas_dns_lookup()</li>
+                    <li>[Módulo: APILayer & Stack Suite] ➔ numverify_lookup(), ipstack_geo(), countrylayer_data(), positionstack_fwd(), aviationstack_track()</li>
+                </ul>
+            </div>
+            
+            <div class="arch-block">
+                <h4>4. CAMADA DE INTEGRAÇÃO (TELEMETRIA E CONTEXTO)</h4>
+                <p style="margin-left: 20px;">Os dados coletados pelos Sensores são formatados em JSON e injetados na variável `dados_osint`. O script cria a "Diretriz Mestre", proibindo a IA de inventar dados e forçando a análise estrita das evidências.</p>
+            </div>
+            
+            <div class="arch-block">
+                <h4>5. MATRIZ COGNITIVA (INFERÊNCIA LLM)</h4>
+                <div style="margin-left: 20px;">
+                    [ PROMPT_PARA_IA ] ---> [ FUNÇÃO: think() ]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br>
+                    [ LOOP BASH OPCIONAL ] &lt;------+<br>
+                    <span style="font-size: 0.9em; color: #888;">Se a IA retornar &lt;bash&gt;comando&lt;/bash&gt;, o APT Chat executa no terminal real, captura o resultado e devolve para a IA pensar novamente (ReAct).</span>
+                </div>
+            </div>
+            
+            <div class="arch-block">
+                <h4>6. GUILHOTINA E FILTROS DE SAÍDA (SEGURANÇA COMERCIAL)</h4>
+                <ul class="tree-list">
+                    <li><span class="arch-cmd">desarmar_ssrf_max()</span> : Neutraliza tentativas da IA de forçar o terminal a acessar redes locais indevidas.</li>
+                    <li><span class="arch-cmd">sanitizar_resposta_ia()</span> : Remove alucinações de formatação não suportadas.</li>
+                    <li><span class="arch-cmd">sanitize_apt_output()</span> : Verifica se é modo código/refatoração ou análise de dados, formatando a saída.</li>
+                    <li><span class="arch-cmd">limpar_eco_resposta()</span> : Evita que a IA repita o comando original feito pelo usuário.</li>
+                    <li><span class="arch-cmd">filtro_stealth_terminal()</span> : Aplica a estética visual PHT / Terminal de Alta Tensão.</li>
+                </ul>
+            </div>
+            
+            <div class="arch-block">
+                <h4>7. PERSISTÊNCIA E MEMÓRIA (ENDGAME)</h4>
+                <ul class="tree-list">
+                    <li><span class="arch-cmd">[JSON]</span> : Exportado via módulo de reportagem local.</li>
+                    <li><span class="arch-cmd">[Obsidian]</span> : Arquivo local `.pht/APTChat/RESPOSTAS_IA.md` (Para GraphRAG em texto).</li>
+                    <li><span class="arch-cmd">[Neo4j]</span> : Banco local grava a memória operacional alimentando Grafos para conexões futuras.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="executive-vision">
+            <p><strong>Visão Executiva:</strong> A PHT Security System é um ecossistema de inteligência cibernética baseado em uma arquitetura <em>Multi-Agent Swarm</em>. Projetada especificamente para o setor corporativo (B2B), governamental e consultorias forenses, a plataforma atua na antecipação de ameaças, auditoria de infraestruturas críticas e resposta a incidentes (DFIR).</p>
+            <br>
+            <p>Operando sob a doutrina de <em>Active Defense</em> e <em>Cybersecurity Awareness</em>, a solução garante conformidade, segurança <em>by design</em> e resiliência contra Ameaças Persistentes Avançadas (APTs), com salvaguardas (guardrails) rigorosas para uso estritamente defensivo e analítico. Sistema totalmente air gaped. Duas malhas neurais.</p>
+        </section>
+
+        <div class="agents-grid">
+            <div class="agent-card">
+                <h3>[I. VANGUARD] - Adversary Simulation</h3>
+                <span class="stack-highlight">Stack: Python, Rust, Go, Zig, Assembly, JS, Java, Bash, C/C++, Ruby, HTML, SCADA</span>
+                <ul>
+                    <li><strong>Auditoria de Identidade Corporativa:</strong> Avaliação de segurança em ambientes Active Directory, identificando falhas de configuração, vulnerabilidades de autenticação legada e mitigação de vetores de movimentação lateral.</li>
+                    <li><strong>Testes de Resiliência em Aplicações e APIs:</strong> Mapeamento de falhas lógicas (BFLA, BOPLA) e auditoria de segurança em APIs REST/GraphQL. Testes teóricos de estresse contra injeções de dados e manipulação HTTP.</li>
+                    <li><strong>Simulação de Ameaças (APT):</strong> Modelagem de campanhas controladas para validar a eficácia das soluções de EDR, XDR e simulação de engenharia social para conscientização corporativa.</li>
+                    <li><strong>Avaliação Mobile e IoT:</strong> Auditoria de conformidade em Smart Contracts, verificação de controles de integridade (SSL Pinning) em aplicativos mobile e análise de segurança de hardware.</li>
+                    <li><strong>Modelagem de Ameaças (Threat Modeling) Contínua:</strong> Uma abordagem corporativa para desenhar cenários de ataque prováveis contra a infraestrutura do cliente antes que eles ocorram.</li>
+                </ul>
+            </div>
+            <div class="agent-card">
+                <h3>[II. ORÁCULO] - Cyber Threat Intelligence</h3>
+                <span class="stack-highlight">Stack: Python, Rust, Go, Zig, Assembly, JS, Java, Bash, C/C++, Ruby, HTML, SCADA</span>
+                <ul>
+                    <li><strong>Resposta a Incidentes (DFIR):</strong> Coleta e análise de evidências digitais avançadas, forense de memória RAM e análise de artefatos de disco para reconstrução de linha do tempo de incidentes sistêmicos.</li>
+                    <li><strong>Cloud Security & Serverless:</strong> Monitoramento analítico de infraestruturas em nuvem (AWS, Azure, GCP). Detecção de anomalias em APIs corporativas e auditoria de logs de serviços nativos.</li>
+                    <li><strong>Engenharia Reversa e Malware:</strong> Dissecação segura de artefatos maliciosos para extração de Indicadores de Comprometimento (IoCs) e desenvolvimento de mitigação estrutural contra Ransomware.</li>
+                    <li><strong>Forense Avançada de Esteganografia:</strong> Dissecação profunda de artefatos ocultos. Identificação de malwares embutidos, análise de alta entropia, decodificação de Base64 e varredura espectral por métodos LSB, DCT e DWT para proteção contra payloads em imagens e áudio.</li>
+                    <li><strong>Infraestruturas Críticas (OT/ICS):</strong> Diagnóstico de tráfego industrial para detecção de anomalias operacionais e resposta a incidentes em ambientes fabris de alta disponibilidade.</li>
+                </ul>
+            </div>
+            <div class="agent-card">
+                <h3>[III. SHIELD] - Detection Engineering</h3>
+                <span class="stack-highlight">Stack: Python, Rust, Go, Zig, Assembly, JS, Java, Bash, C/C++, Ruby, HTML, SCADA</span>
+                <ul>
+                    <li><strong>Engenharia de Detecção & SIEM:</strong> Desenvolvimento e otimização de casos de uso para SIEM (Microsoft Sentinel, Splunk) e criação de assinaturas de rede (Zeek, Suricata).</li>
+                    <li><strong>Cloud-Native Security & DevSecOps:</strong> Implementação de políticas de segurança para ambientes conteinerizados (Kubernetes) e bloqueio de provisionamento de infraestrutura vulnerável via IaC.</li>
+                    <li><strong>Automação e Resposta Orquestrada (SOAR):</strong> Modelagem de playbooks automatizados para contenção de incidentes e redução drástica do tempo médio de resposta (MTTR).</li>
+                    <li><strong>Arquitetura Zero Trust (ZTNA):</strong> Consultoria analítica para refatoração de controles de acesso baseados no princípio de menor privilégio e modernização de gateways corporativos.</li>
+                </ul>
+            </div>
+            <div class="agent-card">
+                <h3>[IV. ESPECTRO] - OpSec & Active Defense</h3>
+                <span class="stack-highlight">Stack: Python, Rust, Go, Zig, Assembly, JS, Java, Bash, C/C++, Ruby, HTML, SCADA</span>
+                <ul>
+                    <li><strong>Segregação e Continuidade:</strong> Arquitetura de perímetros definidos por software (SDP) e malhas de rede criptografadas para garantir a continuidade de operações críticas e sigilosas.</li>
+                    <li><strong>Cyber Deception (Defesa Ativa):</strong> Planejamento e implantação de armadilhas digitais e honey-tokens na infraestrutura corporativa para alertar proativamente sobre acessos não autorizados.</li>
+                    <li><strong>Prevenção à Fraude Sintética:</strong> Análise voltada ao uso de Machine Learning para detectar ataques de Engenharia Social modernos, combatendo fraudes executivas como Deepfakes de voz e Vishing corporativo.</li>
+                </ul>
+            </div>
+            <div class="agent-card" style="grid-column: 1 / -1;">
+                <h3>[V. FORJA & ARQUITETO] - Security Automation</h3>
+                <span class="stack-highlight">Stack: Python, Rust, Go, Zig, Assembly, JS, Java, Bash, C/C++, Ruby, HTML, SCADA</span>
+                <ul>
+                    <li><strong>Automação de Segurança (Forja):</strong> Desenvolvimento de scripts e lógicas customizadas focadas na automação de processos de auditoria, conformidade, remediação rápida e coleta de telemetria corporativa.</li>
+                    <li><strong>Arquitetura de Redes (Arquiteto):</strong> Engenharia de infraestrutura resiliente e de alta disponibilidade. Mapeamento topológico para garantir que as redes corporativas suportem operações de monitoramento contínuo sem qualquer impacto na performance do negócio.</li>
+                </ul>
+            </div>
+
+            <!-- ADICIONADO: CARD DO PHANTOM SaaS -->
+            <div class="agent-card" style="grid-column: 1 / -1; border-top: 3px solid var(--cyber-yellow); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
+                <h3 style="color: var(--cyber-yellow);">[VI. PHANTOM] - Segurança Pública & Forense Digital (SaaS)</h3>
+                <span class="stack-highlight">Plataforma Autônoma B2B/B2G - Operações Táticas e Inteligência Investigativa</span>
+                <ul>
+                    <li><strong>Soberania Cibernética e Governamental:</strong> O Phantom é o nosso segundo produto em modelo SaaS, operando como uma malha de inteligência projetada exclusivamente para Segurança Pública, Agências de Aplicação da Lei (Law Enforcement) e investigações de nível estatal.</li>
+                    <li><strong>Perícia Forense Profunda:</strong> Voltado para a desarticulação de redes criminosas através da dissecação de artefatos digitais avançados, rastreamento de movimentação de criptoativos e reconstrução forense de cronologias em incidentes críticos.</li>
+                    <li><strong>Tribunal de Dados (Graph Intelligence):</strong> Correlaciona metadados ocultos utilizando bancos de dados em grafos orientados à inteligência (Neo4j) para expor conexões invisíveis na dark web e em investigações financeiras de alta complexidade.</li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="compliance-note">
+            <div class="compliance-title">Nota de Conformidade Ética e Legal</div>
+            <p>A PHT Security System opera sob estritos controles de escopo (Guardrails). A plataforma não atua na geração de artefatos maliciosos acionáveis, ferramentas de ataque indiscriminado ou violação de perímetros de terceiros. Todas as análises ofensivas são conduzidas em modo de simulação teórica (White Hat / Power Hat Doctrine) com o único objetivo de construir resiliência sistêmica e fornecer <em>Threat Intelligence</em> acionável para a proteção do ecossistema do cliente.</p>
+        </section>
+
+        <!-- SEÇÃO DE COMUNICAÇÃO -->
+        <div class="cta-section">
+            <div class="cta-title">// CANAIS DE COMUNICAÇÃO SEGUROS</div>
+            <p style="font-family: 'Share Tech Mono', monospace; color: #a0a0a0; font-size: 0.95rem; margin-bottom: 20px;">Estabeleça comunicação criptografada. Selecione o vetor de contato abaixo.</p>
+            
+            <div class="btn-wrap">
+                <a href="mailto:GhostSenna@proton.me" class="btn-access">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    PROTON MAIL
+                </a>
+                
+                <a href="https://signal.me/#eu/Ghost.9977" target="_blank" class="btn-access">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    SIGNAL [@Ghost.9977]
+                </a>
+
+                <a href="https://wa.me/Phantom_Cyber" target="_blank" class="btn-access">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;">
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                     </svg>
-                    WHATSAPP
-                </div>
-                <span style="font-size: 0.65rem; letter-spacing: 2px;">[ EM BREVE ]</span>
+                    WHATSAPP [@Phantom_Cyber]
+                </a>
             </div>
         </div>
+
+        <!-- RODAPÉ JURÍDICO (PADDLE COMPLIANCE) -->
+        <footer class="legal-footer">
+            <div class="legal-links">
+                <a href="terms.html">Termos de Serviço</a>
+                <span style="color: #444;">|</span>
+                <a href="privacy.html">Política de Privacidade</a>
+                <span style="color: #444;">|</span>
+                <a href="aup.html">Política de Uso Aceitável (AUP)</a>
+                <span style="color: #444;">|</span>
+                <a href="liability.html">Limitação de Responsabilidade</a>
+                <span style="color: #444;">|</span>
+                <a href="refund.html">Política de Reembolso</a>
+            </div>
+            
+            <div class="legal-text">
+                O processamento de pagamentos, faturamento e cobrança de impostos do <strong>APT Chat</strong> e <strong>Phantom</strong> é conduzido de forma exclusiva pela <strong>Paddle.com Market Limited</strong>, que atua como nosso <i>Merchant of Record</i> (Comerciante de Registro). Ao assinar nossos serviços, você também concorda com os Termos e Condições do Comprador da Paddle. Em sua fatura e extrato bancário, a cobrança aparecerá como <strong>PADDLE.NET * PHTSECURITY</strong>.
+            </div>
+            
+            <div class="legal-text" style="font-size: 0.8rem; margin-top: 20px;">
+                <strong>Isenção:</strong> A plataforma é fornecida "no estado em que se encontra" (As-Is). A PHT Security System não se responsabiliza por falhas de segurança na rede do cliente ou pelo mau uso das informações de inteligência fornecidas. Não coletamos, armazenamos ou processamos dados de cartões de crédito.
+            </div>
+            
+            <div style="margin-top: 40px; font-weight: bold; color: var(--cyber-yellow); font-family: 'Rajdhani', sans-serif; letter-spacing: 2px; font-size: 1.1rem;">
+                PHT SECURITY SYSTEM // © 2026<br>
+                <span style="font-size: 0.9rem; color: var(--blood-red-glow);">[ SOVEREIGN CORE · POWER HAT DOCTRINE ]</span>
+            </div>
+        </footer>
     </div>
 
-    <footer>
-        PHANTOM APT SECURITY SYSTEM // © 2026<br><br>
-        [ SOVEREIGN CORE · POWER HAT DOCTRINE ]
-    </footer>
-</div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        const coreWrapper = document.getElementById('neuralCore');
+        let explosionTimeout;
 
-<script>
-    // --- MOTOR 3D: REDE NEURAL (Tensão Verde/Azul) ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('canvas-container').appendChild(renderer.domElement);
+        function startImplosion(e) {
+            if(e.type === 'mousedown' && e.button !== 0) return; 
+            clearTimeout(explosionTimeout);
+            coreWrapper.classList.remove('exploding');
+            coreWrapper.classList.add('imploding');
+        }
 
-    // Sistema de Partículas (Nós Kage Aegis)
-    const particleCount = 400; // Maior densidade
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const velocities = [];
-
-    for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 800; // x
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 800; // y
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 800; // z
-
-        velocities.push({
-            x: (Math.random() - 0.5) * 0.5,
-            y: (Math.random() - 0.5) * 0.5,
-            z: (Math.random() - 0.5) * 0.5
-        });
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    
-    // Cor dos pontos: Verde Neon
-    const material = new THREE.PointsMaterial({ 
-        color: 0x1de9b6, 
-        size: 2, 
-        transparent: true, 
-        opacity: 0.8 
-    });
-    
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    // Conexões de Malha Neural
-    const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x00ffff, // Linhas em Azul Neon
-        transparent: true,
-        opacity: 0.15
-    });
-    
-    const linesMesh = new THREE.LineSegments(new THREE.BufferGeometry(), lineMaterial);
-    scene.add(linesMesh);
-
-    camera.position.z = 250;
-
-    // Interação com o Mouse
-    let mouseX = 0;
-    let mouseY = 0;
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX - window.innerWidth / 2) * 0.1;
-        mouseY = (event.clientY - window.innerHeight / 2) * 0.1;
-    });
-
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Loop de Animação e Conexões
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // Movimento Parallax Suave
-        camera.position.x += (mouseX - camera.position.x) * 0.05;
-        camera.position.y += (-mouseY - camera.position.y) * 0.05;
-        camera.lookAt(scene.position);
-
-        const posAttribute = particles.geometry.attributes.position;
-        const linePositions = [];
-
-        // Atualizar posições e verificar colisões para criar malha
-        for (let i = 0; i < particleCount; i++) {
-            let x = posAttribute.array[i * 3] + velocities[i].x;
-            let y = posAttribute.array[i * 3 + 1] + velocities[i].y;
-            let z = posAttribute.array[i * 3 + 2] + velocities[i].z;
-
-            // Rebater nas bordas
-            if (x > 400 || x < -400) velocities[i].x *= -1;
-            if (y > 400 || y < -400) velocities[i].y *= -1;
-            if (z > 400 || z < -400) velocities[i].z *= -1;
-
-            posAttribute.array[i * 3] = x;
-            posAttribute.array[i * 3 + 1] = y;
-            posAttribute.array[i * 3 + 2] = z;
-
-            // Desenhar linhas para pontos próximos (Distância de conexão)
-            for (let j = i + 1; j < particleCount; j++) {
-                let dx = x - posAttribute.array[j * 3];
-                let dy = y - posAttribute.array[j * 3 + 1];
-                let dz = z - posAttribute.array[j * 3 + 2];
-                let distSq = dx * dx + dy * dy + dz * dz;
-
-                if (distSq < 15000) { // Raio de conexão
-                    linePositions.push(
-                        x, y, z,
-                        posAttribute.array[j * 3], posAttribute.array[j * 3 + 1], posAttribute.array[j * 3 + 2]
-                    );
-                }
+        function triggerExplosion() {
+            if (coreWrapper.classList.contains('imploding')) {
+                coreWrapper.classList.remove('imploding');
+                coreWrapper.classList.add('exploding');
+                
+                explosionTimeout = setTimeout(() => {
+                    coreWrapper.classList.remove('exploding');
+                }, 2000);
             }
         }
 
-        posAttribute.needsUpdate = true;
-        linesMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+        coreWrapper.addEventListener('mousedown', startImplosion);
+        window.addEventListener('mouseup', triggerExplosion); 
+        
+        coreWrapper.addEventListener('touchstart', startImplosion, {passive: true});
+        window.addEventListener('touchend', triggerExplosion);
 
-        scene.rotation.y += 0.001;
-
-        renderer.render(scene, camera);
-    }
-
-    animate();
-</script>
-
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 70, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#ff1a1a", "#FFD700"] },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.6, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#8B0000", "opacity": 0.7, "width": 1.5 },
+                "move": { "enable": true, "speed": 2.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": false }, 
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 220, "line_linked": { "opacity": 1 } }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
 </body>
 </html>
