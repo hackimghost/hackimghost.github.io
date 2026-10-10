@@ -1,267 +1,68 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabela de Preços e Planos - PHT SECURITY SYSTEM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --bg-color: #020000; 
-            --blood-red: #8B0000; 
-            --blood-red-glow: #ff1a1a; 
-            --cyber-yellow: #FFD700; 
-            --text-main: #e0e0e0; 
-            --text-white: #ffffff;
-            --panel-bg: rgba(12, 0, 0, 0.85); 
-        }
-        
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif; 
-            line-height: 1.6; 
-            padding: 40px 20px; 
-            margin: 0;
-        }
+<!-- PRICING -->
+        <section class="pricing-section">
+            <h2 class="section-title">[ PLANOS & SOLUÇÕES ]</h2>
+            <div class="pricing-grid">
 
-        .container { 
-            max-width: 950px; 
-            margin: 0 auto; 
-            background: var(--panel-bg); 
-            border: 1px solid var(--blood-red); 
-            border-top: 4px solid var(--cyber-yellow); 
-            padding: 40px; 
-            box-shadow: 0 0 25px rgba(139, 0, 0, 0.3); 
-        }
-
-        h1 { 
-            font-family: 'Rajdhani', sans-serif; 
-            color: var(--cyber-yellow); 
-            font-size: 2.3rem; 
-            border-bottom: 1px dashed rgba(255, 215, 0, 0.3); 
-            padding-bottom: 10px; 
-            margin-bottom: 10px; 
-            text-transform: uppercase; 
-        }
-
-        .update-date {
-            font-family: 'Share Tech Mono', monospace;
-            color: #888;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-        }
-
-        h2 { 
-            font-family: 'Share Tech Mono', monospace; 
-            color: var(--blood-red-glow); 
-            margin-top: 35px; 
-            margin-bottom: 15px; 
-            font-size: 1.3rem; 
-            text-transform: uppercase;
-        }
-
-        p { 
-            margin-bottom: 15px; 
-            font-size: 0.95rem; 
-            color: var(--text-main); 
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .price-card {
-            background: rgba(20, 2, 2, 0.9);
-            border: 1px solid var(--blood-red);
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .price-card.featured {
-            border-color: var(--cyber-yellow);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
-        }
-
-        .price-card.featured::before {
-            content: "CAMPANHA ATIVA";
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background: var(--cyber-yellow);
-            color: #000;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: bold;
-            padding: 2px 8px;
-            text-transform: uppercase;
-        }
-
-        .plan-title {
-            font-family: 'Rajdhani', sans-serif;
-            color: var(--text-white);
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .plan-price {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.8rem;
-            color: var(--cyber-yellow);
-            margin: 15px 0;
-        }
-
-        .plan-price span {
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-
-        .plan-features {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0 25px 0;
-            font-size: 0.9rem;
-        }
-
-        .plan-features li {
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .plan-features li::before {
-            content: "> ";
-            color: var(--blood-red-glow);
-            font-family: 'Share Tech Mono', monospace;
-        }
-
-        .paddle-clause { 
-            background: rgba(255, 26, 26, 0.05); 
-            border-left: 3px solid var(--blood-red-glow); 
-            padding: 20px; 
-            margin: 25px 0; 
-            font-family: 'Share Tech Mono', monospace; 
-            font-size: 0.9rem; 
-        }
-
-        .legal-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid #333;
-            padding: 20px;
-            margin-top: 30px;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-
-        .legal-box h3 {
-            color: var(--text-white);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .btn-back { 
-            display: inline-block; 
-            margin-top: 35px; 
-            padding: 10px 20px; 
-            background: transparent; 
-            border: 1px solid var(--cyber-yellow); 
-            color: var(--cyber-yellow); 
-            text-decoration: none; 
-            font-family: 'Rajdhani', sans-serif; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            transition: 0.3s; 
-        }
-
-        .btn-back:hover { 
-            background: rgba(255, 215, 0, 0.1); 
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); 
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Tabela de Preços e Planos</h1>
-        <div class="update-date">Última atualização: Outubro de 2026 | PHT Security System</div>
-        
-        <p>Acesso restrito a profissionais de segurança, analistas de ameaças e operações corporativas. Todos os pagamentos e faturamentos são processados de forma segura através do nosso parceiro oficial de pagamentos globais, a <strong>Paddle</strong>.</p>
-
-        <div class="pricing-grid">
-            <!-- Plano VIP / Pré-Venda -->
-            <div class="price-card">
-                <div>
-                    <div class="plan-title">APTchat VIP (Pré-Venda)</div>
-                    <div class="plan-price">R$ 39,90 <span>/ 3 meses</span></div>
-                    <ul class="plan-features">
-                        <li>Acesso exclusivo ao Grupo VIP</li>
-                        <li>Comunidade técnica integrada</li>
-                        <li>Lote especial de encerramento</li>
-                    </ul>
+                <div class="pricing-card">
+                    <div class="pricing-tag">// COMUNIDADE</div>
+                    <div class="pricing-name">Comunidade VIP</div>
+                    <div class="pricing-audience">Civis e Entusiastas</div>
+                    <div class="pricing-desc">Networking, dicas de OpSec, suporte direto e doutrina Power Hat. Acesso ao ecossistema PHT e conteúdo exclusivo.</div>
+                    <div class="pricing-value">R$ 39,90</div>
+                    <div class="pricing-value-note">/ mês</div>
+                    <a href="#" class="btn-purchase">[ ACESSAR COMUNIDADE ]</a>
                 </div>
-            </div>
 
-            <!-- Plano Lançamento -->
-            <div class="price-card featured">
-                <div>
-                    <div class="plan-title">APTchat Lançamento</div>
-                    <div class="plan-price">R$ 49,90 <span>/ 1º mês</span></div>
-                    <ul class="plan-features">
-                        <li>Promoção válida por 14 dias</li>
-                        <li>Primeiro ciclo por R$ 49,90</li>
-                        <li>Renovação automática subsequente por R$ 89,90/mês</li>
-                        <li>Acesso completo à Comunidade e ferramentas</li>
-                    </ul>
+                <div class="pricing-card featured">
+                    <div class="pricing-tag">// APT CHAT — DESTAQUE</div>
+                    <div class="pricing-name">APT Chat</div>
+                    <div class="pricing-audience">Civis / PMEs / Antifraude</div>
+                    <div class="pricing-desc">Malha multi-agente com OSINT integrado, Micro-RAG, Jaula do Tor (BYOK), memória em grafos Neo4j e análise assistida por IA local.</div>
+                    <div class="pricing-value">R$ 49,90</div>
+                    <div class="pricing-promo">🔥 Promoção de Lançamento — 14 dias</div>
+                    <div class="pricing-value-note">Preço real: R$ 89,90 / mês</div>
+                    <a href="#" class="btn-purchase featured-btn">[ ADQUIRIR APT CHAT ]</a>
                 </div>
-            </div>
 
-            <!-- Plano Base -->
-            <div class="price-card">
-                <div>
-                    <div class="plan-title">APTchat Padrão (Base)</div>
-                    <div class="plan-price">R$ 89,90 <span>/ mês</span></div>
-                    <ul class="plan-features">
-                        <li>Acesso completo à Comunidade</li>
-                        <li>Módulos de telemetria e grafos</li>
-                        <li>Suporte a atualizações contínuas</li>
-                        <li>Renovação mensal padrão</li>
-                    </ul>
+                <div class="pricing-card">
+                    <div class="pricing-tag">// OFENSIVO</div>
+                    <div class="pricing-name">Ghost Protocol</div>
+                    <div class="pricing-audience">Red Teams / Pentesters</div>
+                    <div class="pricing-desc">Framework ofensivo com varredura avançada, alta entropia, emulação de adversários e orquestração autônoma de TTPs.</div>
+                    <div class="pricing-value">R$ 119,90</div>
+                    <div class="pricing-value-note">/ mês</div>
+                    <a href="#" class="btn-purchase">[ ADQUIRIR GHOST PROTOCOL ]</a>
                 </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-tag">// INFRAESTRUTURA</div>
+                    <div class="pricing-name">Aegis C2</div>
+                    <div class="pricing-audience">Infraestrutura Corporativa</div>
+                    <div class="pricing-desc">Proxy reverso, eBPF, NDT, Mitre ATT&amp;CK e inteligência rotativa. Contratos fechados para blindagem de borda.</div>
+                    <div class="pricing-value">R$ 2.500,00</div>
+                    <div class="pricing-value-note">/ mês — ou R$ 30.000,00 / ano</div>
+                    <a href="#" class="btn-purchase">[ SOLICITAR AEGIS C2 ]</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-tag">// CONSULTORIA</div>
+                    <div class="pricing-name">Consultoria PHT</div>
+                    <div class="pricing-audience">B2B Premium</div>
+                    <div class="pricing-desc">Diagnóstico profundo de arquitetura de segurança e acompanhamento técnico especializado. Duração: 2 a 3 dias de operação.</div>
+                    <div class="pricing-value">R$ 3.000,00</div>
+                    <div class="pricing-value-note">até 4x de R$ 750,00 — por engajamento</div>
+                    <a href="#" class="btn-purchase">[ AGENDAR CONSULTORIA ]</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-tag">// ENTERPRISE & GOV</div>
+                    <div class="pricing-name">Phantom (APT)</div>
+                    <div class="pricing-audience">Governo / Corporações</div>
+                    <div class="pricing-desc">IA Forense air-gapped para cadeia de custódia absoluta. Implementação Master All-in-One (Aegis C2 + IAs + Consultoria).</div>
+                    <div class="pricing-value">Sob Consulta</div>
+                    <div class="pricing-value-note">Pacote All-in-One: R$ 178.000,00</div>
+                    <a href="#" class="btn-purchase featured-btn consult-btn">[ ENTRAR EM CONTATO ]</a>
+                </div>
+
             </div>
-        </div>
-
-        <h2>Serviços Especializados — Phantom</h2>
-        <div class="price-card" style="margin-top: 15px;">
-            <div>
-                <div class="plan-title">Phantom Forense & Investigação Judicial</div>
-                <div class="plan-price" style="font-size: 1.4rem; color: var(--text-white);">Sob Consulta <span>(Escopo Fechado)</span></div>
-                <p style="margin-top: 10px;">Serviço altamente privado e restrito, voltado exclusivamente para perícia forense computacional e suporte técnico a investigações judiciais.</p>
-                <ul class="plan-features" style="margin-top: 10px;">
-                    <li>Análise pericial sob rigoroso NDA</li>
-                    <li>Escopo técnico definido por projeto</li>
-                    <li>Contrato de prestação de serviços customizado</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="paddle-clause">
-            <strong>Nota de Faturamento (Paddle):</strong> Para assinaturas cadastradas na modalidade "Lançamento", aplica-se o valor promocional de R$ 49,90 estritamente durante o primeiro ciclo de cobrança (14 dias de janela de adesão). A partir do segundo ciclo, a assinatura é renovada automaticamente pelo valor padrão da base (R$ 89,90/mês). O processamento de notas fiscais e transações é gerido pela Paddle.
-        </div>
-
-        <div class="legal-box">
-            <h3>Termos de Reembolso e Legislação Aplicável (CDC Art. 49)</h3>
-            <p>Conforme a legislação brasileira vigente, o consumidor possui o prazo de até 7 (sete) dias corridos contados a partir da data da confirmação do pagamento para solicitar o cancelamento e reembolso integral de assinaturas digitais, desde que os acessos aos ambientes restritos não tenham sido integralmente esgotados ou utilizados de maneira abusiva. Solicitações de cancelamento após o período promocional ou recorrente devem ser gerenciadas diretamente através do painel de assinaturas fornecido pela Paddle ou via suporte operacional.</p>
-        </div>
-
-        <a href="index.html" class="btn-back">&lt; Voltar para a Base</a>
-    </div>
-</body>
-</html>
+        </section>
