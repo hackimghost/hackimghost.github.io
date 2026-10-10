@@ -1,4 +1,74 @@
-<!-- PRICING -->
+<!-- ========================================== -->
+        <!-- PRICING / PLANOS E SOLUÇÕES                -->
+        <!-- ========================================== -->
+        <style>
+            .pricing-section { margin-bottom: 60px; width: 100%; }
+            .pricing-grid {
+                display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px; margin-top: 20px;
+            }
+            .pricing-card {
+                background: rgba(5, 0, 0, 0.95); 
+                border: 1px solid rgba(139,0,0,0.4);
+                border-top: 3px solid #8B0000; 
+                padding: 25px;
+                display: flex; flex-direction: column; transition: all 0.3s ease;
+                position: relative; overflow: hidden;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            }
+            .pricing-card::before {
+                content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; 
+                background: linear-gradient(90deg, transparent, #ff1a1a, transparent);
+            }
+            .pricing-card:hover { 
+                border-color: #ff1a1a; 
+                box-shadow: 0 0 25px rgba(255, 26, 26, 0.2); 
+                transform: translateY(-4px); 
+            }
+            .pricing-card.featured { border-top-color: #FFD700; }
+            .pricing-card.featured::before { background: linear-gradient(90deg, transparent, #FFD700, transparent); }
+            .pricing-card.featured:hover { border-color: #FFD700; box-shadow: 0 0 25px rgba(255, 215, 0, 0.2); }
+            
+            .pricing-tag {
+                font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+                color: #ff1a1a; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
+            }
+            .pricing-card.featured .pricing-tag { color: #FFD700; }
+            
+            .pricing-name {
+                font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700;
+                color: #ffffff; margin-bottom: 5px; letter-spacing: 1px;
+            }
+            .pricing-audience {
+                font-size: 0.85rem; color: #888; margin-bottom: 20px;
+                border-bottom: 1px dashed rgba(139,0,0,0.4); padding-bottom: 15px;
+            }
+            .pricing-desc {
+                font-size: 0.9rem; color: #aaa; flex-grow: 1; margin-bottom: 20px; line-height: 1.7;
+            }
+            .pricing-value {
+                font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 900;
+                color: #FFD700; margin-bottom: 5px;
+            }
+            .pricing-value-note { font-size: 0.8rem; color: #666; margin-bottom: 5px; }
+            .pricing-promo { font-size: 0.8rem; color: #ff1a1a; margin-bottom: 20px; }
+            
+            .btn-purchase {
+                display: block; width: 100%; padding: 12px 20px; text-align: center;
+                background: transparent; border: 1px solid #ff1a1a;
+                color: #ff1a1a; font-family: 'Share Tech Mono', monospace;
+                font-size: 0.9rem; letter-spacing: 2px; cursor: pointer;
+                transition: all 0.3s ease; text-decoration: none; text-transform: uppercase;
+            }
+            .btn-purchase:hover {
+                background: #ff1a1a; color: #000; box-shadow: 0 0 20px rgba(255, 26, 26, 0.4);
+            }
+            .btn-purchase.featured-btn { border-color: #FFD700; color: #FFD700; }
+            .btn-purchase.featured-btn:hover { background: #FFD700; color: #000; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+            .btn-purchase.consult-btn { border-color: #888; color: #888; }
+            .btn-purchase.consult-btn:hover { background: #888; color: #000; }
+        </style>
+
         <section class="pricing-section">
             <h2 class="section-title">[ PLANOS & SOLUÇÕES ]</h2>
             <div class="pricing-grid">
@@ -66,3 +136,4 @@
 
             </div>
         </section>
+        <!-- ========================================== -->
