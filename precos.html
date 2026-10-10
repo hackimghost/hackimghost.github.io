@@ -1,80 +1,194 @@
-<!-- ========================================== -->
-        <!-- PLANOS & SOLUÇÕES (NATIVO PHT)             -->
-        <!-- ========================================== -->
-        <div class="cta-title" style="margin-top: 60px; margin-bottom: 30px; text-align: center; font-size: 2rem;">// PLANOS & SOLUÇÕES</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos e Soluções - PHT Security System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* BASE E CORES */
+        :root {
+            --bg-color: #000000;
+            --blood-red: #8B0000;
+            --blood-red-glow: #ff1a1a;
+            --cyber-yellow: #FFD700;
+            --text-main: #e0e0e0;
+            --panel-bg: rgba(12, 0, 0, 0.85);
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        /* ESTRUTURA DOS CARDS NATIVA */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .agent-card {
+            background: var(--panel-bg);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+            border-top: 3px solid var(--blood-red);
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .agent-card:hover {
+            border-color: var(--blood-red-glow);
+            box-shadow: 0 0 20px rgba(255, 26, 26, 0.2);
+            transform: translateY(-5px);
+        }
+        .agent-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--text-main);
+            font-size: 1.6rem;
+            margin-top: 0;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .stack-highlight {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--blood-red-glow);
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 1px dashed rgba(139,0,0,0.4);
+            padding-bottom: 10px;
+        }
+        .agent-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .agent-card li {
+            font-size: 0.95rem;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .btn-access {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: transparent;
+            border: 1px solid var(--blood-red-glow);
+            color: var(--blood-red-glow);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 25px;
+        }
+        .btn-access:hover {
+            background: var(--blood-red-glow);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 26, 26, 0.4);
+        }
+        .back-link { 
+            display: inline-block; margin-bottom: 40px; font-family: 'Share Tech Mono', monospace; 
+            color: var(--cyber-yellow); text-decoration: none; border: 1px solid var(--cyber-yellow); 
+            padding: 8px 15px; transition: all 0.3s ease; 
+        }
+        .back-link:hover { background: var(--cyber-yellow); color: #000; }
+    </style>
+</head>
+<body>
+
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <a href="index.html" class="back-link">[ &lt; RETORNAR AO NÚCLEO ]</a>
+    </div>
+
+    <div style="margin-bottom: 40px; text-align: center; font-size: 2.5rem; font-family: 'Rajdhani', sans-serif; color: #fff; letter-spacing: 2px;">// PLANOS & SOLUÇÕES</div>
+    
+    <div class="agents-grid">
         
-        <div class="agents-grid">
-            
-            <!-- COMUNIDADE VIP -->
-            <div class="agent-card">
-                <h3>[ COMUNIDADE VIP ]</h3>
-                <span class="stack-highlight">Civis e Entusiastas</span>
-                <ul>
-                    <li>Networking, dicas de OpSec, suporte direto e doutrina Power Hat. Acesso ao ecossistema PHT.</li>
-                    <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: bold; color: var(--text-main); list-style: none;">R$ 39,90 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ MÊS</span></li>
-                </ul>
-                <a href="#" class="btn-access" style="justify-content: center; margin-top: 25px;">[ ACESSAR COMUNIDADE ]</a>
-            </div>
-
-            <!-- APT CHAT (DESTAQUE) -->
-            <div class="agent-card" style="border-top: 3px solid var(--cyber-yellow); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
-                <h3 style="color: var(--cyber-yellow);">[ APT CHAT ]</h3>
-                <span class="stack-highlight">Civis / PMEs / Antifraude</span>
-                <ul>
-                    <li>Malha multi-agente com OSINT integrado, Micro-RAG, Jaula do Tor e análise IA.</li>
-                    <li style="color: var(--blood-red-glow); font-size: 0.85rem; margin-top: 15px; font-weight: bold; list-style: none;">🔥 PROMOÇÃO DE LANÇAMENTO — 14 DIAS</li>
-                    <li style="font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: bold; color: var(--cyber-yellow); list-style: none;">R$ 49,90 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #888; font-weight: normal;">/ MÊS</span></li>
-                    <li style="font-size: 0.8rem; color: #666; list-style: none;">Preço real: R$ 89,90 / mês</li>
-                </ul>
-                <a href="#" class="btn-access" style="justify-content: center; margin-top: 25px; border-color: var(--cyber-yellow); color: var(--cyber-yellow);">[ ADQUIRIR APT CHAT ]</a>
-            </div>
-
-            <!-- GHOST PROTOCOL -->
-            <div class="agent-card">
-                <h3>[ GHOST PROTOCOL ]</h3>
-                <span class="stack-highlight">Red Teams / Pentesters</span>
-                <ul>
-                    <li>Framework ofensivo, alta entropia e orquestração autônoma de TTPs.</li>
-                    <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: bold; color: var(--text-main); list-style: none;">R$ 119,90 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ MÊS</span></li>
-                </ul>
-                <a href="#" class="btn-access" style="justify-content: center; margin-top: 25px;">[ ADQUIRIR GHOST ]</a>
-            </div>
-
-            <!-- AEGIS C2 -->
-            <div class="agent-card">
-                <h3>[ AEGIS C2 ]</h3>
-                <span class="stack-highlight">Infraestrutura Corporativa</span>
-                <ul>
-                    <li>Proxy reverso, eBPF, NDT e inteligência rotativa para blindagem de borda.</li>
-                    <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: bold; color: var(--text-main); list-style: none;">R$ 2.500,00 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ MÊS</span></li>
-                    <li style="font-size: 0.8rem; color: #666; list-style: none;">Contrato Anual: R$ 30.000,00</li>
-                </ul>
-                <a href="#" class="btn-access" style="justify-content: center; margin-top: 25px;">[ SOLICITAR AEGIS ]</a>
-            </div>
-
-            <!-- CONSULTORIA PHT -->
-            <div class="agent-card">
-                <h3>[ CONSULTORIA PHT ]</h3>
-                <span class="stack-highlight">B2B Premium</span>
-                <ul>
-                    <li>Diagnóstico profundo de arquitetura e acompanhamento (2 a 3 dias).</li>
-                    <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: bold; color: var(--text-main); list-style: none;">R$ 3.000,00 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ OP</span></li>
-                    <li style="font-size: 0.8rem; color: #666; list-style: none;">Em até 4x de R$ 750,00</li>
-                </ul>
-                <a href="#" class="btn-access" style="justify-content: center; margin-top: 25px;">[ AGENDAR CONSULTORIA ]</a>
-            </div>
-
-            <!-- PHANTOM -->
-            <div class="agent-card" style="border-top: 3px solid var(--cyber-yellow); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
-                <h3 style="color: var(--cyber-yellow);">[ PHANTOM (APT) ]</h3>
-                <span class="stack-highlight">Governo / Corporações</span>
-                <ul>
-                    <li>IA Forense air-gapped. Implementação Master (C2 + IAs + Consultoria).</li>
-                    <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: bold; color: var(--cyber-yellow); list-style: none;">Sob Consulta</li>
-                    <li style="font-size: 0.8rem; color: #666; list-style: none;">Pacote Master: R$ 178.000,00</li>
-                </ul>
-                <a href="#" class="btn-access" style="justify-content: center; margin-top: 25px; border-color: var(--cyber-yellow); color: var(--cyber-yellow);">[ CONTATO ENTERPRISE ]</a>
-            </div>
-
+        <!-- COMUNIDADE VIP -->
+        <div class="agent-card">
+            <h3>[ COMUNIDADE VIP ]</h3>
+            <span class="stack-highlight">Civis e Entusiastas</span>
+            <ul>
+                <li>Networking, dicas de OpSec, suporte direto e doutrina Power Hat. Acesso ao ecossistema PHT.</li>
+                <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: bold; color: var(--text-main);">R$ 39,90 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ MÊS</span></li>
+            </ul>
+            <a href="#" class="btn-access">[ ACESSAR COMUNIDADE ]</a>
         </div>
-        <!-- ========================================== -->
+
+        <!-- APT CHAT (DESTAQUE) -->
+        <div class="agent-card" style="border-top: 3px solid var(--cyber-yellow); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
+            <h3 style="color: var(--cyber-yellow);">[ APT CHAT ]</h3>
+            <span class="stack-highlight">Civis / PMEs / Antifraude</span>
+            <ul>
+                <li>Malha multi-agente com OSINT integrado, Micro-RAG, Jaula do Tor e análise IA.</li>
+                <li style="color: var(--blood-red-glow); font-size: 0.85rem; margin-top: 15px; font-weight: bold;">🔥 PROMOÇÃO DE LANÇAMENTO — 14 DIAS</li>
+                <li style="font-family: 'Rajdhani', sans-serif; font-size: 2.5rem; font-weight: bold; color: var(--cyber-yellow);">R$ 49,90 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #888; font-weight: normal;">/ MÊS</span></li>
+                <li style="font-size: 0.85rem; color: #666;">Preço real: R$ 89,90 / mês</li>
+            </ul>
+            <a href="#" class="btn-access" style="border-color: var(--cyber-yellow); color: var(--cyber-yellow);">[ ADQUIRIR APT CHAT ]</a>
+        </div>
+
+        <!-- GHOST PROTOCOL -->
+        <div class="agent-card">
+            <h3>[ GHOST PROTOCOL ]</h3>
+            <span class="stack-highlight">Red Teams / Pentesters</span>
+            <ul>
+                <li>Framework ofensivo, alta entropia e orquestração autônoma de TTPs.</li>
+                <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: bold; color: var(--text-main);">R$ 119,90 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ MÊS</span></li>
+            </ul>
+            <a href="#" class="btn-access">[ ADQUIRIR GHOST ]</a>
+        </div>
+
+        <!-- AEGIS C2 -->
+        <div class="agent-card">
+            <h3>[ AEGIS C2 ]</h3>
+            <span class="stack-highlight">Infraestrutura Corporativa</span>
+            <ul>
+                <li>Proxy reverso, eBPF, NDT e inteligência rotativa para blindagem de borda.</li>
+                <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: bold; color: var(--text-main);">R$ 2.500,00 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ MÊS</span></li>
+                <li style="font-size: 0.85rem; color: #666;">Contrato Anual: R$ 30.000,00</li>
+            </ul>
+            <a href="#" class="btn-access">[ SOLICITAR AEGIS ]</a>
+        </div>
+
+        <!-- CONSULTORIA PHT -->
+        <div class="agent-card">
+            <h3>[ CONSULTORIA PHT ]</h3>
+            <span class="stack-highlight">B2B Premium</span>
+            <ul>
+                <li>Diagnóstico profundo de arquitetura e acompanhamento (2 a 3 dias).</li>
+                <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: bold; color: var(--text-main);">R$ 3.000,00 <span style="font-size: 0.9rem; font-family: 'Share Tech Mono', monospace; color: #666; font-weight: normal;">/ OP</span></li>
+                <li style="font-size: 0.85rem; color: #666;">Em até 4x de R$ 750,00</li>
+            </ul>
+            <a href="#" class="btn-access">[ AGENDAR CONSULTORIA ]</a>
+        </div>
+
+        <!-- PHANTOM -->
+        <div class="agent-card" style="border-top: 3px solid var(--cyber-yellow); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);">
+            <h3 style="color: var(--cyber-yellow);">[ PHANTOM (APT) ]</h3>
+            <span class="stack-highlight">Governo / Corporações</span>
+            <ul>
+                <li>IA Forense air-gapped. Implementação Master (C2 + IAs + Consultoria).</li>
+                <li style="margin-top: 20px; font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; font-weight: bold; color: var(--cyber-yellow);">Sob Consulta</li>
+                <li style="font-size: 0.85rem; color: #666;">Pacote Master: R$ 178.000,00</li>
+            </ul>
+            <a href="#" class="btn-access" style="border-color: var(--cyber-yellow); color: var(--cyber-yellow);">[ CONTATO ENTERPRISE ]</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
