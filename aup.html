@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Uso Aceitável (AUP) - PHT Security System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --blood-red: #8B0000;
+            --blood-red-glow: #ff1a1a;
+            --cyber-yellow: #FFD700;
+            --text-main: #e0e0e0;
+            --panel-bg: rgba(12, 0, 0, 0.85);
+        }
+        body {
+            background-color: var(--bg-color); color: var(--text-main);
+            font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; padding: 0;
+        }
+        .container { max-width: 900px; margin: 50px auto; padding: 40px; background: var(--panel-bg); border: 1px solid var(--blood-red); border-top: 3px solid var(--blood-red-glow); box-shadow: 0 0 20px rgba(139, 0, 0, 0.2); }
+        h1 { font-family: 'Rajdhani', sans-serif; color: var(--cyber-yellow); font-size: 2.2rem; letter-spacing: 2px; border-bottom: 1px dashed var(--blood-red); padding-bottom: 15px; margin-bottom: 30px; }
+        h2 { font-family: 'Share Tech Mono', monospace; color: var(--blood-red-glow); font-size: 1.2rem; margin-top: 30px; margin-bottom: 15px; text-transform: uppercase; }
+        p, li { font-size: 0.95rem; color: #a0a0a0; margin-bottom: 15px; }
+        ul { padding-left: 20px; list-style-type: square; }
+        strong { color: #ffffff; }
+        .back-link { display: inline-block; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace; color: var(--cyber-yellow); text-decoration: none; border: 1px solid var(--cyber-yellow); padding: 5px 15px; transition: all 0.3s ease; }
+        .back-link:hover { background: var(--cyber-yellow); color: #000; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">[ &lt; RETORNAR AO NÚCLEO ]</a>
+        
+        <h1>[ POLÍTICA DE USO ACEITÁVEL (AUP) ]</h1>
+        
+        <p>A presente Política de Uso Aceitável (AUP) dita os termos estritos sob os quais você pode acessar e operar os sistemas, ferramentas e malhas de inteligência fornecidos pela <strong>PHT Security System</strong> (incluindo, mas não se limitando a, APT Chat, Ghost Protocol, Aegis C2 e Phantom).</p>
+
+        <h2>1. Doutrina de Escopo Autorizado</h2>
+        <p>A PHT Security System fornece tecnologia de auditoria tática, OSINT e emulação de adversários destinada estritamente a <strong>ambientes autorizados</strong>. O Operador concorda em utilizar as ferramentas exclusivamente sob a "Doutrina White Hat / Power Hat", limitando suas ações a infraestruturas, redes e alvos sobre os quais possua propriedade legal comprovada ou autorização contratual explícita (Regras de Engajamento) para testes de segurança.</p>
+
+        <h2>2. Restrições de Operação (Guardrails)</h2>
+        <p>Ao instanciar nossas ferramentas ou utilizar nossas chaves de acesso (BYOK), é estritamente <strong>proibido</strong> ao Operador:</p>
+        <ul>
+            <li>Executar varreduras de rede, fuzzing, injeções de payload ou captura de telemetria contra alvos, domínios ou endereços IP de terceiros sem consentimento prévio documentado.</li>
+            <li>Utilizar o motor de inteligência artificial ou a malha OSINT para rastrear, assediar, extorquir ou doxing de indivíduos civis, burlando restrições legais de privacidade.</li>
+            <li>Tentar subverter, desarmar ou modificar as funções de sanitização (Guardrails), como filtros SSRF, bloqueios de evasão ou regras de <em>jailbreak</em> nativas do Aegis C2.</li>
+            <li>Fornecer a tecnologia como proxy para a distribuição de malwares vivos, ransomwares, ou qualquer artefato cibernético com intenção disruptiva e destrutiva.</li>
+            <li>Gerar, hospedar ou distribuir material relacionado à exploração sexual infantil, terrorismo ou operações contra a soberania de Estados Democráticos.</li>
+        </ul>
+
+        <h2>3. Responsabilidade do Operador</h2>
+        <p>A PHT Security System opera como uma infraestrutura neutra (<em>Agnostic Engine</em>). A decisão do que pesquisar, que alvos analisar e quais <em>prompts</em> executar recai integralmente sobre o Operador. O Operador assume responsabilidade legal, civil e criminal absoluta sobre os <em>outputs</em> (resultados) gerados e sobre os efeitos práticos da aplicação desses dados em ambientes reais.</p>
+
+        <h2>4. Suspensão e Intervenção Passiva</h2>
+        <p>A PHT Security System não monitora ativamente as sessões cifradas de seus Operadores. No entanto, em caso de denúncia formal, detecção algorítmica de quebra de <em>compliance</em> ou ordem judicial direta, a PHT reserva-se o direito de revogar chaves de API, encerrar conexões do Aegis C2 e banir o hardware associado permanentemente, sem aviso prévio, direito a recurso ou reembolso do período não utilizado.</p>
+        
+        <p style="margin-top: 40px; border-top: 1px dashed #333; padding-top: 20px; font-size: 0.8rem; text-align: center;">
+            Documento revisado e atualizado. O uso continuado da plataforma constitui anuência irrestrita aos termos acima.
+        </p>
+    </div>
+</body>
+</html>
