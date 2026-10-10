@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limitação de Responsabilidade - PHT Security System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --blood-red: #8B0000;
+            --blood-red-glow: #ff1a1a;
+            --cyber-yellow: #FFD700;
+            --text-main: #e0e0e0;
+            --panel-bg: rgba(12, 0, 0, 0.85);
+        }
+        body {
+            background-color: var(--bg-color); color: var(--text-main);
+            font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; padding: 0;
+        }
+        .container { max-width: 900px; margin: 50px auto; padding: 40px; background: var(--panel-bg); border: 1px solid var(--blood-red); border-top: 3px solid var(--blood-red-glow); box-shadow: 0 0 20px rgba(139, 0, 0, 0.2); }
+        h1 { font-family: 'Rajdhani', sans-serif; color: var(--cyber-yellow); font-size: 2.2rem; letter-spacing: 2px; border-bottom: 1px dashed var(--blood-red); padding-bottom: 15px; margin-bottom: 30px; }
+        h2 { font-family: 'Share Tech Mono', monospace; color: var(--blood-red-glow); font-size: 1.2rem; margin-top: 30px; margin-bottom: 15px; text-transform: uppercase; }
+        p { font-size: 0.95rem; color: #a0a0a0; margin-bottom: 15px; text-align: justify; }
+        strong { color: #ffffff; }
+        .back-link { display: inline-block; margin-bottom: 20px; font-family: 'Share Tech Mono', monospace; color: var(--cyber-yellow); text-decoration: none; border: 1px solid var(--cyber-yellow); padding: 5px 15px; transition: all 0.3s ease; }
+        .back-link:hover { background: var(--cyber-yellow); color: #000; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">[ &lt; RETORNAR AO NÚCLEO ]</a>
+        
+        <h1>[ LIMITAÇÃO DE RESPONSABILIDADE ]</h1>
+        
+        <p>Este documento estabelece as barreiras absolutas de responsabilidade civil, técnica e comercial da <strong>PHT Security System</strong> em relação ao uso de suas plataformas, IAs, arquiteturas de proxy e scripts de automação fornecidos aos Operadores.</p>
+
+        <h2>1. Fornecimento no Estado Atual ("As-Is")</h2>
+        <p>A tecnologia da PHT Security System é entregue no estado em que se encontra (<em>"As-Is"</em> e <em>"As-Available"</em>), sem garantias expressas ou implícitas de qualquer natureza. Não garantimos que a plataforma será ininterrupta, livre de erros, inviolável ou que atenderá perfeitamente aos requisitos específicos da infraestrutura do cliente. O risco inerente ao uso de ferramentas de cibersegurança e motores de inteligência artificial recai inteiramente sobre o Operador.</p>
+
+        <h2>2. Isenção sobre Decisões Algorítmicas e Alucinações</h2>
+        <p>Os módulos de inteligência artificial (incluindo inferências locais, modelos LLM e roteadores OSINT) são projetados para correlacionar dados e sugerir vetores. A PHT Security System <strong>não se responsabiliza</strong> por imprecisões factuais, "alucinações" algorítmicas, falsos positivos ou falsos negativos na detecção de ameaças. Cabe ao Operador ou Analista Humano validar as evidências técnicas e a telemetria antes de tomar decisões executivas, isolar redes ou aplicar <em>patches</em> de segurança.</p>
+
+        <h2>3. Danos Indiretos e Lucros Cessantes</h2>
+        <p>Sob nenhuma circunstância, jurisdição ou teoria legal (seja em contrato, ato ilícito, negligência ou outro), a PHT Security System, seus desenvolvedores, associados ou intermediários financeiros serão responsáveis perante o Operador ou terceiros por: <strong>(I)</strong> Lucros cessantes ou perda de receita; <strong>(II)</strong> Danos indiretos, especiais, punitivos ou incidentais; <strong>(III)</strong> Interrupção de negócios (<em>Downtime</em>); ou <strong>(IV)</strong> Perda, corrupção ou exposição de dados decorrentes da implementação ou falha na configuração do Aegis C2, Ghost Protocol ou qualquer ferramenta da suíte.</p>
+
+        <h2>4. Isolamento Contratual</h2>
+        <p>A PHT Security System atua exclusivamente como desenvolvedora e licenciadora da tecnologia tática. A gestão da infraestrutura host, a proteção das chaves de API locais (<em>BYOK</em>), a configuração do proxy reverso e a segurança do terminal do cliente são de responsabilidade exclusiva do licenciador. Não assumimos passivo por incidentes de segurança cibernética que o cliente sofra enquanto utiliza nossas defesas.</p>
+
+        <h2>5. Teto de Reparação Financeira</h2>
+        <p>Na máxima extensão permitida pela lei aplicável, a responsabilidade total e cumulativa da PHT Security System por qualquer reclamação decorrente do uso da plataforma será estritamente limitada ao valor exato pago pelo Operador pela respectiva assinatura durante o ciclo de faturamento atual (mensal, semestral ou anual) em que o suposto evento originador da responsabilidade ocorreu.</p>
+
+        <p style="margin-top: 40px; border-top: 1px dashed #333; padding-top: 20px; font-size: 0.8rem; text-align: center;">
+            A utilização de qualquer módulo da PHT Security System pressupõe a leitura, compreensão e concordância irrevogável com os termos excludentes de responsabilidade listados acima.
+        </p>
+    </div>
+</body>
+</html>
