@@ -19,25 +19,776 @@
 </head>
 <body>
     <div class="container">
-        <h1>Política de Privacidade</h1>
-        <p>Última atualização: Outubro de 2026</p>
-        
-        <h2>1. Proteção de Dados e Tratamento</h2>
-        <p>A PHT Security System opera sob os mais rigorosos padrões de confidencialidade (OpSec). Esta política descreve como os dados são manipulados pelos nossos sistemas autônomos, APT Chat e Phantom, garantindo total isolamento para operações corporativas e investigativas.</p>
 
-        <h2>2. Dados Financeiros e de Assinatura</h2>
+        <h1>Política de Privacidade</h1>
+
+        <p>Última atualização: Novembro de 2026</p>
+
+        <p>
+            A <strong>PHT SECURITY SYSTEM</strong> adota uma política de
+            confidencialidade, processamento local, segregação de dados
+            e proteção das informações utilizadas em seus produtos e
+            serviços tecnológicos.
+        </p>
+
+        <p>
+            Esta Política estabelece como as informações são tratadas
+            nos produtos da PHT, incluindo APT Chat, Aegis, Phantom
+            e Ghost Protocol, considerando suas características
+            operacionais, modalidades de implantação e condições
+            de utilização.
+        </p>
+
+        <p>
+            A PHT distingue o processamento executado localmente,
+            o armazenamento persistente de informações, as integrações
+            externas expressamente habilitadas e os dados necessários
+            à administração comercial dos serviços.
+        </p>
+
+        <h2>1. Identificação e responsabilidade pelo tratamento</h2>
+
+        <p>
+            Para fins desta Política, a identificação jurídica da entidade
+            responsável pela operação deverá constar nos seguintes campos:
+        </p>
+
         <div class="paddle-clause">
-            A PHT Security System <strong>não armazena, coleta ou processa</strong> dados de cartão de crédito, informações bancárias ou chaves de faturamento. Todo o ecossistema financeiro é gerenciado exclusivamente pelo nosso parceiro e Merchant of Record, a <strong>Paddle</strong>. Qualquer dado de pagamento inserido durante a contratação do serviço está sujeito à Política de Privacidade da Paddle.
+            <strong>Responsável:</strong> [INSERIR RAZÃO SOCIAL COMPLETA]<br><br>
+            <strong>CNPJ:</strong> [INSERIR CNPJ]<br><br>
+            <strong>Endereço:</strong> [INSERIR ENDEREÇO COMERCIAL OU SEDE]<br><br>
+            <strong>Canal de Privacidade:</strong> [INSERIR E-MAIL OU CANAL OFICIAL PARA SOLICITAÇÕES LGPD]
         </div>
 
-        <h2>3. Dados Operacionais e Telemetria (Grafos Neo4j)</h2>
-        <p>Os dados inseridos no APT Chat ou no Phantom (incluindo endereços IP, hashes de binários maliciosos, credenciais de teste e domínios alvo) são armazenados em bancos de dados orientados a grafos (Neo4j). Estes dados são <strong>isolados por inquilino (Tenant)</strong> e são utilizados exclusivamente para manter a "memória cognitiva" da sua operação.</p>
-        <p>Não vendemos, compartilhamos ou utilizamos seus metadados para treinar LLMs públicos.</p>
+        <p>
+            A PHT poderá atuar como controladora ou operadora de dados
+            pessoais, conforme sua participação efetiva na operação
+            de tratamento, as finalidades estabelecidas e as condições
+            contratuais aplicáveis.
+        </p>
 
-        <h2>4. Retenção e Destruição de Dados</h2>
-        <p>Logs temporários gerados por dissecadores em background ou processos de engenharia reversa são automaticamente expurgados assim que os relatórios finais são compilados, seguindo protocolos <em>air gaped</em> para evitar vazamento de inteligência.</p>
+        <p>
+            Nas atividades relacionadas ao próprio relacionamento
+            comercial, administração de contas, atendimento e segurança
+            institucional, a PHT poderá atuar como controladora.
+        </p>
 
-        <a href="index.html" class="btn-back">< Voltar para a Base</a>
+        <p>
+            Nos projetos em que processar informações sob instruções
+            documentadas de clientes ou instituições, a PHT poderá
+            atuar como operadora, observando as finalidades, os limites
+            e as instruções legitimamente estabelecidos pelo respectivo
+            controlador.
+        </p>
+
+        <h2>2. Processamento local e confidencialidade</h2>
+
+        <p>
+            Os produtos da PHT que possuem capacidade de processamento
+            local operam com seus próprios recursos computacionais,
+            modelos instalados e ferramentas disponíveis no ambiente
+            controlado pelo operador.
+        </p>
+
+        <p>
+            No <strong>APT Chat</strong>, quando não existe uma integração
+            com API externa habilitada, o processamento da inteligência
+            artificial é realizado localmente, utilizando o modelo
+            disponibilizado no ambiente do usuário e os recursos
+            internos disponíveis.
+        </p>
+
+        <p>
+            Nessa modalidade, o sistema utiliza as ferramentas,
+            os documentos, os procedimentos e as fontes de conhecimento
+            disponibilizados localmente no <strong>Obsidian</strong>,
+            conforme as permissões e a organização do ambiente.
+        </p>
+
+        <p>
+            O conteúdo das solicitações, das análises e do contexto
+            operacional não é enviado automaticamente a provedores
+            externos de modelos de inteligência artificial quando
+            a operação ocorre sem integração externa.
+        </p>
+
+        <div class="paddle-clause">
+            <strong>PROCESSAMENTO LOCAL — MODO SEM API EXTERNA</strong>
+            <br><br>
+            Modelo de inteligência artificial executado localmente.<br>
+            Consulta às ferramentas e à base de conhecimento local do Obsidian.<br>
+            Sem transmissão automática de prompts e contexto operacional
+            para provedores externos de IA.<br>
+            Persistência dos dados dos produtos na estrutura Neo4j,
+            com isolamento individual por tenant.
+        </div>
+
+        <p>
+            O processamento local não significa que qualquer ferramenta
+            eventualmente utilizada esteja impedida de realizar uma
+            comunicação de rede necessária à sua própria finalidade.
+            Eventuais comunicações desse tipo dependem da ferramenta,
+            de sua configuração e da atividade autorizada pelo operador.
+        </p>
+
+        <p>
+            A confidencialidade das informações é preservada conforme
+            a modalidade de operação, os controles de acesso, as
+            permissões concedidas e as condições de utilização
+            dos recursos locais.
+        </p>
+
+        <h2>3. Integrações externas e utilização de APIs</h2>
+
+        <p>
+            A utilização de serviços externos de inteligência artificial
+            não é uma condição obrigatória para o funcionamento local
+            do APT Chat.
+        </p>
+
+        <p>
+            Caso o usuário ou responsável pela implantação opte por
+            habilitar uma integração externa, incluindo serviços
+            configurados por meio de credenciais próprias (BYOK),
+            as informações necessárias à solicitação poderão ser
+            transmitidas ao provedor correspondente.
+        </p>
+
+        <p>
+            O envio ocorre em razão da funcionalidade externa
+            expressamente habilitada e das informações necessárias
+            ao processamento solicitado.
+        </p>
+
+        <p>
+            Nessa hipótese, o provedor externo poderá tratar os dados
+            recebidos conforme seus próprios termos, políticas de
+            privacidade, condições de retenção e configurações
+            de processamento.
+        </p>
+
+        <p>
+            A PHT não presume que os provedores externos adotem
+            os mesmos controles de armazenamento, isolamento
+            ou confidencialidade do ambiente local.
+        </p>
+
+        <p>
+            O responsável pela integração deverá avaliar a política
+            do fornecedor e evitar o envio de informações que
+            não sejam necessárias à funcionalidade pretendida.
+        </p>
+
+        <p>
+            A decisão de habilitar uma API externa altera o fluxo
+            de processamento daquela solicitação e não deve ser
+            confundida com o funcionamento local sem integração.
+        </p>
+
+        <h2>4. Persistência de dados e isolamento Neo4j</h2>
+
+        <p>
+            A estrutura de persistência dos produtos da PHT Security
+            System utiliza o <strong>Neo4j</strong> como base de
+            armazenamento de dados operacionais, contextuais
+            e informações produzidas ou utilizadas durante
+            a operação dos produtos.
+        </p>
+
+        <p>
+            Os dados tratados no âmbito dos produtos são armazenados
+            exclusivamente nessa estrutura de persistência,
+            observadas as características específicas de cada
+            implantação e os fluxos externos expressamente
+            habilitados pelo usuário ou pelo responsável.
+        </p>
+
+        <p>
+            O armazenamento utiliza isolamento individual por
+            <strong>tenant</strong>, aplicado de forma uniforme
+            aos produtos da PHT.
+        </p>
+
+        <p>
+            Cada tenant possui seu próprio contexto de dados,
+            impedindo o acesso cruzado às informações pertencentes
+            a outros ambientes ou clientes.
+        </p>
+
+        <p>
+            Os dados de um cliente não integram a memória operacional
+            de outro tenant. As informações persistidas permanecem
+            vinculadas ao respectivo contexto de utilização,
+            respeitando a segregação estabelecida.
+        </p>
+
+        <p>
+            A utilização do Neo4j permite organizar informações
+            contextuais, históricos, relações, registros e resultados
+            operacionais dentro da estrutura de dados dos produtos,
+            sem que isso represente compartilhamento de informações
+            entre clientes.
+        </p>
+
+        <p>
+            O ambiente local do Obsidian atua como fonte de conhecimento,
+            documentos e ferramentas disponíveis ao operador.
+            Sua utilização não modifica a regra de isolamento
+            e persistência dos dados dos produtos.
+        </p>
+
+        <h2>5. Categorias de informações tratadas</h2>
+
+        <p>
+            Conforme o produto e a finalidade de utilização,
+            poderão ser tratados:
+        </p>
+
+        <p>
+            <strong>Dados cadastrais:</strong> nome, endereço
+            de e-mail, telefone, identificação profissional,
+            organização vinculada e informações necessárias
+            ao relacionamento comercial.
+        </p>
+
+        <p>
+            <strong>Dados comerciais:</strong> produtos contratados,
+            pedidos, planos, licenças, histórico de contratação,
+            registros de atendimento, informações de faturamento
+            e situação de pagamento.
+        </p>
+
+        <p>
+            <strong>Dados técnicos:</strong> endereços IP,
+            identificadores de dispositivos, registros de acesso,
+            horários de conexão, eventos operacionais e informações
+            necessárias à segurança e à integridade dos serviços.
+        </p>
+
+        <p>
+            <strong>Dados operacionais:</strong> mensagens, documentos,
+            arquivos, resultados, informações contextuais, registros
+            técnicos, indicadores de comprometimento, domínios,
+            endereços de rede e materiais fornecidos no âmbito
+            de atividades autorizadas.
+        </p>
+
+        <p>
+            <strong>Dados de investigação e evidências:</strong>
+            quando aplicável, informações digitais, registros
+            documentais, arquivos técnicos e materiais necessários
+            à análise, auditoria, investigação ou atividade forense
+            contratada.
+        </p>
+
+        <p>
+            Os dados tratados deverão ser compatíveis com a finalidade
+            legítima do serviço, o escopo contratado e as autorizações
+            aplicáveis.
+        </p>
+
+        <h2>6. Produtos e características de tratamento</h2>
+
+        <p><strong>APT Chat:</strong></p>
+
+        <p>
+            O APT Chat disponibiliza processamento assistido por
+            inteligência artificial, arquitetura multiagente,
+            ferramentas locais, consulta contextual e integração
+            com a base de conhecimento organizada no Obsidian.
+        </p>
+
+        <p>
+            Na modalidade sem API externa, o processamento do modelo
+            e o acesso às ferramentas disponíveis ocorrem no ambiente
+            local. Quando uma integração externa é habilitada,
+            aplicam-se as condições descritas na seção 3.
+        </p>
+
+        <p><strong>Aegis:</strong></p>
+
+        <p>
+            O Aegis poderá tratar informações comerciais,
+            registros de pedidos, licenciamento, autenticação,
+            eventos defensivos, alertas e informações de auditoria,
+            conforme os recursos contratados.
+        </p>
+
+        <p>
+            O Commerce Control poderá processar informações
+            necessárias à administração de catálogo, pedidos,
+            confirmação de pagamentos e gestão de licenças.
+        </p>
+
+        <p><strong>Phantom APT:</strong></p>
+
+        <p>
+            O Phantom é uma solução especializada destinada
+            a aplicações institucionais, governamentais,
+            investigativas e forenses, conforme a modalidade
+            de contratação e o escopo autorizado.
+        </p>
+
+        <p>
+            O tratamento poderá compreender evidências digitais,
+            dados técnicos, registros de investigação, documentos,
+            materiais de análise e informações utilizadas
+            na documentação e preservação dos resultados.
+        </p>
+
+        <p>
+            Nas implantações locais, os dados operacionais são
+            tratados no ambiente correspondente e persistidos
+            na estrutura Neo4j, observados os controles de
+            isolamento por tenant.
+        </p>
+
+        <p><strong>Ghost Protocol:</strong></p>
+
+        <p>
+            O Ghost Protocol é uma solução especializada de
+            segurança cibernética e avaliação ofensiva autorizada,
+            sujeita a qualificação, definição de finalidade,
+            autorização e Regras de Engajamento específicas.
+        </p>
+
+        <p>
+            As informações utilizadas durante essas atividades
+            são tratadas conforme o escopo contratado, as permissões
+            concedidas e os controles de confidencialidade
+            e segregação aplicáveis.
+        </p>
+
+        <h2>7. Retenção, expurgo e destruição de dados</h2>
+
+        <p>
+            A PHT adota procedimentos definidos para a retenção
+            e eliminação de informações temporárias produzidas
+            pelos módulos de análise e processamento.
+        </p>
+
+        <div class="paddle-clause">
+            <strong>EXPURGO AUTOMÁTICO DE LOGS E ARTEFATOS TEMPORÁRIOS</strong>
+            <br><br>
+            Logs temporários e artefatos gerados pelos processos
+            de análise, dissecção em background e engenharia reversa
+            são automaticamente expurgados após a compilação
+            dos respectivos relatórios finais.
+            <br><br>
+            Essa rotina de eliminação automática foi implementada
+            e submetida a testes de validação operacional.
+        </div>
+
+        <p>
+            O procedimento tem como finalidade reduzir a permanência
+            desnecessária de elementos transitórios nos ambientes
+            de processamento e preservar a confidencialidade
+            das informações utilizadas nas análises.
+        </p>
+
+        <p>
+            O expurgo dos elementos temporários ocorre após
+            a consolidação dos relatórios correspondentes.
+            Os dados persistentes dos produtos permanecem
+            sujeitos às regras de armazenamento e segregação
+            da estrutura Neo4j.
+        </p>
+
+        <p>
+            Dados comerciais, contratuais e registros cuja conservação
+            seja necessária para cumprimento de obrigações legais,
+            exercício regular de direitos ou auditoria poderão
+            permanecer armazenados durante os prazos aplicáveis.
+        </p>
+
+        <p>
+            Solicitações legítimas de eliminação de dados pessoais
+            serão avaliadas conforme a legislação, as finalidades
+            do tratamento e as hipóteses legais de conservação.
+        </p>
+
+        <h2>8. Dados financeiros, pagamentos e assinaturas</h2>
+
+        <div class="paddle-clause">
+            A PHT Security System não solicita nem armazena diretamente
+            números completos de cartões de crédito, códigos de
+            segurança (CVV) ou credenciais privadas de instrumentos
+            de pagamento.
+            <br><br>
+            Os fluxos comerciais poderão utilizar os meios
+            de pagamento habilitados em cada modalidade,
+            incluindo Pix e Bitcoin nas operações correspondentes.
+            <br><br>
+            Para administrar pedidos, confirmar transações,
+            controlar pagamentos, emitir licenças e cumprir
+            obrigações comerciais, poderão ser tratados valores,
+            datas, identificadores de transação, comprovantes
+            e estados de pagamento.
+        </div>
+
+        <p>
+            Quando uma contratação utilizar uma plataforma
+            externa de checkout ou processamento financeiro,
+            as informações fornecidas diretamente à plataforma
+            serão tratadas conforme seus próprios documentos
+            e condições.
+        </p>
+
+        <p>
+            A PHT poderá receber informações necessárias
+            à confirmação da contratação e à administração
+            do serviço, incluindo produto, valor, referência
+            de pedido, identificador de transação e estado
+            do pagamento.
+        </p>
+
+        <p>
+            Nas operações com ativos digitais, poderão ser
+            utilizados identificadores públicos de transação
+            para verificação e conciliação do pagamento.
+            A PHT não solicita a chave privada da carteira
+            do usuário para realizar essa conferência.
+        </p>
+
+        <h2>9. Compartilhamento e integrações</h2>
+
+        <p>
+            A PHT não comercializa dados pessoais ou informações
+            operacionais de seus clientes.
+        </p>
+
+        <p>
+            O armazenamento dos dados dos produtos permanece
+            na estrutura Neo4j, com isolamento por tenant.
+            O compartilhamento externo não constitui parte
+            automática do processamento local.
+        </p>
+
+        <p>
+            Informações poderão ser transmitidas a terceiros
+            nas situações em que exista uma finalidade legítima
+            e uma necessidade operacional, incluindo:
+        </p>
+
+        <p>
+            a) utilização de API externa expressamente habilitada
+            pelo usuário ou responsável pela implantação;
+        </p>
+
+        <p>
+            b) contratação de serviços externos de pagamento,
+            checkout ou faturamento;
+        </p>
+
+        <p>
+            c) utilização de serviços de infraestrutura,
+            conectividade ou suporte quando necessários
+            à modalidade contratada;
+        </p>
+
+        <p>
+            d) cumprimento de obrigação legal ou regulatória;
+        </p>
+
+        <p>
+            e) atendimento a determinação válida de autoridade
+            competente.
+        </p>
+
+        <p>
+            O compartilhamento será limitado à finalidade
+            correspondente e às informações necessárias
+            à execução da atividade.
+        </p>
+
+        <h2>10. Transferência internacional de dados</h2>
+
+        <p>
+            Quando uma integração externa envolver fornecedor
+            ou infraestrutura localizada fora do Brasil,
+            poderá ocorrer transferência internacional
+            das informações transmitidas.
+        </p>
+
+        <p>
+            Essas operações deverão observar as hipóteses
+            legais da LGPD e os mecanismos de transferência
+            internacional regulamentados pela Autoridade
+            Nacional de Proteção de Dados (ANPD).
+        </p>
+
+        <p>
+            A utilização de serviços externos deverá considerar
+            a finalidade da transmissão, os dados envolvidos,
+            as condições contratuais e as salvaguardas
+            aplicáveis à operação.
+        </p>
+
+        <p>
+            O processamento local sem API externa não implica,
+            por si só, transferência internacional de dados
+            para provedores de modelos de inteligência artificial.
+        </p>
+
+        <h2>11. Segurança da informação e confidencialidade</h2>
+
+        <p>
+            A PHT Security System adota medidas técnicas
+            e administrativas destinadas à proteção das
+            informações tratadas em seus produtos e serviços.
+        </p>
+
+        <p>
+            Entre as características de proteção adotadas
+            estão o processamento local quando habilitado,
+            a segregação individual de dados por tenant,
+            os controles de acesso, a organização de registros
+            e os procedimentos automáticos de expurgo
+            de elementos temporários.
+        </p>
+
+        <p>
+            O isolamento dos dados por tenant é aplicado
+            uniformemente aos produtos, de modo que as
+            informações pertencentes a um ambiente não
+            sejam disponibilizadas a outro cliente.
+        </p>
+
+        <p>
+            O acesso às informações deverá observar as
+            permissões legítimas, a finalidade da atividade
+            e as condições estabelecidas na contratação.
+        </p>
+
+        <p>
+            A PHT não utiliza o conteúdo operacional confidencial
+            dos clientes, por iniciativa própria, para treinamento
+            de modelos públicos de inteligência artificial.
+        </p>
+
+        <p>
+            A confidencialidade das informações não autoriza
+            a utilização de dados fora da finalidade contratada
+            ou das permissões aplicáveis.
+        </p>
+
+        <h2>12. Incidentes de segurança</h2>
+
+        <p>
+            Na ocorrência de incidente que envolva dados pessoais,
+            serão adotados procedimentos de avaliação, contenção,
+            investigação e mitigação conforme a natureza do evento.
+        </p>
+
+        <p>
+            Quando a PHT atuar como operadora, deverá comunicar
+            o incidente ao controlador responsável conforme
+            as obrigações contratuais e legais aplicáveis.
+        </p>
+
+        <p>
+            Quando atuar como controladora, deverá observar
+            as obrigações de comunicação à ANPD e aos titulares
+            previstas na legislação e na regulamentação vigente,
+            inclusive os requisitos de risco ou dano relevante.
+        </p>
+
+        <p>
+            Os registros dos incidentes e as evidências necessárias
+            à apuração serão tratados conforme as obrigações
+            legais, os prazos de conservação e os controles
+            de confidencialidade aplicáveis.
+        </p>
+
+        <h2>13. Cookies e tecnologias semelhantes</h2>
+
+        <p>
+            As páginas institucionais poderão utilizar cookies
+            e tecnologias equivalentes para viabilizar recursos
+            essenciais, preservar preferências e reforçar
+            a segurança da navegação.
+        </p>
+
+        <p>
+            Cookies analíticos ou publicitários, caso utilizados,
+            deverão observar as hipóteses legais aplicáveis
+            e os mecanismos de informação e gerenciamento
+            de preferências disponibilizados ao titular.
+        </p>
+
+        <p>
+            As páginas poderão carregar recursos externos,
+            como fontes tipográficas hospedadas por terceiros.
+            Nesses casos, o navegador poderá realizar solicitações
+            diretamente ao fornecedor do recurso, transmitindo
+            informações técnicas necessárias à conexão.
+        </p>
+
+        <p>
+            O usuário poderá administrar cookies por meio
+            das configurações de seu navegador, observando
+            que a desativação de recursos essenciais poderá
+            afetar determinadas funcionalidades.
+        </p>
+
+        <h2>14. Direitos dos titulares de dados</h2>
+
+        <p>
+            Nos termos da legislação aplicável, os titulares
+            poderão solicitar:
+        </p>
+
+        <p>
+            a) confirmação da existência de tratamento
+            de dados pessoais;
+        </p>
+
+        <p>
+            b) acesso aos dados pessoais tratados;
+        </p>
+
+        <p>
+            c) correção de dados incompletos, inexatos
+            ou desatualizados;
+        </p>
+
+        <p>
+            d) anonimização, bloqueio ou eliminação de dados
+            desnecessários, excessivos ou tratados em
+            desconformidade com a legislação;
+        </p>
+
+        <p>
+            e) portabilidade, observadas as condições
+            e a regulamentação aplicáveis;
+        </p>
+
+        <p>
+            f) eliminação de dados tratados com fundamento
+            no consentimento, ressalvadas as hipóteses
+            legais de conservação;
+        </p>
+
+        <p>
+            g) informação sobre compartilhamentos realizados;
+        </p>
+
+        <p>
+            h) revogação do consentimento, quando aplicável;
+        </p>
+
+        <p>
+            i) oposição a tratamentos realizados em
+            desconformidade com a legislação;
+        </p>
+
+        <p>
+            j) revisão de decisões tomadas unicamente
+            com base em tratamento automatizado, quando
+            aplicável nos termos da LGPD.
+        </p>
+
+        <p>
+            As solicitações deverão ser encaminhadas pelo
+            canal de privacidade indicado nesta Política.
+            Poderão ser solicitadas informações razoáveis
+            para confirmar a identidade do requerente
+            e evitar o fornecimento indevido de dados
+            a terceiros.
+        </p>
+
+        <p>
+            O atendimento observará os prazos legais,
+            as responsabilidades dos agentes de tratamento
+            e as hipóteses de conservação obrigatória.
+        </p>
+
+        <h2>15. Projetos governamentais e investigativos</h2>
+
+        <p>
+            Projetos envolvendo órgãos públicos, investigação
+            penal, segurança pública, defesa nacional ou
+            segurança do Estado poderão estar submetidos
+            a regimes jurídicos específicos.
+        </p>
+
+        <p>
+            O tratamento de informações nesses contextos
+            observará a finalidade efetiva, a autorização
+            legal, a entidade responsável, as condições
+            contratuais e a legislação aplicável.
+        </p>
+
+        <p>
+            As disposições específicas da legislação de
+            proteção de dados aplicáveis a essas atividades
+            não representam autorização genérica para
+            qualquer tratamento de dados por particulares.
+        </p>
+
+        <p>
+            A PHT atuará dentro das atribuições e dos limites
+            definidos para cada projeto institucional,
+            respeitando as instruções legítimas e os
+            instrumentos jurídicos correspondentes.
+        </p>
+
+        <h2>16. Dados de terceiros fornecidos pelos usuários</h2>
+
+        <p>
+            Alguns produtos e serviços permitem inserir,
+            consultar ou processar informações relacionadas
+            a pessoas diferentes do próprio usuário.
+        </p>
+
+        <p>
+            O responsável pelo envio deverá possuir autorização
+            ou outra hipótese legal válida para disponibilizar
+            essas informações à operação, observando os
+            princípios de finalidade, necessidade,
+            adequação e segurança.
+        </p>
+
+        <p>
+            O usuário deverá evitar o envio de informações
+            pessoais desnecessárias, credenciais privadas,
+            dados excessivos ou materiais protegidos por
+            sigilo sem autorização legítima.
+        </p>
+
+        <p>
+            A utilização de fontes públicas ou recursos
+            OSINT não elimina a necessidade de observar
+            a legislação aplicável à privacidade e ao
+            tratamento de dados pessoais.
+        </p>
+
+        <h2>17. Atualizações desta Política</h2>
+
+        <p>
+            Esta Política poderá ser atualizada para refletir
+            alterações legislativas, regulatórias, comerciais,
+            contratuais ou tecnológicas dos produtos
+            e serviços da PHT Security System.
+        </p>
+
+        <p>
+            A versão vigente será disponibilizada nos canais
+            institucionais da PHT. Alterações relevantes
+            poderão ser comunicadas pelos meios de contato
+            utilizados no relacionamento com clientes
+            e usuários.
+        </p>
+
+        <p>
+            A utilização dos produtos e serviços estará
+            sujeita às condições contratuais e legais
+            aplicáveis, sem prejuízo dos direitos
+            assegurados aos titulares.
+        </p>
+
+        <a href="index.html" class="btn-back">&lt; Voltar para a Base</a>
+
     </div>
 </body>
 </html>
