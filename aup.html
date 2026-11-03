@@ -31,32 +31,208 @@
 <body>
     <div class="container">
         <a href="index.html" class="back-link">[ &lt; RETORNAR AO NÚCLEO ]</a>
-        
+
         <h1>[ POLÍTICA DE USO ACEITÁVEL (AUP) ]</h1>
-        
-        <p>A presente Política de Uso Aceitável (AUP) dita os termos estritos sob os quais você pode acessar e operar os sistemas, ferramentas e malhas de inteligência fornecidos pela <strong>PHT Security System</strong> (incluindo, mas não se limitando a, APT Chat, Ghost Protocol, Aegis C2 e Phantom).</p>
 
-        <h2>1. Doutrina de Escopo Autorizado</h2>
-        <p>A PHT Security System fornece tecnologia de auditoria tática, OSINT e emulação de adversários destinada estritamente a <strong>ambientes autorizados</strong>. O Operador concorda em utilizar as ferramentas exclusivamente sob a "Doutrina White Hat / Power Hat", limitando suas ações a infraestruturas, redes e alvos sobre os quais possua propriedade legal comprovada ou autorização contratual explícita (Regras de Engajamento) para testes de segurança.</p>
+        <p>
+            Esta Política de Uso Aceitável estabelece as condições para acesso e utilização
+            dos produtos, serviços, sistemas e recursos tecnológicos fornecidos pela
+            <strong>PHT Security System</strong>, incluindo, conforme a modalidade contratada,
+            APT Chat, Aegis, Phantom e Ghost Protocol.
+        </p>
 
-        <h2>2. Restrições de Operação (Guardrails)</h2>
-        <p>Ao instanciar nossas ferramentas ou utilizar nossas chaves de acesso (BYOK), é estritamente <strong>proibido</strong> ao Operador:</p>
+        <p>
+            As condições específicas de cada produto podem ser complementadas por proposta
+            comercial, licença, contrato, ordem de serviço ou Regras de Engajamento
+            (<em>Rules of Engagement — RoE</em>). Esta política deve ser interpretada em
+            conjunto com esses documentos e com a legislação aplicável.
+        </p>
+
+        <h2>1. Escopo e utilização autorizada</h2>
+
+        <p>
+            Os recursos da PHT Security System destinam-se a atividades legítimas de
+            segurança da informação, auditoria, pesquisa, inteligência, análise técnica,
+            defesa cibernética e avaliação controlada de ambientes, observadas as
+            características e condições de cada produto ou serviço.
+        </p>
+
+        <p>
+            O Operador somente poderá realizar análises, testes ou ações sobre sistemas,
+            redes, domínios, dispositivos, contas ou dados quando:
+        </p>
+
         <ul>
-            <li>Executar varreduras de rede, fuzzing, injeções de payload ou captura de telemetria contra alvos, domínios ou endereços IP de terceiros sem consentimento prévio documentado.</li>
-            <li>Utilizar o motor de inteligência artificial ou a malha OSINT para rastrear, assediar, extorquir ou doxing de indivíduos civis, burlando restrições legais de privacidade.</li>
-            <li>Tentar subverter, desarmar ou modificar as funções de sanitização (Guardrails), como filtros SSRF, bloqueios de evasão ou regras de <em>jailbreak</em> nativas do Aegis C2.</li>
-            <li>Fornecer a tecnologia como proxy para a distribuição de malwares vivos, ransomwares, ou qualquer artefato cibernético com intenção disruptiva e destrutiva.</li>
-            <li>Gerar, hospedar ou distribuir material relacionado à exploração sexual infantil, terrorismo ou operações contra a soberania de Estados Democráticos.</li>
+            <li>For o proprietário legítimo dos ativos envolvidos; ou</li>
+            <li>Possuir autorização válida e documentada do titular ou responsável legal; ou</li>
+            <li>Estiver atuando no âmbito de contrato, ordem de serviço ou instrumento equivalente que estabeleça expressamente o escopo autorizado.</li>
         </ul>
 
-        <h2>3. Responsabilidade do Operador</h2>
-        <p>A PHT Security System opera como uma infraestrutura neutra (<em>Agnostic Engine</em>). A decisão do que pesquisar, que alvos analisar e quais <em>prompts</em> executar recai integralmente sobre o Operador. O Operador assume responsabilidade legal, civil e criminal absoluta sobre os <em>outputs</em> (resultados) gerados e sobre os efeitos práticos da aplicação desses dados em ambientes reais.</p>
+        <p>
+            Quando aplicável, a autorização deverá definir os ativos abrangidos, os limites
+            técnicos, o período de execução, as atividades permitidas, as restrições
+            operacionais, os responsáveis e os procedimentos de interrupção.
+        </p>
 
-        <h2>4. Suspensão e Intervenção Passiva</h2>
-        <p>A PHT Security System não monitora ativamente as sessões cifradas de seus Operadores. No entanto, em caso de denúncia formal, detecção algorítmica de quebra de <em>compliance</em> ou ordem judicial direta, a PHT reserva-se o direito de revogar chaves de API, encerrar conexões do Aegis C2 e banir o hardware associado permanentemente, sem aviso prévio, direito a recurso ou reembolso do período não utilizado.</p>
-        
+        <p>
+            <strong>Phantom e Ghost Protocol:</strong> esses produtos e serviços podem
+            envolver capacidades de uso dual e aplicações especializadas de natureza
+            institucional. Seu acesso ou contratação poderá depender de avaliação prévia,
+            qualificação do solicitante, definição formal de finalidade, autorização,
+            escopo de atuação e condições contratuais específicas.
+        </p>
+
+        <p>
+            A disponibilização de uma ferramenta ou capacidade tecnológica não constitui,
+            por si só, autorização para utilizá-la contra qualquer ativo, organização,
+            indivíduo ou infraestrutura de terceiros.
+        </p>
+
+        <h2>2. Condutas proibidas</h2>
+
+        <p>
+            É proibido utilizar os produtos, serviços, credenciais ou infraestrutura da
+            PHT Security System para realizar, facilitar ou promover atividades ilícitas
+            ou não autorizadas, incluindo:
+        </p>
+
+        <ul>
+            <li>Obter, tentar obter ou manter acesso não autorizado a sistemas, redes, contas, dispositivos ou serviços de terceiros.</li>
+            <li>Executar varreduras, testes de intrusão, fuzzing, exploração de vulnerabilidades, injeções de payload ou captura de dados fora de um escopo autorizado.</li>
+            <li>Extrair, alterar, destruir, indisponibilizar ou divulgar informações de terceiros sem autorização legítima.</li>
+            <li>Utilizar recursos de inteligência ou OSINT para perseguição, assédio, intimidação, extorsão, exposição indevida ou violação ilícita da privacidade de indivíduos.</li>
+            <li>Distribuir, operar ou facilitar a disseminação de malware, ransomware ou outros artefatos destinados a comprometer, destruir ou interromper sistemas sem autorização legítima.</li>
+            <li>Utilizar os serviços para fraudes, roubo de identidade, obtenção ilícita de credenciais ou outras atividades criminosas.</li>
+            <li>Tentar comprometer contas, credenciais, serviços, sistemas ou recursos internos da própria PHT Security System.</li>
+            <li>Produzir, armazenar, solicitar ou distribuir conteúdo ilegal envolvendo exploração sexual infantil, terrorismo ou outras atividades expressamente proibidas pela legislação aplicável.</li>
+        </ul>
+
+        <p>
+            Também é proibido utilizar os serviços como intermediários para contornar
+            restrições legais, contratuais ou de autorização impostas aos ativos envolvidos.
+        </p>
+
+        <h2>3. Responsabilidades do Operador</h2>
+
+        <p>
+            O Operador é responsável por verificar a legitimidade de sua finalidade,
+            a existência e a abrangência das autorizações necessárias e o cumprimento
+            das condições estabelecidas para cada atividade.
+        </p>
+
+        <p>Compete ao Operador:</p>
+
+        <ul>
+            <li>Manter documentação que comprove sua autorização para atuar sobre os ativos envolvidos.</li>
+            <li>Respeitar integralmente o escopo, as limitações e as Regras de Engajamento aplicáveis.</li>
+            <li>Observar as normas de proteção de dados, privacidade, propriedade intelectual e demais obrigações legais pertinentes.</li>
+            <li>Proteger credenciais, chaves de acesso, resultados, evidências e demais informações obtidas durante a utilização dos serviços.</li>
+            <li>Interromper a atividade diante de dúvida relevante sobre autorização, extrapolação de escopo ou risco não previsto.</li>
+            <li>Comunicar incidentes relevantes aos responsáveis indicados no contrato ou nos canais oficiais de atendimento.</li>
+        </ul>
+
+        <p>
+            Os resultados produzidos por sistemas automatizados ou modelos de inteligência
+            artificial podem exigir validação técnica independente. Eles não substituem
+            a análise profissional, a avaliação jurídica ou a confirmação das evidências
+            em seu contexto de utilização.
+        </p>
+
+        <p>
+            A PHT Security System não concede, em nome de terceiros, autorização para
+            acessar ou testar seus ativos, nem substitui a obrigação do Operador de
+            obter as permissões necessárias.
+        </p>
+
+        <h2>4. Segurança, registros e tratamento de incidentes</h2>
+
+        <p>
+            A PHT Security System poderá adotar medidas técnicas, administrativas e
+            contratuais destinadas à proteção de seus serviços, à prevenção de abusos,
+            à manutenção da integridade operacional e à apuração de incidentes.
+        </p>
+
+        <p>
+            A natureza dos registros técnicos, dos controles de segurança e dos dados
+            tratados pode variar conforme o produto, a modalidade de contratação e
+            sua configuração. As informações pertinentes ao tratamento de dados pessoais
+            devem ser consultadas na Política de Privacidade e nos documentos específicos
+            aplicáveis.
+        </p>
+
+        <p>
+            A utilização de mecanismos de segurança ou de registros operacionais não
+            representa garantia de monitoramento humano contínuo de todas as atividades
+            realizadas pelo Operador.
+        </p>
+
+        <h2>5. Restrição, suspensão e encerramento de acesso</h2>
+
+        <p>
+            A PHT Security System poderá restringir, suspender ou encerrar o acesso a
+            determinado serviço, credencial ou recurso quando houver indícios razoáveis
+            de:
+        </p>
+
+        <ul>
+            <li>Violação desta Política ou das condições contratuais aplicáveis.</li>
+            <li>Utilização não autorizada ou incompatível com o escopo contratado.</li>
+            <li>Comprometimento de credenciais, risco relevante à segurança ou ameaça à integridade dos serviços.</li>
+            <li>Fraude, abuso dos recursos disponibilizados ou tentativa de comprometimento da infraestrutura da PHT.</li>
+            <li>Obrigação legal, determinação de autoridade competente ou ordem judicial.</li>
+        </ul>
+
+        <p>
+            A extensão da medida será avaliada conforme a natureza, a gravidade e a
+            urgência da situação. Quando juridicamente permitido e operacionalmente
+            viável, o responsável poderá ser comunicado e receber orientações para
+            esclarecimento dos fatos.
+        </p>
+
+        <p>
+            Medidas emergenciais poderão ser adotadas sem comunicação prévia quando
+            necessárias para conter riscos relevantes, proteger terceiros, preservar
+            a integridade dos serviços ou cumprir obrigação legal.
+        </p>
+
+        <p>
+            Eventuais consequências contratuais, incluindo encerramento de serviço
+            e condições de reembolso, serão tratadas conforme o instrumento aplicável
+            e a legislação vigente. Esta política não elimina direitos assegurados
+            por normas obrigatórias.
+        </p>
+
+        <h2>6. Comunicação e cooperação</h2>
+
+        <p>
+            Solicitações relativas a esta política, notificações de uso indevido e
+            comunicações de incidentes deverão ser encaminhadas pelos canais oficiais
+            disponibilizados pela PHT Security System.
+        </p>
+
+        <p>
+            Quando necessário e juridicamente permitido, a PHT poderá cooperar com
+            autoridades competentes mediante solicitação válida, observadas as
+            obrigações legais, os limites de sua atuação e as políticas aplicáveis.
+        </p>
+
+        <h2>7. Vigência e aceitação</h2>
+
+        <p>
+            Esta Política poderá ser revisada para refletir alterações nos produtos,
+            serviços, práticas operacionais ou requisitos legais. A versão vigente
+            será disponibilizada nos canais oficiais da PHT Security System.
+        </p>
+
+        <p>
+            A contratação ou utilização dos serviços implica ciência e compromisso
+            de observância desta Política, em conjunto com os termos específicos
+            aplicáveis ao produto contratado, sem prejuízo dos direitos e garantias
+            previstos na legislação vigente.
+        </p>
+
         <p style="margin-top: 40px; border-top: 1px dashed #333; padding-top: 20px; font-size: 0.8rem; text-align: center;">
-            Documento revisado e atualizado. O uso continuado da plataforma constitui anuência irrestrita aos termos acima.
+            PHT SECURITY SYSTEM // POLÍTICA DE USO ACEITÁVEL
         </p>
     </div>
 </body>
