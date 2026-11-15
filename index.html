@@ -1568,8 +1568,26 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
 
     <!-- AEGIS C2 // COMMERCE CONTROL & PHANTOM (APT) CHECKOUT INTEGRATION -->
     <script>
-        const AEGIS_CHECKOUT_ENDPOINT = "http://127.0.0.1:8000/api/v1/commerce/checkout";
+        const AEGIS_CHECKOUT_ENDPOINT = "https://ghost.tailc7baf6.ts.net/api/v1/commerce/checkout";
         const AEGIS_FETCH_TIMEOUT_MS = 15000;
+
+        // Uma chave por solicitação lógica. Retry sem editar o formulário reutiliza a mesma chave.
+        let aegisCheckoutIdempotencyKey = null;
+
+        function obterChaveIdempotenciaCheckout() {
+            if (aegisCheckoutIdempotencyKey) return aegisCheckoutIdempotencyKey;
+            if (!window.crypto || typeof window.crypto.getRandomValues !== "function") {
+                throw new Error("Este navegador não oferece gerador criptográfico seguro para idempotência.");
+            }
+            if (typeof window.crypto.randomUUID === "function") {
+                aegisCheckoutIdempotencyKey = window.crypto.randomUUID();
+            } else {
+                const bytes = new Uint8Array(16);
+                window.crypto.getRandomValues(bytes);
+                aegisCheckoutIdempotencyKey = Array.from(bytes, b => b.toString(16).padStart(2, "0")).join("");
+            }
+            return aegisCheckoutIdempotencyKey;
+        }
 
         const AEGIS_SKU_RULES = {
             "SKU_01": {
@@ -1782,6 +1800,15 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
             isSubmitting: false
         };
 
+        const aegisCheckoutFormForIdempotency = document.getElementById("aegisOrderForm");
+        if (aegisCheckoutFormForIdempotency) {
+            ["input", "change"].forEach(eventName => {
+                aegisCheckoutFormForIdempotency.addEventListener(eventName, () => {
+                    if (!estadoModalAtual.isSubmitting) aegisCheckoutIdempotencyKey = null;
+                });
+            });
+        }
+
         function exibirErroModal(msg) {
             const errBox = document.getElementById("aegisFormErrorBox");
             if (!errBox) return;
@@ -1802,6 +1829,7 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
             if (!config) return;
 
             estadoModalAtual.sku = sku;
+            aegisCheckoutIdempotencyKey = null;
             estadoModalAtual.isSubmitting = false;
             exibirErroModal("");
 
@@ -1949,6 +1977,7 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
         }
 
         function selecionarMetodoPagamento(metodo, btnElement) {
+            aegisCheckoutIdempotencyKey = null;
             estadoModalAtual.metodoSelecionado = metodo;
             document.getElementById("inputMetodo").value = metodo;
             document.querySelectorAll(".aegis-method-btn").forEach(b => b.classList.remove("active"));
@@ -2034,6 +2063,8 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
             }
 
             const payload = {
+                client_idempotency_key: obterChaveIdempotenciaCheckout(),
+                crypto_network: ({ BTC: "bitcoin", LTC: "litecoin", XMR: "monero" })[metodo] || null,
                 sku_produto: sku,
                 offer_code: estadoModalAtual.offerCode,
                 plan_name: estadoModalAtual.planName,
@@ -2110,8 +2141,8 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
                 renderizarRespostaRealCheckout(data, config.nome, metodo, hwidRaw);
             } catch (error) {
                 const msg = error.name === "AbortError"
-                    ? "Timeout de comunicação com o Aegis Core. Nenhum pedido foi gerado."
-                    : `Falha de comunicação com o Aegis Core (${error.message || "Erro de rede/CORS"}). Nenhum pedido ou cobrança foi gerado.`;
+                    ? "Tempo esgotado. O pedido pode ter sido registrado; reenvie esta mesma solicitação sem editar os campos para consultar o mesmo pedido."
+                    : `Falha de comunicação com o Aegis Core (${error.message || "Erro de rede/CORS"}). O resultado pode ser indeterminado; reenvie a mesma solicitação sem editar os campos para reutilizar a chave de idempotência.`;
                 exibirErroModal(msg);
             } finally {
                 clearTimeout(timerId);
