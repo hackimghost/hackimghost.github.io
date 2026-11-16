@@ -2078,19 +2078,21 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
             };
 
             if (isAegisT1Annual) {
+                // Identificação comercial PJ, sem relação com exigência de NDA.
                 payload.tipo_pessoa = "PJ";
+                payload.nome_razao_contratante = nome;
                 payload.cnpj_contratante = docRaw;
                 payload.client_document = docRaw;
+                // Sem escopo, HWID ou serial para esta oferta API.
             } else {
-                payload.machine_serial = estadoModalAtual.machineRequired ? hwidRaw : null;
                 payload.scope_notes = escopoRaw || null;
+                payload.machine_serial = estadoModalAtual.machineRequired ? hwidRaw : null;
             }
 
             if (estadoModalAtual.ndaRequired) {
-                payload.tipo_pessoa = "PJ";
-                payload.client_document = docRaw;
-                payload.cnpj_contratante = docRaw;
                 payload.nome_razao_contratante = nome;
+                payload.cnpj_contratante = docRaw;
+                payload.client_document = docRaw;
                 payload.endereco_contratante = enderecoRaw;
                 payload.representante_legal = repNomeRaw;
                 payload.cpf_representante = repCpfRaw;
@@ -2099,17 +2101,13 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
             }
 
             const btnSubmit = document.getElementById("btnSubmitOrder");
-            const textoOriginalBtn = btnSubmit ? btnSubmit.textContent : "[ REGISTRAR PEDIDO ]";
-
+            const textoOriginalBtn = btnSubmit.textContent;
             estadoModalAtual.isSubmitting = true;
-            if (btnSubmit) {
-                btnSubmit.disabled = true;
-                btnSubmit.textContent = "[ SINCRONIZANDO COM AEGIS CORE... ]";
-            }
+            btnSubmit.textContent = "[ SINCRONIZANDO COM AEGIS CORE... ]";
+            btnSubmit.disabled = true;
 
             const controller = new AbortController();
             const timerId = setTimeout(() => controller.abort(), AEGIS_FETCH_TIMEOUT_MS);
-            let data = null;
 
             try {
                 const response = await fetch(AEGIS_CHECKOUT_ENDPOINT, {
@@ -2123,9 +2121,10 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
                     signal: controller.signal
                 });
 
+                let data = null;
                 try {
                     data = await response.json();
-                } catch (jsonErr) {
+                } catch (_jsonErr) {
                     throw new Error(`Resposta inválida do servidor (HTTP ${response.status}).`);
                 }
 
@@ -2141,7 +2140,6 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
                 }
 
                 renderizarRespostaRealCheckout(data, config.nome, metodo, hwidRaw);
-
             } catch (error) {
                 const msg = error.name === "AbortError"
                     ? "Tempo esgotado. O pedido pode ter sido registrado; reenvie esta mesma solicitação sem editar os campos para consultar o mesmo pedido."
@@ -2150,24 +2148,20 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
             } finally {
                 clearTimeout(timerId);
                 estadoModalAtual.isSubmitting = false;
-                if (btnSubmit) {
-                    btnSubmit.textContent = textoOriginalBtn;
-                    btnSubmit.disabled = false;
-                }
+                btnSubmit.textContent = textoOriginalBtn;
+                btnSubmit.disabled = false;
             }
         }
 
         function renderizarRespostaRealCheckout(data, nomeProduto, metodo, hwid) {
-            const invView = document.getElementById("aegisInvoiceView");
-            const isQuote = data.estado_pedido === "QUOTE_PENDING" || data.status === "COTACAO_EM_ANALISE";
-            
             document.getElementById("aegisOrderForm").style.display = "none";
+            const invView = document.getElementById("aegisInvoiceView");
             invView.classList.add("active");
 
+            const isQuote = data.estado_pedido === "QUOTE_PENDING" || data.status === "COTACAO_EM_ANALISE";
             const chave = (typeof data.instrucoes_pagamento === "object" && data.instrucoes_pagamento !== null)
                 ? (data.instrucoes_pagamento.chave || "")
                 : (typeof data.instrucoes_pagamento === "string" ? data.instrucoes_pagamento : "");
-
             const info = (typeof data.instrucoes_pagamento === "object" && data.instrucoes_pagamento !== null)
                 ? (data.instrucoes_pagamento.info || data.mensagem || "")
                 : (data.mensagem || "");
@@ -2177,30 +2171,34 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
 
             if (isQuote) {
                 document.getElementById("invHeader").textContent = `[ SOLICITAÇÃO #${data.order_code} // ${data.estado_pedido} ]`;
-                document.getElementById("invSummary").innerHTML = `<strong>Produto:</strong> ${nomeProduto} (${estadoModalAtual.planName})<br>` +
+                document.getElementById("invSummary").innerHTML =
+                    `<strong>Produto:</strong> ${nomeProduto} (${estadoModalAtual.planName})<br>` +
                     `<strong>Estado no Core:</strong> ${data.estado_pedido}<br>` +
                     `<strong>NDA Exigido:</strong> ${data.nda_required ? "SIM" : "NÃO"} | <strong>Status NDA:</strong> ${data.nda_status || "PENDING"}<br>` +
                     `<span style="color:var(--cyber-yellow);">${data.mensagem || "Escopo registrado para avaliação executiva."}</span>`;
-                document.getElementById("invWalletKey").textContent = chave || "AGUARDANDO_AVALIACAO_DE_ESCOPO";
                 walletLabel.textContent = "> STATUS DA SOLICITAÇÃO:";
+                document.getElementById("invWalletKey").textContent = chave || "AGUARDANDO_AVALIACAO_DE_ESCOPO";
+                document.getElementById("invInstructions").textContent = info;
                 copyBtn.style.display = "none";
             } else {
+                const valorBrl = data.sale_amount_brl ? `R$ ${data.sale_amount_brl}` : "N/A";
                 const valorCotado = (data.quoted_payment_amount && data.quoted_payment_currency)
                     ? `${data.quoted_payment_amount} ${data.quoted_payment_currency}`
-                    : (data.valor_cotado || "N/A");
-                const valorBrl = data.sale_amount_brl ? `R$ ${data.sale_amount_brl}` : "N/A";
+                    : (data.valor_cotado || valorBrl);
 
                 document.getElementById("invHeader").textContent = `[ ORDEM #${data.order_code} // ${data.estado_pedido} ]`;
-                document.getElementById("invSummary").innerHTML = `<strong>Produto:</strong> ${nomeProduto} (${estadoModalAtual.planName})<br>` +
-                    `<strong>Valor Base BRL:</strong> ${valorBrl} | <strong>Total Cotado:</strong> ${valorCotado}<br>` +
-                    `<strong>Meio:</strong> ${metodo} | <strong>Status:</strong> ${data.estado_pedido}` +
+                document.getElementById("invSummary").innerHTML =
+                    `<strong>Produto:</strong> ${nomeProduto} (${estadoModalAtual.planName})<br>` +
+                    `<strong>Valor Base BRL:</strong> ${valorBrl}  |  <strong>Total Cotado:</strong> ${valorCotado}<br>` +
+                    `<strong>Meio:</strong> ${metodo}  |  <strong>Status:</strong> ${data.estado_pedido}` +
                     (hwid ? `<br><strong>HWID Vinculado:</strong> ${hwid}` : "") +
-                    (data.nda_required ? `<br><span style="color:var(--blood-red-glow);">* NDA Obrigatório (${data.nda_status || "PENDING"}): O link HTTPS de acesso único será liberado após confirmação PAID_VERIFIED.</span>` : "");
-
+                    (data.nda_required
+                        ? `<br><span style="color:var(--blood-red-glow);">* NDA Obrigatório (${data.nda_status || "PENDING"}): o link HTTPS de acesso único será liberado após confirmação PAID_VERIFIED.</span>`
+                        : "");
                 walletLabel.textContent = "> CHAVE / CARTEIRA OFICIAL PARA TRANSFERÊNCIA:";
                 document.getElementById("invWalletKey").textContent = chave;
-                copyBtn.style.display = chave ? "inline-block" : "none";
                 document.getElementById("invInstructions").textContent = info;
+                copyBtn.style.display = chave ? "inline-block" : "none";
             }
         }
 
@@ -2212,5 +2210,6 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
             });
         }
     </script>
+
 </body>
 </html>
