@@ -2062,7 +2062,155 @@ Diagnóstico profundo de infraestruturas críticas, modelagem avançada de amea�
                 }
             }
 
-    </script>
+            const payload = {
+                client_idempotency_key: obterChaveIdempotenciaCheckout(),
+                crypto_network: ({ BTC: "bitcoin", LTC: "litecoin", XMR: "monero" })[metodo] || null,
+                sku_produto: sku,
+                offer_code: estadoModalAtual.offerCode,
+                plan_name: estadoModalAtual.planName,
+                plano: estadoModalAtual.planName,
+                delivery_modality: estadoModalAtual.deliveryModality,
+                metodo_pagamento: metodo,
+                email_cliente: email,
+                contato_cliente: contato,
+                client_name: nome,
+                payer_alias: payerRaw || null
+            };
 
+            if (isAegisT1Annual) {
+                payload.tipo_pessoa = "PJ";
+                payload.cnpj_contratante = docRaw;
+                payload.client_document = docRaw;
+            } else {
+                payload.machine_serial = estadoModalAtual.machineRequired ? hwidRaw : null;
+                payload.scope_notes = escopoRaw || null;
+            }
+
+            if (estadoModalAtual.ndaRequired) {
+                payload.tipo_pessoa = "PJ";
+                payload.client_document = docRaw;
+                payload.cnpj_contratante = docRaw;
+                payload.nome_razao_contratante = nome;
+                payload.endereco_contratante = enderecoRaw;
+                payload.representante_legal = repNomeRaw;
+                payload.cpf_representante = repCpfRaw;
+                payload.cargo_contratante = cargoRaw;
+                payload.cidade_assinatura = cidadeRaw;
+            }
+
+            const btnSubmit = document.getElementById("btnSubmitOrder");
+            const textoOriginalBtn = btnSubmit ? btnSubmit.textContent : "[ REGISTRAR PEDIDO ]";
+
+            estadoModalAtual.isSubmitting = true;
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.textContent = "[ SINCRONIZANDO COM AEGIS CORE... ]";
+            }
+
+            const controller = new AbortController();
+            const timerId = setTimeout(() => controller.abort(), AEGIS_FETCH_TIMEOUT_MS);
+            let data = null;
+
+            try {
+                const response = await fetch(AEGIS_CHECKOUT_ENDPOINT, {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+
+                try {
+                    data = await response.json();
+                } catch (jsonErr) {
+                    throw new Error(`Resposta inválida do servidor (HTTP ${response.status}).`);
+                }
+
+                if (!response.ok) {
+                    const msgErro = (data && (data.detail || data.message)) || `Falha HTTP ${response.status} na validação do pedido.`;
+                    exibirErroModal(msgErro);
+                    return;
+                }
+
+                if (!data || !data.order_code || !data.estado_pedido) {
+                    exibirErroModal("Resposta incompleta da API: pedido não confirmado pelo Core.");
+                    return;
+                }
+
+                renderizarRespostaRealCheckout(data, config.nome, metodo, hwidRaw);
+
+            } catch (error) {
+                const msg = error.name === "AbortError"
+                    ? "Tempo esgotado. O pedido pode ter sido registrado; reenvie esta mesma solicitação sem editar os campos para consultar o mesmo pedido."
+                    : `Falha de comunicação com o Aegis Core (${error.message || "Erro de rede/CORS"}). O resultado pode ser indeterminado; reenvie a mesma solicitação sem editar os campos para reutilizar a chave de idempotência.`;
+                exibirErroModal(msg);
+            } finally {
+                clearTimeout(timerId);
+                estadoModalAtual.isSubmitting = false;
+                if (btnSubmit) {
+                    btnSubmit.textContent = textoOriginalBtn;
+                    btnSubmit.disabled = false;
+                }
+            }
+        }
+
+        function renderizarRespostaRealCheckout(data, nomeProduto, metodo, hwid) {
+            const invView = document.getElementById("aegisInvoiceView");
+            const isQuote = data.estado_pedido === "QUOTE_PENDING" || data.status === "COTACAO_EM_ANALISE";
+            
+            document.getElementById("aegisOrderForm").style.display = "none";
+            invView.classList.add("active");
+
+            const chave = (typeof data.instrucoes_pagamento === "object" && data.instrucoes_pagamento !== null)
+                ? (data.instrucoes_pagamento.chave || "")
+                : (typeof data.instrucoes_pagamento === "string" ? data.instrucoes_pagamento : "");
+
+            const info = (typeof data.instrucoes_pagamento === "object" && data.instrucoes_pagamento !== null)
+                ? (data.instrucoes_pagamento.info || data.mensagem || "")
+                : (data.mensagem || "");
+
+            const copyBtn = document.getElementById("btnCopyKey");
+            const walletLabel = document.getElementById("invWalletLabel");
+
+            if (isQuote) {
+                document.getElementById("invHeader").textContent = `[ SOLICITAÇÃO #${data.order_code} // ${data.estado_pedido} ]`;
+                document.getElementById("invSummary").innerHTML = `<strong>Produto:</strong> ${nomeProduto} (${estadoModalAtual.planName})<br>` +
+                    `<strong>Estado no Core:</strong> ${data.estado_pedido}<br>` +
+                    `<strong>NDA Exigido:</strong> ${data.nda_required ? "SIM" : "NÃO"} | <strong>Status NDA:</strong> ${data.nda_status || "PENDING"}<br>` +
+                    `<span style="color:var(--cyber-yellow);">${data.mensagem || "Escopo registrado para avaliação executiva."}</span>`;
+                document.getElementById("invWalletKey").textContent = chave || "AGUARDANDO_AVALIACAO_DE_ESCOPO";
+                walletLabel.textContent = "> STATUS DA SOLICITAÇÃO:";
+                copyBtn.style.display = "none";
+            } else {
+                const valorCotado = (data.quoted_payment_amount && data.quoted_payment_currency)
+                    ? `${data.quoted_payment_amount} ${data.quoted_payment_currency}`
+                    : (data.valor_cotado || "N/A");
+                const valorBrl = data.sale_amount_brl ? `R$ ${data.sale_amount_brl}` : "N/A";
+
+                document.getElementById("invHeader").textContent = `[ ORDEM #${data.order_code} // ${data.estado_pedido} ]`;
+                document.getElementById("invSummary").innerHTML = `<strong>Produto:</strong> ${nomeProduto} (${estadoModalAtual.planName})<br>` +
+                    `<strong>Valor Base BRL:</strong> ${valorBrl} | <strong>Total Cotado:</strong> ${valorCotado}<br>` +
+                    `<strong>Meio:</strong> ${metodo} | <strong>Status:</strong> ${data.estado_pedido}` +
+                    (hwid ? `<br><strong>HWID Vinculado:</strong> ${hwid}` : "") +
+                    (data.nda_required ? `<br><span style="color:var(--blood-red-glow);">* NDA Obrigatório (${data.nda_status || "PENDING"}): O link HTTPS de acesso único será liberado após confirmação PAID_VERIFIED.</span>` : "");
+
+                walletLabel.textContent = "> CHAVE / CARTEIRA OFICIAL PARA TRANSFERÊNCIA:";
+                document.getElementById("invWalletKey").textContent = chave;
+                copyBtn.style.display = chave ? "inline-block" : "none";
+                document.getElementById("invInstructions").textContent = info;
+            }
+        }
+
+        function copiarChaveAegis() {
+            const chave = document.getElementById("invWalletKey").textContent;
+            if (!chave) return;
+            navigator.clipboard.writeText(chave).then(() => {
+                alert("[ COPIADO ]\nChave/Instrução copiada para a área de transferência.");
+            });
+        }
+    </script>
 </body>
 </html>
